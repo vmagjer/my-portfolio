@@ -1,55 +1,11 @@
 import React, { useEffect } from "react"
 import "./Home.css"
 import Sun from "../assets/Sun"
+import Moon from "../assets/Moon"
 import AnimationController from "../utils/AnimationController"
 import ScrollProgress from "../utils/ScrollProgress"
 import Building from "../components/Building"
 
-
-/**
- * Listens to the scroll event and updates the scroll property of the body style.
- */
-function scrollListener() {
-  var target = document.querySelector(".parallax-view")
-  var elementStart = target.offsetTop
-  var elementHeight = target.offsetHeight
-  var elementEnd = elementStart + elementHeight
-  var scroll = window.scrollY
-  if (scroll < elementStart) {
-    document.body.style.setProperty("--scroll", 0)
-    return
-  } else if (scroll > elementEnd) {
-    document.body.style.setProperty("--scroll", 1)
-    return
-  }
-  var scrollPercent = (scroll - elementStart) / elementHeight
-  document.body.style.setProperty("--scroll", scrollPercent)
-}
-
-/**
- * Represents the Moon component.
- *
- * @returns {JSX.Element} The Moon component.
- */
-function Moon() {
-  return (
-    <svg className="moon">
-      <defs>
-        <mask id="crescentClip">
-          <circle cx="50%" cy="50%" r="50%" fill="#fff" />
-          <circle cx="80%" cy="32%" r="50%" fill="#000" />
-        </mask>
-      </defs>
-      <circle cx="50%" cy="50%" r="50%" fill="#fff" mask="url(#crescentClip)" />
-    </svg>
-  )
-}
-
-/**
- * Represents the Home page component.
- *
- * @returns {JSX.Element} The Home page component.
- */
 const HomePage = () => {
   useEffect(() => {
     const scrollView = document.querySelector(".parallax-view")
