@@ -37,6 +37,28 @@
     /* rgb(39, 38, 33) 0%, */ rgb(30, 30, 39) 0%,
     /* rgba(44, 44, 58, 1) 50%, */ rgba(44, 44, 58, 1) 100%
   );
+
+  /* text vertical */
+  overflow: hidden;
+  .text {
+    height: max-content;
+    overflow: visible;
+    writing-mode: vertical-rl;
+    /* display: flex; */
+    transform: translateY(-50vh);
+    animation: text-anim 18s linear infinite;
+    animation-delay: 0s;
+    text-transform: uppercase;
+    font-size: 2rem
+  }
+}
+@keyframes text-anim {
+  0% {
+    transform: translateY(+50vh);
+  }
+  100% {
+    transform: translateY(-50vh);
+  }
 }
 .window {
   opacity: 0;
