@@ -3,41 +3,8 @@ import "./Home.css"
 import Sun from "../assets/Sun"
 import AnimationController from "../utils/AnimationController"
 import ScrollProgress from "../utils/ScrollProgress"
-/**
- * Represents a building component.
- *
- * @component
- * @param {Object} style - The style object for the building component.
- * @returns {JSX.Element} The building component.
- */
-const Building = ({ style }) => {
-  /**
-   * The number of windows in the building.
-   * @constant {number}
-   */
-  const NUM_WINDOWS = 30
+import Building from "../components/Building"
 
-  /**
-   * Generates an array of window elements.
-   *
-   * @returns {JSX.Element[]} An array of window elements.
-   */
-  const generateWindows = () => {
-    return new Array(NUM_WINDOWS).fill(0, 0, NUM_WINDOWS).map((_, i) => (
-      <div className="window" key={i}>
-        {" "}
-        .
-      </div>
-    ))
-  }
-
-  return (
-    <div className="building" style={style}>
-      {/* {generateWindows()} */}
-      <div className="text">Scroll down</div>
-    </div>
-  )
-}
 
 /**
  * Listens to the scroll event and updates the scroll property of the body style.
