@@ -83,12 +83,6 @@ function Moon() {
  * @returns {JSX.Element} The Home page component.
  */
 const HomePage = () => {
-  useEffect(() => {
-    window.setInterval(scrollListener, 10)
-    return () => {
-      window.clearInterval(scrollListener)
-    }
-  }, [])
 
   useEffect(() => {
     const scrollView = document.querySelector(".parallax-view")
@@ -107,6 +101,9 @@ const HomePage = () => {
    * @param {number} scrollPercent - The scroll percentage.
    */
   function moveCelestialObjects(scrollPercent) {
+    
+    document.body.style.setProperty("--scroll", scrollPercent)
+
     moveCelestialObject({
       scrollPercent,
       radius: radiusSun,
