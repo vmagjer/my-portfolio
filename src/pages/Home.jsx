@@ -1,8 +1,8 @@
 import React, { useEffect } from "react"
 import "./Home.css"
-import ScrollAnimation from "../utils/ScrollAnimation"
 import Sun from "../assets/Sun"
-
+import AnimationController from "../utils/AnimationController"
+import ScrollProgress from "../utils/ScrollProgress"
 /**
  * Represents a building component.
  *
@@ -34,6 +34,7 @@ const Building = ({ style }) => {
   return (
     <div className="building" style={style}>
       {/* {generateWindows()} */}
+      <div className="text">Scroll down</div>
     </div>
   )
 }
@@ -83,13 +84,16 @@ function Moon() {
  * @returns {JSX.Element} The Home page component.
  */
 const HomePage = () => {
-
   useEffect(() => {
     const scrollView = document.querySelector(".parallax-view")
-    const celestialAnimation = new ScrollAnimation(
-      scrollView,
-      moveCelestialObjects
+    const scrollProgress = new ScrollProgress(scrollView, 0, 0.4)
+
+    const celestialAnimation = new AnimationController(
+      moveCelestialObjects,
+      scrollProgress,
+      scrollView
     )
+
     return () => {
       celestialAnimation.destroy()
     }
@@ -101,24 +105,21 @@ const HomePage = () => {
    * @param {number} scrollPercent - The scroll percentage.
    */
   function moveCelestialObjects(scrollPercent) {
-    
     document.body.style.setProperty("--scroll", scrollPercent)
 
     moveCelestialObject({
-      scrollPercent,
+      progressPercent: scrollPercent,
       radius: radiusSun,
       offset: offsetSun,
       startAngle: Math.PI / 2,
-      speed: 1.7,
       selector: ".sun",
     })
 
     moveCelestialObject({
-      scrollPercent,
+      progressPercent: scrollPercent,
       radius: radiusMoon,
       offset: offsetMoon,
       startAngle: Math.PI,
-      speed: 1.7,
       selector: ".moon",
     })
   }
@@ -126,33 +127,27 @@ const HomePage = () => {
   const { radius: radiusSun, offset: offsetSun } = calculateOrbitConstants(
     window.innerWidth,
     0.5 * window.innerHeight,
-    0.7 * window.innerHeight,
+    0.7 * window.innerHeight
   )
 
   const { radius: radiusMoon, offset: offsetMoon } = calculateOrbitConstants(
     window.innerWidth,
     0.2 * window.innerHeight,
-    0.4 * window.innerHeight,
+    0.4 * window.innerHeight
   )
 
   /**
-   * Calculate radius and offset required for an orbit to remain within a range in the view
+   * Calculate radius and offset required for an orbit
    *
    * @param {number} viewWidth - The width of the view
    * @param {number} minHeight - The minimum height of the orbit
    * @param {number} maxHeight - The maximum height of the orbit
    */
-  function calculateOrbitConstants(
-    viewWidth,
-    minHeight,
-    maxHeight,
-  ) {
-    // const targetAngle = Math.asin((maxHeight - minHeight) / viewWidth * 2 * Math.PI)
-    // const radius = viewWidth / 2 / Math.sin(targetAngle)
-    // const offset = radius - maxHeight
-
-    const offset = Math.max(maxHeight, viewWidth)/3
-    const radius = offset + maxHeight
+  function calculateOrbitConstants(viewWidth, minHeight, maxHeight) {
+    // this is a bit of a hack to make sure the orbit is adequately sized for the view
+    // doesnt respect the min height
+    const radius = Math.max(maxHeight, viewWidth / 2) * 1.5
+    const offset = radius - maxHeight
     return { radius, offset }
   }
 
@@ -167,14 +162,12 @@ const HomePage = () => {
    * @param {string} selector - The selector for the celestial object.
    */
   function moveCelestialObject({
-    scrollPercent,
+    progressPercent,
     radius,
     offset,
     startAngle,
-    speed,
     selector,
   }) {
-    const progressPercent = Math.min(1, scrollPercent * speed)
     const angle = startAngle - (progressPercent * Math.PI) / 2
 
     const centerX = 0.5 * window.innerWidth
