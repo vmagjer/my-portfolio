@@ -1,0 +1,112 @@
+
+.sun {
+  width: 150px;
+  height: 150px;
+  transform: translateX(-50%);
+}
+.moon {
+  width: 100px;
+  height: 100px;
+  transform: translateX(-50%);
+}
+
+/* PARALLAX */
+.parallax-view {
+  position: relative;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.parallax-layer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+
+  perspective: 100px;
+
+  .building {
+    position: absolute;
+    bottom: 0%;
+  }
+}
+.sun,
+.moon {
+  position: absolute;
+}
+.sun {
+  animation: sun-shine 6s linear infinite;
+}
+@keyframes sun-shine {
+  0% {
+    transform: translateX(-50%) rotate(0deg);
+  }
+  100% {
+    transform: translateX(-50%) rotate(360deg);
+  }
+}
+
+.sky {
+  background: linear-gradient(
+    90deg,
+    rgb(15, 14, 5),
+    rgb(15, 14, 5),
+    rgb(24, 11, 43),
+    rgb(88, 46, 187),
+    rgb(95, 146, 212),
+    rgb(95, 146, 212)
+  );
+  background-size: 800% 100%;
+  background-position: 0% 100%;
+  /* filter: brightness(0.5); */
+
+  animation: sky-change 2s linear;
+  animation-play-state: paused;
+  animation-delay: calc(var(--scroll) * -3s);
+}
+@keyframes sky-change {
+  0% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: 0% 0%;
+  }
+}
+
+.building[data-layer="0"] {
+  --index: 0;
+}
+.building[data-layer="1"] {
+  --index: 1;
+}
+.building[data-layer="2"] {
+  --index: 2;
+}
+.building[data-layer="3"] {
+  --index: 3;
+}
+.building[data-layer="4"] {
+  --index: 4;
+}
+.building[data-layer="5"] {
+  --index: 5;
+}
+
+.parallax-layer {
+  .building {
+    animation: buildings 2s linear;
+    animation-play-state: paused;
+    animation-delay: calc(var(--scroll) * -1.2s / (var(--index) * 0.2 + 1));
+  }
+}
+
+@keyframes buildings {
+  0% {
+    bottom: 0%;
+  }
+  100% {
+    bottom: -80%;
+  }
+}

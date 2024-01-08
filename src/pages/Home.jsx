@@ -1,52 +1,14 @@
 import React, { useEffect } from "react"
 import "./Home.css"
-import Sun from "../assets/Sun"
-import Moon from "../assets/Moon"
-import AnimationController from "../utils/AnimationController"
-import ScrollProgress from "../utils/ScrollProgress"
-import Building from "../components/Building"
+import ParallaxCity from "../components/ParallaxCity"
 
 const HomePage = () => {
-  useEffect(() => {
-    const scrollView = document.querySelector(".parallax-view")
-    const scrollProgress = new ScrollProgress(scrollView, 0, 0.4)
-
-    const cityAnimation = new AnimationController(
-      updateCity,
-      scrollProgress,
-      scrollView
-    )
-
-    return () => {
-      cityAnimation.destroy()
-    }
-  }, [])
 
   return (
     <>
       <div className="home">
-        <div className="parallax-view ">
-          <div className="parallax-layer sky">
-            <Sun />
-            <Moon />
-          </div>
-
-          {buildings.map((layer, i) => (
-            <div className="parallax-layer city" key={`layer-${i}`}>
-              {layer.map((building, j) => (
-                <Building
-                  style={{
-                    left: building.position,
-                    height: building.height,
-                    width: building.width,
-                  }}
-                  layer={i}
-                  key={`building-${i}-${j}`}
-                />
-              ))}
-            </div>
-          ))}
-        </div>
+        <ParallaxCity />
+        
 
         <div className="content">
           <p>
