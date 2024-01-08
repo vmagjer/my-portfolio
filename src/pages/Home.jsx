@@ -104,89 +104,52 @@ const HomePage = () => {
     object.style.bottom = `${y}px`
   }
 
-  const buildings = defineBuildings()
+  const buildings2 = generateBuildings(4)
 
-  /**
-   * Defines the buildings for the cityscape.
-   *
-   * @returns {Object} The buildings object containing arrays of buildings.
-   */
-  function defineBuildings() {
-    let buildingWidth = 72
-    const viewWidth = window.innerWidth
-    let gap = 6
-    const MIN_VIEW_WIDTH = 200
-    const HEIGHT_BASE = 500
+  function generateBuildings(numLayers) {
+    const result = []
+
+    const max_w = 72
+    const step_w = Math.floor(max_w * 0.15)
     const PADDING = 20
 
-    // Back buildings
-    const buildingsBack = []
-    let step = buildingWidth + gap + PADDING
-    let numBuildings = Math.ceil(viewWidth / step) + 1
-    let position = -step * 0.5
-    let minHeight = HEIGHT_BASE * 0.7
-    let maxHeight = HEIGHT_BASE
-    for (let i = 0; i < numBuildings; i++) {
-      const amplitude = maxHeight - minHeight
-      const x = position / MIN_VIEW_WIDTH
-      const frequency = 1 * Math.PI
-      const offset = 0.1 * Math.PI
-      const height = Math.ceil(
-        minHeight + amplitude * Math.sin(frequency * x + offset)
-      )
-      buildingsBack.push({ height, position, width: buildingWidth })
+    const max_h = window.innerHeight * 0.6
+    const min_h = max_h * 0.01
+    const step_h = Math.floor((max_h - min_h) / numLayers)
 
-      position += step
+    let h = max_h
+    let w = max_w - numLayers * step_w
+    for (let i = 0; i < numLayers; i++) {
+      const layer = []
+
+      const gap_x = Math.floor(w * 0.1)
+      const step_x = w + gap_x + PADDING
+
+      const amplitude = step_h * 0.6
+      const frequency = (i * 0.064 + 0.14) * Math.PI
+      const offset = 0.1 * i * Math.PI
+
+      const numBuildings = Math.ceil(window.innerWidth / step_x) + 1
+
+      let position = -step_x * 0.5
+      for (let i = 0; i < numBuildings; i++) {
+        const height = h + amplitude * Math.sin(frequency * position + offset)
+
+        layer.push({
+          height: Math.ceil(height),
+          position,
+          width: w,
+        })
+
+        position += step_x
+      }
+      result.push(layer)
+
+      h -= step_h
+      w += step_w
     }
-
-    // Mid buildings
-    const buildingsMid = []
-    // numBuildings -= 1
-    buildingWidth += 4
-    gap += 4
-    position = 0
-    step = buildingWidth + gap + PADDING
-    minHeight = HEIGHT_BASE * 0.4
-    maxHeight = HEIGHT_BASE * 0.7
-    for (let i = 0; i < numBuildings; i++) {
-      const amplitude = maxHeight - minHeight
-      const x = position / MIN_VIEW_WIDTH
-      const frequency = 1 * Math.PI
-      const offset = 0.0 * Math.PI
-      const height = Math.ceil(
-        minHeight + amplitude * Math.sin(frequency * x + offset)
-      )
-      buildingsMid.push({ height, position, width: buildingWidth })
-
-      position += step
-    }
-
-    // Front buildings
-    const buildingsFront = []
-    buildingWidth += 4
-    gap += 4
-    position = 0
-    step = buildingWidth + gap + PADDING
-    minHeight = HEIGHT_BASE * 0.1
-    maxHeight = HEIGHT_BASE * 0.3
-    for (let i = 0; i < numBuildings; i++) {
-      const amplitude = maxHeight - minHeight
-      const x = position / MIN_VIEW_WIDTH
-      const frequency = 1 * Math.PI
-      const offset = 0.3 * Math.PI
-      const height = Math.ceil(
-        minHeight + amplitude * Math.sin(frequency * x + offset)
-      )
-      buildingsFront.push({ height, position, width: buildingWidth })
-
-      position += step
-    }
-
-    return {
-      buildingsFront: buildingsFront,
-      buildingsMid: buildingsMid,
-      buildingsBack: buildingsBack,
-    }
+    console.log(result)
+    return result
   }
 
   return (
@@ -198,7 +161,7 @@ const HomePage = () => {
             <Moon />
           </div>
 
-          <div className="parallax-layer city">
+          {/* <div className="parallax-layer city">
             {buildings.buildingsBack.map((building, i) => (
               <Building
                 style={{
@@ -235,7 +198,23 @@ const HomePage = () => {
                 key={`building-front-${i}`}
               />
             ))}
-          </div>
+          </div> */}
+
+          {buildings2.map((layer, i) => (
+            <div className="parallax-layer city" key={`layer-${i}`}>
+              {layer.map((building, j) => (
+                <Building
+                  style={{
+                    left: building.position,
+                    height: building.height,
+                    width: building.width,
+                  }}
+                  layer={i}
+                  key={`building-${i}-${j}`}
+                />
+              ))}
+            </div>
+          ))}
         </div>
 
         <div className="content">

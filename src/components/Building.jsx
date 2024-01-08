@@ -1,6 +1,6 @@
 import './Building.css'
 
-const Building = ({ style }) => {
+const Building = ({ style, layer }) => {
   const NUM_WINDOWS = 30
 
   const generateWindows = () => {
@@ -13,9 +13,9 @@ const Building = ({ style }) => {
   }
 
   return (
-    <div className="building" style={style}>
+    <div className="building" style={style} data-layer={layer}> 
       {/* {generateWindows()} */}
-      <div className="text">Scroll down</div>
+      {/* <div className="text">Scroll down</div> */}
     </div>
   )
 }

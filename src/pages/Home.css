@@ -23,8 +23,6 @@
   height: 100px;
 }
 
-
-
 /* PARALLAX */
 .parallax-view {
   position: relative;
@@ -92,7 +90,7 @@
     rgb(95, 146, 212),
     rgb(95, 146, 212)
   );
-  background-size: 800% 100% ;
+  background-size: 800% 100%;
   background-position: 0% 100%;
   /* filter: brightness(0.5); */
 
@@ -109,31 +107,30 @@
   }
 }
 
-.parallax-layer:nth-last-child(3) {
-  /* filter: brightness(0.7); */
-
-  .building {
-    animation: buildings 2s linear;
-    animation-play-state: paused;
-    animation-delay: calc(var(--scroll) * -0.7s * 3);
-  }
+.building[data-layer="0"] {
+  --index: 0;
+}
+.building[data-layer="1"] {
+  --index: 1;
+}
+.building[data-layer="2"] {
+  --index: 2;
+}
+.building[data-layer="3"] {
+  --index: 3;
+}
+.building[data-layer="4"] {
+  --index: 4;
+}
+.building[data-layer="5"] {
+  --index: 5;
 }
 
-.parallax-layer:nth-last-child(2) {
-  /* filter: brightness(0.8); */
-
+.parallax-layer {
   .building {
     animation: buildings 2s linear;
     animation-play-state: paused;
-    animation-delay: calc(var(--scroll) * -0.7s * 2);
-  }
-}
-
-.parallax-layer:nth-last-child(1) {
-  .building {
-    animation: buildings 2s linear;
-    animation-play-state: paused;
-    animation-delay: calc(var(--scroll) * -0.7s * 1);
+    animation-delay: calc(var(--scroll) * -1.2s / (var(--index) * 0.2 + 1));
   }
 }
 
