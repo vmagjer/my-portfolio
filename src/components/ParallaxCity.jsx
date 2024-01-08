@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useRef } from "react"
 import "./ParallaxCity.css"
 import Sun from "../assets/Sun"
 import Moon from "../assets/Moon"
@@ -7,24 +7,25 @@ import ScrollProgress from "../utils/ScrollProgress"
 import Building from "../components/Building"
 
 const ParallaxCity = () => {
+  const scrollView = useRef(null)
+
   useEffect(() => {
-    const scrollView = document.querySelector(".parallax-view")
-    const scrollProgress = new ScrollProgress(scrollView, 0, 0.4)
+    const scrollProgress = new ScrollProgress(scrollView.current, 0, 0.4)
 
     const cityAnimation = new AnimationController(
       updateCity,
       scrollProgress,
-      scrollView
+      scrollView.current
     )
 
     return () => {
       cityAnimation.destroy()
     }
-  }, [])
+  }, [scrollView])
 
   return (
     <>
-      <div className="parallax-view ">
+      <div className="parallax-view " ref={scrollView}>
         <div className="parallax-layer sky">
           <Sun />
           <Moon />

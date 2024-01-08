@@ -1,12 +1,14 @@
 import React, { useEffect } from "react"
 import "./Home.css"
 import ParallaxCity from "../components/ParallaxCity"
+import ParallaxView from "../components/ParallaxView"
 
 const HomePage = () => {
 
   return (
     <>
       <div className="home">
+        <ParallaxView />
         <ParallaxCity />
         
 

@@ -13,11 +13,12 @@ class ScrollProgress {
   }
 
   getProgress() {
-    const { height, bottom, y, top } = this.element.getBoundingClientRect()
-    const elementY = window.scrollY + y
+    const { height, y: clientY } = this.element.getBoundingClientRect()
+    const pageY = window.scrollY + clientY
+    
 
-    const a = elementY + height * this.progressStart
-    const b = elementY + height * this.progressEnd
+    const a = pageY + height * this.progressStart
+    const b = pageY + height * this.progressEnd
 
     const alpha = 1/(b - a)
     const beta = alpha * -a
