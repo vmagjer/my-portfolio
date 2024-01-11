@@ -1,3 +1,43 @@
 .view {
   height: 100vh;
+  background: rgb(0 0 0);
+
+  position: relative;
+}
+
+.view .sky{
+
+  /* position: absolute;
+  inset: 0; */
+}
+
+
+.view .person {
+  background: url('../assets/hacker.svg') no-repeat center center;
+  background-size: contain;
+  position: absolute;
+
+  /* dropshadow */
+  filter: drop-shadow(0px 0px 10px rgba(14, 179, 42, 0.1));
+
+  /* mix-blend-mode: multiply; */
+
+  left: 0;
+  right: 0;
+  bottom: 50px;
+
+  height: 40vh;
+
+  z-index: 2;
+}
+.view .table {
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 50vh;
+
+  z-index: 3;
 }
