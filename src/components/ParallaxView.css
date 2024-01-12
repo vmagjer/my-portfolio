@@ -22,9 +22,11 @@
 
   /* mix-blend-mode: multiply; */
 
-  left: 0;
+  left: 50%;
   right: 0;
   bottom: 50px;
+
+  transform: translateX(-50%);
 
   height: 40vh;
 
@@ -33,9 +35,11 @@
 .view .table {
   position: absolute;
 
-  left: 0;
+  left: 50%;
   right: 0;
   bottom: 0;
+  
+  transform: translateX(-50%);
 
   height: 50vh;
 
