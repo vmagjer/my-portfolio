@@ -4,6 +4,9 @@ const MatrixShower = () => {
   const canvasRef = useRef(null)
 
   const [counters, setCounters] = useState([])
+  const [prevCounters, setPrevCounters] = useState([])
+
+  const [randomStrings, setRandomStrings] = useState([])
 
   useEffect(() => {
     const canvas = canvasRef.current
@@ -24,11 +27,17 @@ const MatrixShower = () => {
     setCounters(
       new Array(cols).fill(0).map(() => -Math.floor(Math.random() * rows))
     )
+    setPrevCounters(new Array(cols).fill(rows * 2))
 
-    const chars =
-      "あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほABCDEFGHIJKLMNOPQRSTUVWXYZ"
+    const matrixChars = '12345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
 
-    const promptText = "SCROLL DOWN"
+    setRandomStrings(
+      new Array(cols)
+        .fill("")
+        .map(() => generateRandomString(rows, matrixChars))
+    )
+
+    const promptText = "SCR0LL D0WN"
     const promptTextStart = Math.floor((cols - promptText.length) / 2)
     const promptTextEnd = promptTextStart + promptText.length
     const promptTextRow = Math.floor(rows / 2)
@@ -38,50 +47,89 @@ const MatrixShower = () => {
     ctx.textAlign = "center"
     ctx.textBaseline = "middle"
 
-    function draw(counters) {
-      ctx.fillStyle = `rgba(0, 8, 0, 0.05)` // this fades the text
-      ctx.fillRect(0, 0, width, height)
+    function draw(counters, prevCounters, randomStrings) {
+      ctx.clearRect(0, 0, width, height)
 
       for (let i = 0; i < cols; i++) {
-        if (counters[i] < 0) continue
-
         const x = i * colSize
-        const y = counters[i] * rowSize
 
-        if (
-          counters[i] === promptTextRow &&
-          i >= promptTextStart &&
-          i < promptTextEnd
-        ) {
-          ctx.fillStyle = "#fff"
-          ctx.fillText(promptText[i - promptTextStart], x, y)
-          continue
+        const isInPromptColumn = i >= promptTextStart && i < promptTextEnd
+
+        for (let j = 0; j < rows; j++) {
+          const y = j * rowSize
+
+          let alpha = 1
+          if (j < counters[i]) {
+            const distance = counters[i] - j
+            alpha = 1 - distance / rows
+          } else if (j > counters[i]) {
+            const distance = prevCounters[i] - j
+            alpha = 1 - distance / rows
+          }
+
+          let char = randomStrings[i][j]
+          let flip = true
+
+          let color = "0, 255, 0"
+          // prompt text
+          if (isInPromptColumn && j === promptTextRow) {
+            char = promptText[i - promptTextStart]
+            flip = false
+
+            color = "150, 255, 150"
+            alpha = 0.5 + alpha // slow down fading
+            
+            // leading symbol
+          } else if (j === counters[i]) {
+            color = "150, 255, 150"
+          }
+
+          drawSymbol(x, y, char, color, alpha, flip)
         }
-
-        const char = chars[Math.floor(Math.random() * chars.length)]
-
-        ctx.save()
-        ctx.translate(x, y)
-        ctx.scale(-1, 1)
-
-        ctx.fillStyle = "#0f0"
-        ctx.fillText(char, 0, 0)
-
-        ctx.restore()
       }
     }
 
-    const interval = setInterval(() => {
-      setCounters((currCounters) => {
-        draw(currCounters)
+    function drawSymbol(x, y, symbol, color, alpha, flip = false) {
+      ctx.fillStyle = `rgba(${color}, ${alpha})`
 
+      ctx.save()
+      ctx.translate(x, y)
+      if (flip) ctx.scale(-1, 1)
+      ctx.fillText(symbol, 0, 0)
+
+      ctx.restore()
+    }
+
+    const interval = setInterval(() => {
+      // set functions are used because useEffect snapshots state
+      setRandomStrings((currRandomStrings) => {
+        setCounters((currCounters) => {
+          setPrevCounters((currPrevCounters) => {
+            draw(currCounters, currPrevCounters, currRandomStrings)
+
+            // increment counters
+            for (let i = 0; i < cols; i++) {
+              currCounters[i]++
+              currPrevCounters[i]++
+              if (currCounters[i] > rows) {
+                currPrevCounters[i] = currCounters[i]
+                currCounters[i] = -Math.floor(Math.random() * rows)
+              }
+            }
+            return currPrevCounters
+          })
+          return currCounters
+        })
+
+        // randomize a character in each collumn
         for (let i = 0; i < cols; i++) {
-          currCounters[i]++
-          if (currCounters[i] > rows) {
-            currCounters[i] = -Math.floor(Math.random() * rows)
-          }
+          const randomIndex = Math.floor(Math.random() * rows)
+          const randomChar = matrixChars[Math.floor(Math.random() * matrixChars.length)]
+          
+          currRandomStrings[i] = setCharAt(currRandomStrings[i], randomIndex, randomChar)
         }
-        return currCounters
+
+        return currRandomStrings
       })
     }, 100)
 
@@ -94,6 +142,13 @@ const MatrixShower = () => {
     </>
   )
 }
+
+
+function setCharAt(str, index, chr) {
+  // if (index > str.length - 1) return str
+  return str.substring(0, index) + chr + str.substring(index + 1)
+}
+
 
 const generateRandomString = (length, chars) => {
   let randomString = ""
