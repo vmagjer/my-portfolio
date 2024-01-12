@@ -25,7 +25,7 @@ const MatrixShower = () => {
     const rows = Math.ceil(height / rowSize)
 
     setCounters(
-      new Array(cols).fill(0).map(() => -Math.floor(Math.random() * rows))
+      new Array(cols).fill(0).map(() => -randomInt(rows))
     )
     setPrevCounters(new Array(cols).fill(rows * 2))
 
@@ -113,7 +113,7 @@ const MatrixShower = () => {
               currPrevCounters[i]++
               if (currCounters[i] > rows) {
                 currPrevCounters[i] = currCounters[i]
-                currCounters[i] = -Math.floor(Math.random() * rows)
+                currCounters[i] = -randomInt(rows)
               }
             }
             return currPrevCounters
@@ -123,8 +123,8 @@ const MatrixShower = () => {
 
         // randomize a character in each collumn
         for (let i = 0; i < cols; i++) {
-          const randomIndex = Math.floor(Math.random() * rows)
-          const randomChar = matrixChars[Math.floor(Math.random() * matrixChars.length)]
+          const randomIndex = randomInt(rows)
+          const randomChar = matrixChars[randomInt(matrixChars.length)]
           
           currRandomStrings[i] = setCharAt(currRandomStrings[i], randomIndex, randomChar)
         }
@@ -143,6 +143,9 @@ const MatrixShower = () => {
   )
 }
 
+function randomInt(max) {
+  return Math.floor(Math.random() * max)
+}
 
 function setCharAt(str, index, chr) {
   // if (index > str.length - 1) return str
@@ -153,7 +156,7 @@ function setCharAt(str, index, chr) {
 const generateRandomString = (length, chars) => {
   let randomString = ""
   for (let i = 0; i < length; i++) {
-    randomString += chars[Math.floor(Math.random() * chars.length)]
+    randomString += chars[randomInt(chars.length)]
   }
   return randomString
 }
