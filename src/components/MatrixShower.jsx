@@ -24,9 +24,7 @@ const MatrixShower = () => {
     const cols = Math.ceil(width / colSize)
     const rows = Math.ceil(height / rowSize)
 
-    setCounters(
-      new Array(cols).fill(0).map(() => -randomInt(rows))
-    )
+    setCounters(new Array(cols).fill(0).map(() => -randomInt(rows)))
     setPrevCounters(new Array(cols).fill(rows * 2))
 
     const matrixChars = '12345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
@@ -50,14 +48,12 @@ const MatrixShower = () => {
     function draw(counters, prevCounters, randomStrings) {
       ctx.clearRect(0, 0, width, height)
 
+      let x = 0
       for (let i = 0; i < cols; i++) {
-        const x = i * colSize
-
         const isInPromptColumn = i >= promptTextStart && i < promptTextEnd
 
+        let y = 0
         for (let j = 0; j < rows; j++) {
-          const y = j * rowSize
-
           let alpha = 1
           if (j < counters[i]) {
             const distance = counters[i] - j
@@ -78,18 +74,22 @@ const MatrixShower = () => {
 
             color = "150, 255, 150"
             alpha = 0.5 + alpha // slow down fading
-            
+
             // leading symbol
           } else if (j === counters[i]) {
             color = "150, 255, 150"
           }
 
           drawSymbol(x, y, char, color, alpha, flip)
+
+          y += rowSize
         }
+
+        x += colSize
       }
     }
 
-    function drawSymbol(x, y, symbol, color, alpha, flip = false) {
+    function drawSymbol(x, y, symbol, color, alpha = 1, flip = false) {
       ctx.fillStyle = `rgba(${color}, ${alpha})`
 
       ctx.save()
@@ -125,8 +125,12 @@ const MatrixShower = () => {
         for (let i = 0; i < cols; i++) {
           const randomIndex = randomInt(rows)
           const randomChar = matrixChars[randomInt(matrixChars.length)]
-          
-          currRandomStrings[i] = setCharAt(currRandomStrings[i], randomIndex, randomChar)
+
+          currRandomStrings[i] = setCharAt(
+            currRandomStrings[i],
+            randomIndex,
+            randomChar
+          )
         }
 
         return currRandomStrings
@@ -151,7 +155,6 @@ function setCharAt(str, index, chr) {
   // if (index > str.length - 1) return str
   return str.substring(0, index) + chr + str.substring(index + 1)
 }
-
 
 const generateRandomString = (length, chars) => {
   let randomString = ""
