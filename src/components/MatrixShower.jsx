@@ -1,12 +1,8 @@
 import { useEffect, useRef, useState } from "react"
 const MIN_TICK = 100
-const MAX_TICK = 100
-const TICK_RANGE = Math.floor((MAX_TICK - MIN_TICK) / MIN_TICK)
 
-const MatrixShower = ({ className, text = "", scale=1 }) => {
+const MatrixShower = ({ className, text = "", scale = 1 }) => {
   const canvasRef = useRef(null)
-
-  const [time, setTime] = useState(0)
 
   const [counters, setCounters] = useState([])
   const [prevCounters, setPrevCounters] = useState([])
@@ -32,8 +28,6 @@ const MatrixShower = ({ className, text = "", scale=1 }) => {
     setCounters(new Array(cols).fill(0).map(() => -randomInt(rows)))
     setPrevCounters(new Array(cols).fill(rows * 2))
 
-    const speeds = new Array(cols).fill(0).map(() => 1 + randomInt(TICK_RANGE))
-
     const matrixChars = '12345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
 
     setRandomStrings(
@@ -52,25 +46,33 @@ const MatrixShower = ({ className, text = "", scale=1 }) => {
     ctx.textAlign = "center"
     ctx.textBaseline = "middle"
 
-    function draw(time, randomStrings) {
+    function draw(counters, prevCounters, randomStrings) {
       ctx.clearRect(0, 0, width, height)
 
       let x = 0
       for (let i = 0; i < cols; i++) {
-        drawColumn(i, time, x, randomStrings)
+        drawColumn({
+          col: i,
+          activeRow: counters[i],
+          prevActiveRow: prevCounters[i],
+          x,
+          randomStrings,
+        })
 
         x += colSize
       }
     }
 
-    const alphaStep = 1 / rows
-    function drawColumn(col, time, x, randomStrings) {
-      const speed = speeds[col]
-      const activeRow = Math.floor((time / speed) % rows)
+    const tailLength = rows * 0.7
+    const alphaStep = 1 / tailLength
 
+    function drawColumn({ col, activeRow, prevActiveRow, x, randomStrings }) {
       const isinPromptCols = col >= promptTextStart && col < promptTextEnd
 
       let alpha = 1 - activeRow * alphaStep
+
+      const tailStart = activeRow - tailLength
+      const prevTailStart = prevActiveRow - tailLength
 
       // const x = col * colSize
       let y = 0
@@ -79,7 +81,7 @@ const MatrixShower = ({ className, text = "", scale=1 }) => {
           const char = promptText[col - promptTextStart]
           const color = "150, 255, 170"
 
-          drawSymbol(x, y, char, color, alpha + 0.5, false)
+          drawSymbol(x, y, char, color, alpha + 0.2, false)
         } else {
           const char = randomStrings[col][row]
           const color = row === activeRow ? "150, 255, 150" : "0, 255, 70"
@@ -87,7 +89,14 @@ const MatrixShower = ({ className, text = "", scale=1 }) => {
           drawSymbol(x, y, char, color, alpha, true)
         }
 
-        alpha = row === activeRow ? 0 : alpha + alphaStep
+        if (
+          (row > tailStart && row < activeRow) ||
+          (row > prevTailStart && row < prevActiveRow)
+        ) {
+          alpha += alphaStep
+        } else {
+          alpha = 0
+        }
         y += rowSize
       }
     }
@@ -112,26 +121,41 @@ const MatrixShower = ({ className, text = "", scale=1 }) => {
 
     const interval = setInterval(() => {
       // set functions are used because useEffect snapshots state
-      setTime((currTime) => {
-        setRandomStrings((currRandomStrings) => {
-          draw(currTime, currRandomStrings)
+      setCounters((currCounters) => {
+        setPrevCounters((currPrevCounters) => {
+          setRandomStrings((currRandomStrings) => {
+            draw(currCounters, currPrevCounters, currRandomStrings)
 
-          // randomize a character in each collumn
-          for (let i = 0; i < cols; i++) {
-            const randomIndex = randomInt(rows)
-            const randomChar = matrixChars[randomInt(matrixChars.length)]
+            // increment counters
+            for (let i = 0; i < cols; i++) {
+              currCounters[i]++
+              currPrevCounters[i]++
 
-            currRandomStrings[i] = setCharAt(
-              currRandomStrings[i],
-              randomIndex,
-              randomChar
-            )
-          }
+              // reset counter if it reaches the end
+              if (currCounters[i] >= rows) {
+                currPrevCounters[i] = currCounters[i]
+                currCounters[i] = -randomInt(rows)
+              }
+            }
 
-          return currRandomStrings
+            // randomize a character in each collumn
+            for (let i = 0; i < cols; i++) {
+              const randomIndex = randomInt(rows)
+              const randomChar = matrixChars[randomInt(matrixChars.length)]
+
+              currRandomStrings[i] = setCharAt(
+                currRandomStrings[i],
+                randomIndex,
+                randomChar
+              )
+            }
+
+            return currRandomStrings
+          })
+          return currPrevCounters
         })
 
-        return currTime + 1
+        return currCounters
       })
     }, MIN_TICK)
 
