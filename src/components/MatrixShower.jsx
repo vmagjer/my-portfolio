@@ -1,92 +1,158 @@
 import { useEffect, useRef, useState } from "react"
-const MIN_TICK = 100
+const TICK = 100
+const MIN_LAYER_SCALE = 0.3
+const MATRIX_CHARS = '12345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
 
-const MatrixShower = ({ className, text = "", scale = 1 }) => {
+const COL_SIZE = 20
+const ROW_SIZE = 20
+
+const MatrixShower = ({ className, text = "", scale = 1, layers = 1 }) => {
   const canvasRef = useRef(null)
 
-  const [counters, setCounters] = useState([])
-  const [prevCounters, setPrevCounters] = useState([])
+  const [counters, setCounters] = useState([[]])
+  const [prevCounters, setPrevCounters] = useState([[]])
 
   const [randomStrings, setRandomStrings] = useState([])
 
   useEffect(() => {
     const canvas = canvasRef.current
 
-    const ctx = canvas.getContext("2d")
-
-    ctx.clearRect(0, 0, canvas.width, canvas.height)
-
     const width = (canvas.width = window.innerWidth)
     const height = (canvas.height = window.innerHeight)
 
-    const colSize = 20 * scale
-    const rowSize = 20 * scale
+    // ascending (lower layers first)
+    const layerScales = new Array(layers)
+      .fill(0)
+      .map(
+        (x, i) => MIN_LAYER_SCALE + ((i + 1) * (1 - MIN_LAYER_SCALE)) / layers
+      )
 
-    const cols = Math.ceil(width / colSize)
-    const rows = Math.ceil(height / rowSize)
+    // lower layers will have more columns and rows
+    // const cols = new Array(layers)
+    //   .fill(0)
+    //   .map((x, i) => Math.ceil(width / COL_SIZE / layerScales[i]))
+    // const rows = new Array(layers)
+    //   .fill(0)
+    //   .map((x, i) => Math.ceil(height / ROW_SIZE / layerScales[i]))
 
-    setCounters(new Array(cols).fill(0).map(() => -randomInt(rows)))
-    setPrevCounters(new Array(cols).fill(rows * 2))
+    const max_cols = Math.ceil(width / COL_SIZE / MIN_LAYER_SCALE)
+    const max_rows = Math.ceil(height / ROW_SIZE / MIN_LAYER_SCALE)
 
-    const matrixChars = '12345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
-
-    setRandomStrings(
-      new Array(cols)
-        .fill("")
-        .map(() => generateRandomString(rows, matrixChars))
+    setCounters(
+      new Array(layers)
+        .fill(0)
+        .map(() => new Array(max_cols).fill(0).map(() => -randomInt(max_rows)))
+    )
+    setPrevCounters(
+      new Array(layers)
+        .fill(0)
+        .map(() => new Array(max_cols).fill(max_rows * 2))
     )
 
-    const promptText = text
-    const promptTextStart = Math.floor((cols - promptText.length) / 2)
-    const promptTextEnd = promptTextStart + promptText.length
-    const promptTextRow = Math.floor(rows / 2)
+    setRandomStrings(
+      new Array(max_cols)
+        .fill("")
+        .map(() => generateRandomString(max_rows, MATRIX_CHARS))
+    )
 
-    ctx.font = "15pt monospace"
+    const textLayer = layers - 1
+    const textStart = Math.floor(
+      (Math.ceil(width / COL_SIZE) - text.length) / 2
+    )
+    const textEnd = textStart + text.length
+    const textRow = Math.floor(Math.ceil(height / ROW_SIZE) / 2)
 
-    ctx.textAlign = "center"
-    ctx.textBaseline = "middle"
+    const ctx = canvas.getContext("2d")
 
     function draw(counters, prevCounters, randomStrings) {
       ctx.clearRect(0, 0, width, height)
 
-      let x = 0
-      for (let i = 0; i < cols; i++) {
-        drawColumn({
-          col: i,
-          activeRow: counters[i],
-          prevActiveRow: prevCounters[i],
-          x,
-          randomStrings,
+      for (let layer = 0; layer < layers; layer++) {
+        drawLayer({
+          cols: Math.ceil(width / COL_SIZE / layerScales[layer]),
+          rows: Math.ceil(height / ROW_SIZE / layerScales[layer]),
+          scale: layerScales[layer],
+          counters: counters[layer],
+          prevCounters: prevCounters[layer],
+          randomStrings: randomStrings,
+          layer,
         })
-
-        x += colSize
       }
     }
 
-    const tailLength = rows * 0.7
+    function drawLayer({
+      cols,
+      rows,
+      scale,
+      counters,
+      prevCounters,
+      randomStrings,
+      layer,
+    }) {
+      const xStep = Math.ceil(COL_SIZE * scale)
+      let x = 0
+      for (let col = 0; col < cols; col++) {
+        drawColumn({
+          col: col,
+          rows,
+          scale,
+          activeRow: counters[col],
+          prevActiveRow: prevCounters[col],
+          x,
+          symbols: randomStrings[((col + layer) * 3) % cols],
+          layer,
+        })
+
+        x += xStep
+      }
+    }
+
+    const tailLength = height / ROW_SIZE / 2
     const alphaStep = 1 / tailLength
 
-    function drawColumn({ col, activeRow, prevActiveRow, x, randomStrings }) {
-      const isinPromptCols = col >= promptTextStart && col < promptTextEnd
+    function drawColumn({
+      col,
+      rows,
+      scale,
+      activeRow,
+      prevActiveRow,
+      x,
+      symbols,
+      layer,
+    }) {
+      const isinTextCols = col >= textStart && col < textEnd
+      const layerAlpha = Math.pow((layer + 1) / layers, 2) // lower layers are more transparent
 
       let alpha = 1 - activeRow * alphaStep
 
       const tailStart = activeRow - tailLength
       const prevTailStart = prevActiveRow - tailLength
 
-      // const x = col * colSize
+      const yStep = Math.ceil(ROW_SIZE * scale)
       let y = 0
       for (let row = 0; row < rows; row++) {
-        if (isinPromptCols && row === promptTextRow) {
-          const char = promptText[col - promptTextStart]
-          const color = "150, 255, 170"
-
-          drawSymbol(x, y, char, color, alpha + 0.2, false)
+        if (layer === textLayer && isinTextCols && row === textRow) {
+          drawSymbol({
+            x,
+            y,
+            scale,
+            symbol: text[col - textStart],
+            color: "150, 255, 170",
+            alpha: alpha + 0.2, // makes text always visible
+            flip: false,
+          })
         } else {
-          const char = randomStrings[col][row]
           const color = row === activeRow ? "150, 255, 150" : "0, 255, 70"
 
-          drawSymbol(x, y, char, color, alpha, true)
+          drawSymbol({
+            x,
+            y,
+            scale,
+            symbol: symbols[row],
+            color,
+            alpha: alpha * layerAlpha,
+            flip: true,
+          })
         }
 
         if (
@@ -97,16 +163,28 @@ const MatrixShower = ({ className, text = "", scale = 1 }) => {
         } else {
           alpha = 0
         }
-        y += rowSize
+        y += yStep
       }
     }
 
-    // shadow
+    // text
+    ctx.font = "15pt monospace"
+    ctx.textAlign = "center"
+    ctx.textBaseline = "middle"
+    // text glow
     ctx.shadowBlur = 8
     ctx.shadowOffsetX = 0
     ctx.shadowOffsetY = 0
 
-    function drawSymbol(x, y, symbol, color, alpha = 1, flip = false) {
+    function drawSymbol({
+      x,
+      y,
+      scale,
+      symbol,
+      color,
+      alpha = 1,
+      flip = false,
+    }) {
       ctx.fillStyle = `rgba(${color}, ${alpha})`
       ctx.shadowColor = `rgba(${color}, ${alpha})`
 
@@ -124,24 +202,28 @@ const MatrixShower = ({ className, text = "", scale = 1 }) => {
       setCounters((currCounters) => {
         setPrevCounters((currPrevCounters) => {
           setRandomStrings((currRandomStrings) => {
-            draw(currCounters, currPrevCounters, currRandomStrings)
+            requestAnimationFrame(() =>
+              draw(currCounters, currPrevCounters, currRandomStrings)
+            )
 
             // increment counters
-            for (let i = 0; i < cols; i++) {
-              currCounters[i]++
-              currPrevCounters[i]++
+            for (let layer = 0; layer < layers; layer++) {
+              for (let col = 0; col < max_cols; col++) {
+                currCounters[layer][col]++
+                currPrevCounters[layer][col]++
 
-              // reset counter if it reaches the end
-              if (currCounters[i] >= rows) {
-                currPrevCounters[i] = currCounters[i]
-                currCounters[i] = -randomInt(rows)
+                // reset counter if it reaches the end
+                if (currCounters[layer][col] * ROW_SIZE >= height) {
+                  currPrevCounters[layer][col] = currCounters[layer][col]
+                  currCounters[layer][col] = -randomInt(max_rows)
+                }
               }
             }
 
             // randomize a character in each collumn
-            for (let i = 0; i < cols; i++) {
-              const randomIndex = randomInt(rows)
-              const randomChar = matrixChars[randomInt(matrixChars.length)]
+            for (let i = 0; i < max_cols; i++) {
+              const randomIndex = randomInt(max_rows)
+              const randomChar = MATRIX_CHARS[randomInt(MATRIX_CHARS.length)]
 
               currRandomStrings[i] = setCharAt(
                 currRandomStrings[i],
@@ -154,10 +236,9 @@ const MatrixShower = ({ className, text = "", scale = 1 }) => {
           })
           return currPrevCounters
         })
-
         return currCounters
       })
-    }, MIN_TICK)
+    }, TICK)
 
     return () => clearInterval(interval)
   }, [])

@@ -28,20 +28,21 @@ const ParallaxView = () => {
   return (
     <>
       <div className="view" ref={scrollView}>
-        <MatrixShower />
+        <MatrixShower className="shower2" text="VL4TK0 M4GJ3R" layers={4}/>
+    
 
-        <div className="person" />
-        <Table className="table" />
+        {/* <div className="person" /> */}
+        {/* <Table className="table" /> */}
         {/* an image of a person acting as mask */}
 
         {/* an image of mountains and a sky with clouds */}
         {/* <div className="sky" /> */}
         {/* hills */}
-        <div className="hills" />
+        {/* <div className="hills" /> */}
         {/* hills */}
-        <div className="hills" />
+        {/* <div className="hills" /> */}
         {/* field with silhouette of traveller  */}
-        <div className="field" />
+        {/* <div className="field" /> */}
       </div>
     </>
   )
