@@ -28,7 +28,7 @@ const ParallaxView = () => {
   return (
     <>
       <div className="view" ref={scrollView}>
-        <MatrixShower className="shower2" text="VL4TK0 M4GJ3R" layers={4}/>
+        <MatrixShower className="shower2" text="VL4TK0/M4GJ3R" layers={3}/>
     
 
         {/* <div className="person" /> */}
