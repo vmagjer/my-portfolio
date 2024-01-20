@@ -1,15 +1,16 @@
-import React, { useEffect } from "react"
 import "./Home.css"
-import ParallaxCity from "../components/ParallaxCity"
-import ParallaxView from "../components/ParallaxView"
+// import ParallaxCity from "../components/ParallaxCity"
+// import ParallaxView from "../components/ParallaxView"
+import DigitalRain from "../components/DigitalRain"
 
 const HomePage = () => {
 
   return (
     <>
       <div className="home">
-        <ParallaxView />
-        <ParallaxCity />
+        <DigitalRain className="digital-rain" text="Welcome to my portfolio" layers={1} />
+        {/* <ParallaxView />
+        <ParallaxCity /> */}
         
 
         <div className="content">

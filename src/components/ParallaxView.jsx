@@ -1,34 +1,33 @@
-import React, { useEffect, useRef, useState } from "react"
+import { useRef } from "react"
 import "./ParallaxView.css"
-import AnimationController from "../utils/AnimationController"
-import ScrollProgress from "../utils/ScrollProgress"
-import Table from "../assets/Table"
+// import AnimationController from "../utils/AnimationController"
+// import ScrollProgress from "../utils/ScrollProgress"
 import MatrixShower from "./MatrixShower"
 
 const ParallaxView = () => {
   const scrollView = useRef(null)
 
-  useEffect(() => {
-    // const scrollView = document.querySelector(".parallax-view")
-    const scrollProgress = new ScrollProgress(scrollView.current)
+  // useEffect(() => {
+  //   // const scrollView = document.querySelector(".parallax-view")
+  //   const scrollProgress = new ScrollProgress(scrollView.current)
 
-    const cityAnimation = new AnimationController(
-      updateView,
-      scrollProgress,
-      scrollView.current
-    )
+  //   const cityAnimation = new AnimationController(
+  //     updateView,
+  //     scrollProgress,
+  //     scrollView.current
+  //   )
 
-    return () => {
-      cityAnimation.destroy()
-    }
-  }, [scrollView])
+  //   return () => {
+  //     cityAnimation.destroy()
+  //   }
+  // }, [scrollView])
 
 
 
   return (
     <>
       <div className="view" ref={scrollView}>
-        <MatrixShower className="shower2" text="VL4TK0/M4GJ3R" layers={3}/>
+        <MatrixShower className="shower2" text="VL4TK0/M4GJ3R" layers={2}/>
     
 
         {/* <div className="person" /> */}
@@ -48,8 +47,8 @@ const ParallaxView = () => {
   )
 }
 
-function updateView(animationProgress) {
-  // enlarge
-}
+// function updateView(animationProgress) {
+//   // enlarge
+// }
 
 export default ParallaxView
