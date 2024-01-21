@@ -5,12 +5,12 @@ const COL_SIZE = 20
 const ROW_SIZE = 20
 
 class DigitalRainPerformant {
-  constructor(
+  constructor({
     canvas,
     numLayers = 1,
     characters = DEFAULT_CHARACTERS,
-    density = 1
-  ) {
+    density = 1,
+  }) {
     this.#init(canvas, numLayers, characters, density)
 
     this.tick = this.tick.bind(this)
@@ -50,8 +50,9 @@ class DigitalRainPerformant {
         return {
           offsets: new Array(cols)
             .fill(0)
-            .map(() => (-randomInt(wave_length) - i * wave_length) * ROW_SIZE),
-          color: ['red', 'green', 'blue', 'yellow', 'orange', 'magenta'][i % 6],
+            .map(() => -(randomInt(wave_length) + i * wave_length) * ROW_SIZE),
+          // color: ['red', 'green', 'yellow', 'magenta'][i % 6],
+          color: 'rgb(0, 255, 70)',
         }
       })
 
@@ -71,7 +72,7 @@ class DigitalRainPerformant {
     this.buffer_ctx.textBaseline = 'middle'
     this.buffer_ctx.textAlign = 'center'
     this.buffer_ctx.shadowColor = 'rgba(0, 255, 70, 0.5)'
-    // this.buffer_ctx.shadowBlur = 4
+    this.buffer_ctx.shadowBlur = 4
 
     this.num_layers = numLayers
 
@@ -95,12 +96,8 @@ class DigitalRainPerformant {
       console.log('reset')
       this.prevReset = this.time
 
-      const delta_reset = this.waves.length * this.wave_length * ROW_SIZE
-      // for (let col = 0; col < this.cols; col++) {
-      //   this.waves[0].offsets[col] -= this.waves.length * this.wave_length * ROW_SIZE
-      // }
       this.waves[0].offsets = this.waves[0].offsets.map(
-        (offset) => offset - delta_reset
+        () => -this.d_y - randomInt(this.wave_length) * ROW_SIZE
       )
 
       this.waves.push(this.waves.shift())
@@ -119,7 +116,7 @@ class DigitalRainPerformant {
     this.#drawLayer()
     this.buffer_ctx.translate(0, -this.d_y)
 
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.1)' // fade out previous frame
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.15)' // fade out previous frame
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
     // for (let layer = 0; layer < this.num_layers; layer++) {
 
@@ -167,9 +164,12 @@ class DigitalRainPerformant {
 
   #drawSymbol({ symbol, x, y, alpha = 1, color = '0, 255, 70', flip = false }) {
     // this.buffer_ctx.fillStyle = `rgba(${color}, ${alpha})`
+
     this.buffer_ctx.translate(x, y)
     if (flip) this.buffer_ctx.scale(-1, 1)
+
     this.buffer_ctx.fillText(symbol, 0, 0)
+
     // Reset transformations
     if (flip) this.buffer_ctx.scale(-1, 1)
     this.buffer_ctx.translate(-x, -y)
