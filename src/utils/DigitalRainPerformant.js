@@ -75,6 +75,18 @@ class DigitalRainPerformant {
     this.buffer_ctx.shadowBlur = 4
 
     this.num_layers = numLayers
+    this.layers = new Array(numLayers).fill(0).map((_, i) => {
+      const scale = i + 1
+      return {
+        scale,
+        alpha: scale / numLayers,
+        xOffset: randomInt(buffer_width - buffer_width / scale),
+        // yOffset: randomInt(buffer_height - buffer_height / scale),
+        yOffset: 0,
+        width: buffer_width / scale,
+        height: buffer_height / scale,
+      }
+    })
 
     this.rows = rows
     this.cols = cols
@@ -116,24 +128,26 @@ class DigitalRainPerformant {
     this.#drawLayer()
     this.buffer_ctx.translate(0, -this.d_y)
 
-    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.15)' // fade out previous frame
+    // fade out previous frame
+    this.ctx.fillStyle = 'rgba(0, 0, 0, 0.2)'
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
-    // for (let layer = 0; layer < this.num_layers; layer++) {
 
-    // this.ctx.globalAlpha = (layer + 1) / this.num_layers
-    // this.ctx_1.scale(this.layers[layer].scale, this.layers[layer].scale)
-    this.ctx.drawImage(
-      this.buffer_ctx.canvas,
-      0,
-      0,
-      this.buffer_ctx.canvas.width,
-      this.buffer_ctx.canvas.height,
-      0,
-      0,
-      this.ctx.canvas.width,
-      this.ctx.canvas.height
-    )
-    // }
+    // draw layers of rain
+    for (let layer = 0; layer < this.num_layers; layer++) {
+      this.ctx.globalAlpha = this.layers[layer].alpha
+
+      this.ctx.drawImage(
+        this.buffer_ctx.canvas,
+        this.layers[layer].xOffset,
+        this.layers[layer].yOffset,
+        this.layers[layer].width,
+        this.layers[layer].height,
+        0,
+        0,
+        this.ctx.canvas.width,
+        this.ctx.canvas.height
+      )
+    }
   }
 
   #drawLayer() {
