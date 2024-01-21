@@ -4,6 +4,10 @@ const DEFAULT_CHARACTERS =
 const COL_SIZE = 20
 const ROW_SIZE = 20
 
+/**
+ * Uses an offscreen canvas to draw the rain, then draws the offscreen canvas to the main canvas for each layer of rain.
+ * Utilizes translate and scale to draw the rain in the correct position.
+ */
 class DigitalRainPerformant {
   constructor({
     canvas,
