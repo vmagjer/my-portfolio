@@ -11,7 +11,7 @@ const DigitalRain = ({ className, text = "", layers = 1 }) => {
   useEffect(() => {
     const canvas = canvasRef.current
 
-    const digitalRain = new DigitalRainPerformant({canvas, numLayers: layers, density: 2})
+    const digitalRain = new DigitalRainPerformant({canvas, numLayers: layers, density: 1, text})
 
     const interval = setInterval(() => {
       requestAnimationFrame(digitalRain.tick)
