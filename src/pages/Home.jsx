@@ -8,7 +8,7 @@ const HomePage = () => {
   return (
     <>
       <div className="home">
-        <DigitalRain className="digital-rain" text="Welcome to my Portfolio." layers={2} />
+        <DigitalRain className="digital-rain" text="VL4TK0/M4GJ3R" layers={2} />
         {/* <ParallaxView />
         <ParallaxCity /> */}
         
