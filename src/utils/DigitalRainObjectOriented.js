@@ -24,6 +24,7 @@ class Particle {
     this.initial_position = { x, y }
 
     this.velocity = start_velocity
+    this.initial_velocity = start_velocity
 
     this._y_max = y_max
     this.bounds = bounds
@@ -53,14 +54,14 @@ class Particle {
   #reset() {
     this.x = this.initial_position.x
     this.y = this.initial_position.y
+    this.velocity = this.initial_velocity
   }
 
   #isOutOfBounds() {
-    // dont check for y < 0 because we want the rain to start off screen
     return (
       this.x < this.bounds.x ||
       this.x > this.bounds.x + this.bounds.width ||
-      // this.y < this.bounds.y ||
+      this.y < this.bounds.y ||
       this.y > this.bounds.y + this.bounds.height
     )
   }
@@ -210,9 +211,9 @@ class DigitalRainPerformant {
         text_options,
         bounds: {
           x: 0,
-          y: 0,
+          y: -this.buffer_ctx.canvas.height,
           width: this.buffer_ctx.canvas.width,
-          height: this.buffer_ctx.canvas.height,
+          height: this.buffer_ctx.canvas.height * 2,
         },
       })
     )
@@ -281,28 +282,49 @@ class DigitalRainPerformant {
     const x_corrected = -x + this.buffer_ctx.canvas.width
     const y_corrected = y
 
-    const radius = 100
+    const radius = 40
 
     for (let i = 0; i < this.droplets.length; i++) {
       const rel_x = this.droplets[i].x - x_corrected
       const rel_y = this.droplets[i].y - y_corrected
-      if (
-        rel_x > radius ||
-        rel_x < -radius ||
-        rel_y < -radius ||
-        rel_y > radius ||
-        rel_x ** 2 + rel_y ** 2 > radius ** 2
-      ) {
-        this.droplets[i].color = 'rgba(0, 255, 70, 1)'
-        const distance_from_initial_x = this.droplets[i].initial_position.x - this.droplets[i].x
+      const distance = Math.sqrt(rel_x ** 2 + rel_y ** 2)
 
-        this.droplets[i].velocity.x = Math.sign(distance_from_initial_x) * CELL_SIZE
-        this.droplets[i].velocity.y = CELL_SIZE
-      } else {
-        this.droplets[i].color = 'rgba(255, 255, 70, 1)'
-        this.droplets[i].velocity.x = rel_x > 0 ? CELL_SIZE : -CELL_SIZE
-        this.droplets[i].velocity.y = 0
+      const angle = Math.atan2(rel_y, rel_x)
+
+      if (distance < radius) {
+        const vx = Math.cos(angle) * CELL_SIZE
+        const vy = Math.sin(angle) * CELL_SIZE
+        this.droplets[i].velocity = { x: vx, y: vy }
       }
+    }
+  }
+}
+
+function simpleAvoid(cursor, particle) {
+  const radius = 100
+  const dx = particle.x - cursor.x
+  const dy = particle.y - cursor.y
+
+  if (
+    dx > radius ||
+    dx < -radius ||
+    dy < -radius ||
+    dy > radius ||
+    dx ** 2 + dy ** 2 > radius ** 2
+  ) {
+    const distance_from_initial_x =
+      this.droplets[i].initial_position.x - this.droplets[i].x
+
+    return {
+      vx: Math.sign(distance_from_initial_x) * CELL_SIZE,
+      vy: CELL_SIZE,
+      color: 'rgba(0, 255, 70, 1)',
+    }
+  } else {
+    return {
+      vx: dx > 0 ? CELL_SIZE : -CELL_SIZE,
+      vy: 0,
+      color: 'rgba(255, 255, 70, 1)',
     }
   }
 }
