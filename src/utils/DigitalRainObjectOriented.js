@@ -2,34 +2,31 @@ const DEFAULT_CHARACTERS =
   '012345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
 
 const CELL_SIZE = 20
-class DigitalRainDroplet {
+class Particle {
   constructor({
     x,
     y,
     symbols,
-    y_step = 20,
-    max_rows = 100,
     y_max,
     text_options = null,
     color = 'rgba(0, 255, 70, 1)',
-    start_velocity = { x: 0, y: 20}
+    start_velocity = { x: 0, y: 20 },
+    bounds = { x: 0, y: 0, width: 0, height: 0 },
   }) {
     this.symbols = symbols
-
-    this.x = x
-    this.y = y
-    
-    this.y_step = y_step
-    this.velocity = start_velocity
-
-    this.max_rows = max_rows
-    this._y_max = y_max
-
     this.symbol_index = 0
     this.text_position = Math.floor(symbols.length / 2) * CELL_SIZE
     this.text_options = text_options
-
     this.color = color
+
+    this.x = x
+    this.y = y
+    this.initial_position = { x, y }
+
+    this.velocity = start_velocity
+
+    this._y_max = y_max
+    this.bounds = bounds
 
     this.draw = this.draw.bind(this)
     this.drop = this.move.bind(this)
@@ -48,13 +45,24 @@ class DigitalRainDroplet {
       this.symbol_index = 0
     }
 
-    if (this.y > this._y_max) {
+    if (this.#isOutOfBounds()) {
       this.#reset()
     }
   }
 
   #reset() {
-    this.y = 0
+    this.x = this.initial_position.x
+    this.y = this.initial_position.y
+  }
+
+  #isOutOfBounds() {
+    // dont check for y < 0 because we want the rain to start off screen
+    return (
+      this.x < this.bounds.x ||
+      this.x > this.bounds.x + this.bounds.width ||
+      // this.y < this.bounds.y ||
+      this.y > this.bounds.y + this.bounds.height
+    )
   }
 
   draw(ctx) {
@@ -154,12 +162,12 @@ class DigitalRainPerformant {
     for (let col = 0; col < cols; col++) {
       for (let i = 0; i < density; i++) {
         if (col >= this.text_start_col && col < this.text_end_col) {
-          this.#spawnDroplet(col, (-buffer_canvas.height / density) * i, {
+          this.#spawnDroplet(col, -randomInt(this.rows) * CELL_SIZE, {
             symbol: reversed_text[col - this.text_start_col],
             color: 'white',
           })
         } else {
-          this.#spawnDroplet(col, (-buffer_canvas.height / density) * i)
+          this.#spawnDroplet(col, -randomInt(this.rows) * CELL_SIZE)
         }
       }
     }
@@ -189,17 +197,23 @@ class DigitalRainPerformant {
 
   #spawnDroplet(col, start_y = 0, text_options = null) {
     const x = col * CELL_SIZE
-    const y = start_y - randomInt(this.rows) * CELL_SIZE
+    const y = start_y
     const symbols = this.strings[col]
 
     this.droplets.push(
-      new DigitalRainDroplet({
+      new Particle({
         x,
         y,
         symbols,
         start_velocity: { x: 0, y: CELL_SIZE },
         y_max: this.rows * CELL_SIZE,
         text_options,
+        bounds: {
+          x: 0,
+          y: 0,
+          width: this.buffer_ctx.canvas.width,
+          height: this.buffer_ctx.canvas.height,
+        },
       })
     )
   }
@@ -207,9 +221,10 @@ class DigitalRainPerformant {
   tick() {
     console.log('tick')
     this.draw()
+    console.log('droplets', this.droplets)
 
     // update droplets
-    this.droplets.forEach((droplet) => droplet.drop())
+    this.droplets.forEach((droplet) => droplet.move())
   }
 
   draw() {
