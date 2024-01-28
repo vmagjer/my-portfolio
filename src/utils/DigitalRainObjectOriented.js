@@ -279,23 +279,16 @@ class DigitalRainPerformant {
     this.cursor_position.x = x
     this.cursor_position.y = y
 
-    const x_corrected = -x + this.buffer_ctx.canvas.width
-    const y_corrected = y
+    const cursor_corrected = {
+      x: -x + this.buffer_ctx.canvas.width,
+      y,
+    }
 
-    const radius = 40
+    for (let i = 0; i < this.droplets.length; i++) {      
+      const { velocity, color } = bounceOffCursor( cursor_corrected, this.droplets[i])
 
-    for (let i = 0; i < this.droplets.length; i++) {
-      const rel_x = this.droplets[i].x - x_corrected
-      const rel_y = this.droplets[i].y - y_corrected
-      const distance = Math.sqrt(rel_x ** 2 + rel_y ** 2)
-
-      const angle = Math.atan2(rel_y, rel_x)
-
-      if (distance < radius) {
-        const vx = Math.cos(angle) * CELL_SIZE
-        const vy = Math.sin(angle) * CELL_SIZE
-        this.droplets[i].velocity = { x: vx, y: vy }
-      }
+      this.droplets[i].velocity = velocity
+      this.droplets[i].color = color
     }
   }
 }
@@ -329,6 +322,30 @@ function simpleAvoid(cursor, particle) {
   }
 }
 
+function bounceOffCursor(cursor, particle) {
+  const radius = 100
+  const dx = particle.x - cursor.x
+  const dy = particle.y - cursor.y
+
+  const distance = Math.sqrt(dx ** 2 + dy ** 2)
+
+  
+  if (distance < radius) {
+    const angle = Math.atan2(dy, dx)
+    const vx = Math.cos(angle) * CELL_SIZE
+    const vy = Math.sin(angle) * CELL_SIZE
+
+    return {
+      velocity: { x: vx, y: vy },
+    color: 'rgba(255, 255, 70, 1)',
+    }
+  }
+
+  return {
+    velocity: particle.velocity,
+      color: 'rgba(0, 255, 70, 1)',
+  }
+}
 export default DigitalRainPerformant
 
 function randomInt(max) {
