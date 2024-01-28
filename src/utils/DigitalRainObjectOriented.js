@@ -221,7 +221,6 @@ class DigitalRainPerformant {
   tick() {
     console.log('tick')
     this.draw()
-    console.log('droplets', this.droplets)
 
     // update droplets
     this.droplets.forEach((droplet) => droplet.move())
@@ -279,21 +278,30 @@ class DigitalRainPerformant {
     this.cursor_position.x = x
     this.cursor_position.y = y
 
-    const x_corrected = -x + 3*(this.cols * CELL_SIZE) / 4
-    const y_corrected = y + (this.rows * CELL_SIZE) / 4
+    const x_corrected = -x + this.buffer_ctx.canvas.width
+    const y_corrected = y
 
     const radius = 100
 
     for (let i = 0; i < this.droplets.length; i++) {
+      const rel_x = this.droplets[i].x - x_corrected
+      const rel_y = this.droplets[i].y - y_corrected
       if (
-        this.droplets[i].y > y_corrected + radius ||
-        this.droplets[i].y < y_corrected - radius ||
-        this.droplets[i].x < x_corrected - radius ||
-        this.droplets[i].x > x_corrected + radius
+        rel_x > radius ||
+        rel_x < -radius ||
+        rel_y < -radius ||
+        rel_y > radius ||
+        rel_x ** 2 + rel_y ** 2 > radius ** 2
       ) {
-        this.droplets[i].color = 'rgba(255, 255, 70, 1)'
-      } else {
         this.droplets[i].color = 'rgba(0, 255, 70, 1)'
+        const distance_from_initial_x = this.droplets[i].initial_position.x - this.droplets[i].x
+
+        this.droplets[i].velocity.x = Math.sign(distance_from_initial_x) * CELL_SIZE
+        this.droplets[i].velocity.y = CELL_SIZE
+      } else {
+        this.droplets[i].color = 'rgba(255, 255, 70, 1)'
+        this.droplets[i].velocity.x = rel_x > 0 ? CELL_SIZE : -CELL_SIZE
+        this.droplets[i].velocity.y = 0
       }
     }
   }
