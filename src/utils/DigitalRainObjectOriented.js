@@ -1,3 +1,5 @@
+import { bounceOff, restoreInitialVelocity } from "./particleManipulations"
+
 const DEFAULT_CHARACTERS =
   '012345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
 
@@ -173,8 +175,6 @@ class DigitalRainPerformant {
       }
     }
 
-    console.log('droplets', this.droplets)
-
     this.num_layers = numLayers
     this.layers = new Array(numLayers).fill(0).map((_, i) => {
       const scale = i + 1
@@ -285,68 +285,30 @@ class DigitalRainPerformant {
     }
 
     for (let i = 0; i < this.droplets.length; i++) {      
-      const { velocity, color } = bounceOffCursor( cursor_corrected, this.droplets[i])
+      const {
+        position: p,
+        velocity: v,
+        color: c,
+      } = restoreInitialVelocity(this.droplets[i])
 
+      this.droplets[i].x = p.x
+      this.droplets[i].velocity = v
+      this.droplets[i].color = c
+
+      const { position, velocity, color } = bounceOff(
+        cursor_corrected,
+        this.droplets[i]
+      )
+
+      this.droplets[i].x = position.x
       this.droplets[i].velocity = velocity
       this.droplets[i].color = color
     }
   }
 }
 
-function simpleAvoid(cursor, particle) {
-  const radius = 100
-  const dx = particle.x - cursor.x
-  const dy = particle.y - cursor.y
-
-  if (
-    dx > radius ||
-    dx < -radius ||
-    dy < -radius ||
-    dy > radius ||
-    dx ** 2 + dy ** 2 > radius ** 2
-  ) {
-    const distance_from_initial_x =
-      this.droplets[i].initial_position.x - this.droplets[i].x
-
-    return {
-      vx: Math.sign(distance_from_initial_x) * CELL_SIZE,
-      vy: CELL_SIZE,
-      color: 'rgba(0, 255, 70, 1)',
-    }
-  } else {
-    return {
-      vx: dx > 0 ? CELL_SIZE : -CELL_SIZE,
-      vy: 0,
-      color: 'rgba(255, 255, 70, 1)',
-    }
-  }
-}
-
-function bounceOffCursor(cursor, particle) {
-  const radius = 100
-  const dx = particle.x - cursor.x
-  const dy = particle.y - cursor.y
-
-  const distance = Math.sqrt(dx ** 2 + dy ** 2)
-
-  
-  if (distance < radius) {
-    const angle = Math.atan2(dy, dx)
-    const vx = Math.cos(angle) * CELL_SIZE
-    const vy = Math.sin(angle) * CELL_SIZE
-
-    return {
-      velocity: { x: vx, y: vy },
-    color: 'rgba(255, 255, 70, 1)',
-    }
-  }
-
-  return {
-    velocity: particle.velocity,
-      color: 'rgba(0, 255, 70, 1)',
-  }
-}
 export default DigitalRainPerformant
+
 
 function randomInt(max) {
   return Math.floor(Math.random() * max)
