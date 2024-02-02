@@ -52,20 +52,21 @@ function avoid(point, particle) {
 }
 
 const ease = (x) => 1 - (1 - x) ** 2
+const bellFunction = (x, radius) => {
+  if (x < -radius || x > radius) {
+    return 0
+  }
+  return Math.sin((x / radius) * Math.PI)
+}
 
 function displaceAround(point, particle) {
   const dx = particle.x - point.x
   const dy = particle.y - point.y
-
-  const distance = Math.sqrt(dx ** 2 + dy ** 2)
-  const radius = 200
+  const radius_x = 160
+  const radius_y = 160
 
   let x = particle.x
-
-  if (dy < radius && dy > -radius) {
-    x +=
-      (Math.sin(dy / radius) * CELL_SIZE * -Math.sign(dx)) / (distance / radius)
-  }
+  x += bellFunction(dy, radius_x) * bellFunction(-dx, radius_y) * CELL_SIZE
 
   return {
     position: { x: x, y: particle.y },

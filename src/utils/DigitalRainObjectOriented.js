@@ -133,7 +133,6 @@ class DigitalRainPerformant {
           y_end: this.buffer_ctx.canvas.height,
         },
         resolution: CELL_SIZE,
-
         symbols,
         text_options,
       })
