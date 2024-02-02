@@ -1,8 +1,8 @@
 const CELL_SIZE = 20
 
 function bounceOff(point, particle) {
-  const dx = particle.x - point.x
-  const dy = particle.y - point.y
+  const dx = particle.position.x - point.x
+  const dy = particle.position.y - point.y
 
   const distance = Math.sqrt(dx ** 2 + dy ** 2)
   const radius = 60
@@ -17,15 +17,15 @@ function bounceOff(point, particle) {
   }
 
   return {
-    position: { x: particle.x, y: particle.y },
+    position: { x: particle.position.x, y: particle.position.y },
     velocity: { x: vx, y: vy },
     color: 'rgba(0, 255, 70, 1)',
   }
 }
 
 function avoid(point, particle) {
-  const dx = particle.x - point.x
-  const dy = particle.y - point.y
+  const dx = particle.position.x - point.x
+  const dy = particle.position.y - point.y
 
   const distance = Math.sqrt(dx ** 2 + dy ** 2)
   const strength = 50
@@ -45,7 +45,7 @@ function avoid(point, particle) {
   vy += particle.velocity.y
 
   return {
-    position: { x: particle.x, y: particle.y },
+    position: { x: particle.position.x, y: particle.position.y },
     velocity: { x: vx, y: vy },
     color: 'rgba(0, 255, 70, 1)',
   }
@@ -60,23 +60,23 @@ const bellFunction = (x, radius) => {
 }
 
 function displaceAround(point, particle) {
-  const dx = particle.x - point.x
-  const dy = particle.y - point.y
+  const dx = particle.position.x - point.x
+  const dy = particle.position.y - point.y
   const radius_x = 160
   const radius_y = 160
 
-  let x = particle.x
+  let x = particle.position.x
   x += bellFunction(dy, radius_x) * bellFunction(-dx, radius_y) * CELL_SIZE
 
   return {
-    position: { x: x, y: particle.y },
+    position: { x: x, y: particle.position.y },
     velocity: particle.velocity,
     color: 'rgba(0, 255, 70, 1)',
   }
 }
 
 function bounceAndAvoid(point, particle) {
-  const dy = particle.y - point.y
+  const dy = particle.position.y - point.y
 
   if (dy < 0) {
     return bounceOff(point, particle)
@@ -86,8 +86,8 @@ function bounceAndAvoid(point, particle) {
 }
 
 function slowDown(point, particle) {
-  const dx = particle.x - point.x
-  const dy = particle.y - point.y
+  const dx = particle.position.x - point.x
+  const dy = particle.position.y - point.y
 
   const distance = Math.sqrt(dx ** 2 + dy ** 2)
   const radius = 200
@@ -101,7 +101,7 @@ function slowDown(point, particle) {
   }
 
   return {
-    position: { x: particle.x, y: particle.y },
+    position: { x: particle.position.x, y: particle.position.y },
     velocity: { x: vx, y: Math.max(vy, 4) },
     color: 'rgba(0, 255, 70, 1)',
   }
@@ -112,7 +112,7 @@ function restoreInitialVelocity(particle) {
   const vy = particle.velocity.y * 0.9 + particle.initial_velocity.y * 0.1
 
   return {
-    position: { x: particle.x, y: particle.y },
+    position: { x: particle.position.x, y: particle.position.y },
     velocity: { x: vx, y: vy },
     color: 'rgba(0, 255, 70, 1)',
   }

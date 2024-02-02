@@ -1,20 +1,16 @@
 class Particle {
   constructor({
-    x,
-    y,
+    initial_position = { x: 0, y: 0 },
     initial_velocity = { x: 0, y: 20 },
     bounds = { x_start: 0, y_start: 0, x_end: 0, y_end: 0 },
-    resolution = 20,
-
     symbols,
     text_options = null,
     color = 'rgba(0, 255, 70, 1)',
   }) {
-    this.x = x
-    this.y = y
+    this.position = initial_position
     this.velocity = initial_velocity
 
-    this.initial_position = { x, y }
+    this.initial_position = initial_position
     this.initial_velocity = initial_velocity
 
     this.bounds = bounds
@@ -31,8 +27,8 @@ class Particle {
   }
 
   move() {
-    this.x += this.velocity.x
-    this.y += this.velocity.y
+    this.position.x += this.velocity.x
+    this.position.y += this.velocity.y
 
     const prevIsInBounds = this.isInBounds
     this.isInBounds = this.#isInBounds()
@@ -48,36 +44,36 @@ class Particle {
 
   #isInBounds() {
     return (
-      this.y >= this.bounds.y_start &&
-      this.y <= this.bounds.y_end &&
-      this.x >= this.bounds.x_start &&
-      this.x <= this.bounds.x_end
+      this.position.y >= this.bounds.y_start &&
+      this.position.y <= this.bounds.y_end &&
+      this.position.x >= this.bounds.x_start &&
+      this.position.x <= this.bounds.x_end
     )
   }
 
   #reset() {
-    this.x = this.initial_position.x
-    this.y = this.initial_position.y
+    this.position.x = this.initial_position.x
+    this.position.y = this.initial_position.y
     this.velocity = this.initial_velocity
   }
 
   draw(ctx) {
     if (!this.isInBounds) return
-    if (this.text_options && this.y === this.text_options.position.y) {
-      const translate_x = this.x * 2
+    if (this.text_options && this.position.y === this.text_options.position.y) {
+      const translate_x = this.position.x * 2
 
       ctx.fillStyle = this.text_options.color
       ctx.translate(translate_x, 0)
       ctx.scale(-1, 1)
 
-      ctx.fillText(this.text_options.symbol, this.x, this.y)
+      ctx.fillText(this.text_options.symbol, this.position.x, this.position.y)
 
       ctx.scale(-1, 1)
       ctx.translate(-translate_x, 0)
       // ctx.fillStyle = this.color
     } else {
       ctx.fillStyle = this.color
-      ctx.fillText(this.symbols[this.symbol_index], this.x, this.y)
+      ctx.fillText(this.symbols[this.symbol_index], this.position.x, this.position.y)
     }
   }
 }

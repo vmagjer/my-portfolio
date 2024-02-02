@@ -123,8 +123,7 @@ class DigitalRainPerformant {
 
     this.droplets.push(
       new Particle({
-        x,
-        y,
+        initial_position: { x, y },
         initial_velocity: { x: 0, y: CELL_SIZE },
         bounds: {
           x_start: 0,
@@ -210,7 +209,7 @@ class DigitalRainPerformant {
         color: c,
       } = restoreInitialVelocity(this.droplets[i])
 
-      this.droplets[i].x = p.x
+      this.droplets[i].position.x = p.x
       this.droplets[i].velocity = v
       this.droplets[i].color = c
 
@@ -219,7 +218,7 @@ class DigitalRainPerformant {
         this.droplets[i]
       )
 
-      this.droplets[i].x = position.x
+      this.droplets[i].position.x = position.x
       this.droplets[i].velocity = velocity
       this.droplets[i].color = color
     }
