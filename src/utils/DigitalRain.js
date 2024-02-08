@@ -13,14 +13,14 @@ class DigitalRain {
     this.height = canvas.height = window.innerHeight
     this.ctx = canvas.getContext("2d")
 
-    const foreground_rows = Math.ceil(this.height / ROW_SIZE)
+    const foregroundRows = Math.ceil(this.height / ROW_SIZE)
 
-    this.droplet_length = Math.ceil(foreground_rows * 0.25)
-    // this.droplet_length = 50
-    this.droplet_frequency = Math.ceil(foreground_rows * 0.8)
-    this.droplet_variance = foreground_rows
+    this.dropletLength = Math.ceil(foregroundRows * 0.25)
+    // this.dropletLength = 50
+    this.dropletFrequency = Math.ceil(foregroundRows * 0.8)
+    this.dropletVariance = foregroundRows
 
-    this.droplet_alpha_step = 1 / this.droplet_length
+    this.dropletAlphaStep = 1 / this.dropletLength
     this.strings = new Array(20)
       .fill(0)
       .map(() =>
@@ -70,16 +70,16 @@ class DigitalRain {
         }
 
         if (countersInCol.length === 0) {
-          countersInCol.push(-randomInt(this.droplet_variance))
+          countersInCol.push(-randomInt(this.dropletVariance))
         } else {
-          if (countersInCol[0] > layer.rows + this.droplet_length) {
+          if (countersInCol[0] > layer.rows + this.dropletLength) {
             countersInCol.shift()
           }
 
           if (
-            countersInCol[countersInCol.length - 1] === this.droplet_frequency
+            countersInCol[countersInCol.length - 1] === this.dropletFrequency
           ) {
-            countersInCol.push(-randomInt(this.droplet_variance))
+            countersInCol.push(-randomInt(this.dropletVariance))
           }
         }
       })
@@ -124,7 +124,7 @@ class DigitalRain {
 
       // accounting for droplets out of bounds (assuming only one is out of bounds at a time)
       const d = layer.counters[col][0] - layer.rows
-      let alpha = d > 0 ? 1 - this.droplet_alpha_step * d : 0 
+      let alpha = d > 0 ? 1 - this.dropletAlphaStep * d : 0 
       // let alpha = 0
 
       // drawing from bottom to top
@@ -144,7 +144,7 @@ class DigitalRain {
           })
         }
 
-        alpha -= this.droplet_alpha_step
+        alpha -= this.dropletAlphaStep
         y -= yStep
       }
       x += xStep

@@ -4,16 +4,16 @@ const SYMBOLS = '012345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿ�
 
 class DigitalRainParticleRenderer {
   #symbols
-  #num_symbols
-  #symbol_index = 0
+  #numSymbols
+  #symbolIndex = 0
   #resolution
   #text
-  #text_y
-  #text_x_start
-  #text_x_end
+  #textY
+  #textXStart
+  #textXEnd
 
   constructor({numParticles, numSymbols, bounds, resolution = 1, text = null}) {
-    this.#num_symbols = numSymbols
+    this.#numSymbols = numSymbols
     this.#symbols = new Array(numParticles)
       .fill(0)
       .map(() => generateRandomString(numSymbols, SYMBOLS))
@@ -22,11 +22,11 @@ class DigitalRainParticleRenderer {
 
     this.#text = text
     // TODO: text wrapping
-    const text_width = text ? text.length * resolution : 0
-    this.#text_y = bounds.y_start + (bounds.y_end - bounds.y_start) / 2
-    this.#text_x_start =
-      bounds.x_start + (bounds.x_end - bounds.x_start - text_width) / 2
-    this.#text_x_end = this.#text_x_start + text_width
+    const textWidth = text ? text.length * resolution : 0
+    this.#textY = bounds.yStart + (bounds.yEnd - bounds.yStart) / 2
+    this.#textXStart =
+      bounds.xStart + (bounds.xEnd - bounds.xStart - textWidth) / 2
+    this.#textXEnd = this.#textXStart + textWidth
   }
 
   draw = (ctx, particles) => {
@@ -41,7 +41,7 @@ class DigitalRainParticleRenderer {
       if (!particles[i].isVisible) continue
 
       const { x, y } = particles[i].position
-      let symbol = this.#symbols[i][this.#symbol_index]
+      let symbol = this.#symbols[i][this.#symbolIndex]
 
       const textIndex = this.#nearestTextIndex(x, y)
       if (textIndex < 0) {
@@ -50,8 +50,8 @@ class DigitalRainParticleRenderer {
         symbol = this.#text[textIndex]
 
         // flip the text
-        const translate_x = x * 2
-        ctx.translate(translate_x, 0)
+        const translateX = x * 2
+        ctx.translate(translateX, 0)
         ctx.scale(-1, 1)
 
         ctx.fillStyle = 'rgba(255, 255, 255, 1)'
@@ -60,7 +60,7 @@ class DigitalRainParticleRenderer {
 
         // flip back
         ctx.scale(-1, 1)
-        ctx.translate(-translate_x, 0)
+        ctx.translate(-translateX, 0)
       }
     }
 
@@ -70,21 +70,21 @@ class DigitalRainParticleRenderer {
   #nearestTextIndex = (x, y) => {
     if (!this.#text) return -1
 
-    const dy = y - this.#text_y
+    const dy = y - this.#textY
     const range = 2
     if (dy < range || dy > range) return -1
 
-    const leftBound = this.#text_x_start - range
-    const rightBound = this.#text_x_end + range
+    const leftBound = this.#textXStart - range
+    const rightBound = this.#textXEnd + range
     if (x < leftBound || x > rightBound) return -1
 
-    return Math.round((x - this.#text_x_start) / this.#resolution)
+    return Math.round((x - this.#textXStart) / this.#resolution)
   }
 
   #nextSymbol() {
-    this.#symbol_index++
-    if (this.#symbol_index >= this.#num_symbols) {
-      this.#symbol_index = 0
+    this.#symbolIndex++
+    if (this.#symbolIndex >= this.#numSymbols) {
+      this.#symbolIndex = 0
     }
   }
 }

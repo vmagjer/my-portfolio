@@ -132,29 +132,29 @@ const buildings = generateBuildings(4)
 function generateBuildings(numLayers) {
   const result = []
 
-  const max_w = 72
-  const step_w = Math.floor(max_w * 0.15)
+  const maxW = 72
+  const stepW = Math.floor(maxW * 0.15)
   const PADDING = 20
 
-  const max_h = window.innerHeight * 0.6
-  const min_h = max_h * 0.01
-  const step_h = Math.floor((max_h - min_h) / numLayers)
+  const maxH = window.innerHeight * 0.6
+  const minH = maxH * 0.01
+  const stepH = Math.floor((maxH - minH) / numLayers)
 
-  let h = max_h
-  let w = max_w - numLayers * step_w
+  let h = maxH
+  let w = maxW - numLayers * stepW
   for (let i = 0; i < numLayers; i++) {
     const layer = []
 
-    const gap_x = Math.floor(w * 0.1)
-    const step_x = w + gap_x + PADDING
+    const gapX = Math.floor(w * 0.1)
+    const stepX = w + gapX + PADDING
 
-    const amplitude = step_h * 0.6
+    const amplitude = stepH * 0.6
     const frequency = (i * 0.064 + 0.14) * Math.PI
     const offset = 0.1 * i * Math.PI
 
-    const numBuildings = Math.ceil(window.innerWidth / step_x) + 1
+    const numBuildings = Math.ceil(window.innerWidth / stepX) + 1
 
-    let position = -step_x * 0.5
+    let position = -stepX * 0.5
     for (let i = 0; i < numBuildings; i++) {
       const height = h + amplitude * Math.sin(frequency * position + offset)
 
@@ -164,12 +164,12 @@ function generateBuildings(numLayers) {
         width: w,
       })
 
-      position += step_x
+      position += stepX
     }
     result.push(layer)
 
-    h -= step_h
-    w += step_w
+    h -= stepH
+    w += stepW
   }
   console.log(result)
   return result

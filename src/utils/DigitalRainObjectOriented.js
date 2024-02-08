@@ -24,28 +24,28 @@ class DigitalRainPerformant {
   #init(canvas, numLayers, density, text) {
     console.log('init')
 
-    const view_width = (canvas.width = window.innerWidth)
-    const view_height = (canvas.height = window.innerHeight)
+    const viewWidth = (canvas.width = window.innerWidth)
+    const viewHeight = (canvas.height = window.innerHeight)
     this.ctx = canvas.getContext('2d')
 
-    const buffer_height = Math.ceil(view_height * numLayers)
-    const buffer_width = Math.ceil(view_width * numLayers)
-    this.buffer_ctx = this.#initDrawingContext(buffer_width, buffer_height)
+    const bufferHeight = Math.ceil(viewHeight * numLayers)
+    const bufferWidth = Math.ceil(viewWidth * numLayers)
+    this.bufferCtx = this.#initDrawingContext(bufferWidth, bufferHeight)
 
-    this.rows = Math.ceil(buffer_height / CELL_SIZE)
-    this.cols = Math.ceil(buffer_width / CELL_SIZE)    
+    this.rows = Math.ceil(bufferHeight / CELL_SIZE)
+    this.cols = Math.ceil(bufferWidth / CELL_SIZE)    
     
-    const terminal_velocity = CELL_SIZE
-    this.droplets = this.#initRain(this.cols, this.rows, density, terminal_velocity)
+    const terminalVelocity = CELL_SIZE
+    this.droplets = this.#initRain(this.cols, this.rows, density, terminalVelocity)
 
     const bounds = {
-      x_start: 0,
-      y_start: 0,
-      x_end: this.buffer_ctx.canvas.width,
-      y_end: this.buffer_ctx.canvas.height,
+      xStart: 0,
+      yStart: 0,
+      xEnd: this.bufferCtx.canvas.width,
+      yEnd: this.bufferCtx.canvas.height,
     }
-    this.cursor_position = { x: -100, y: 0 }
-    this.particleMovementStrategy = this.#initRainMovement(bounds, this.cursor_position, terminal_velocity)
+    this.cursorPosition = { x: -100, y: 0 }
+    this.particleMovementStrategy = this.#initRainMovement(bounds, this.cursorPosition, terminalVelocity)
 
     this.text = text
     this.particleRenderer = new DigitalRainParticleRenderer({
@@ -56,16 +56,16 @@ class DigitalRainPerformant {
       text,
     })
 
-    this.num_layers = numLayers
+    this.numLayers = numLayers
     this.layers = new Array(numLayers).fill(0).map((_, i) => {
       const scale = i + 1
       return {
         scale,
         alpha: scale / numLayers,
-        xOffset: buffer_width / 2 - buffer_width / scale / 2,
-        yOffset: buffer_height / 2 - buffer_height / scale / 2,
-        width: buffer_width / scale,
-        height: buffer_height / scale,
+        xOffset: bufferWidth / 2 - bufferWidth / scale / 2,
+        yOffset: bufferHeight / 2 - bufferHeight / scale / 2,
+        width: bufferWidth / scale,
+        height: bufferHeight / scale,
       }
     })
   }
@@ -85,11 +85,11 @@ class DigitalRainPerformant {
     const droplets = []
     for (let col = 0; col < cols; col++) {
       for (let i = 0; i < density; i++) {
-        const initial_y_position = -randomInt(rows) * CELL_SIZE
+        const initialYPosition = -randomInt(rows) * CELL_SIZE
         const particle = new Particle({
-          initial_position: { x: col * CELL_SIZE, y: initial_y_position },
-          initial_velocity: { x: 0, y: velocityY },
-          initial_is_visible: false,
+          initialPosition: { x: col * CELL_SIZE, y: initialYPosition },
+          initialVelocity: { x: 0, y: velocityY },
+          initialIsVisible: false,
         })
         droplets.push(particle)
       }
@@ -97,15 +97,15 @@ class DigitalRainPerformant {
     return droplets
   }
 
-  #initRainMovement(bounds, cursor_position, terminal_velocity) {
+  #initRainMovement(bounds, cursorPosition, terminalVelocity) {
     const inertia = 0.9
-    const gravity = terminal_velocity / inertia - CELL_SIZE
-    const repelling_radius = 100
-    const repelling_force = 0.1
+    const gravity = terminalVelocity / inertia - CELL_SIZE
+    const repellingRadius = 100
+    const repellingForce = 0.1
     const forceFields = [
       new InertiaForceField(inertia),
       new GravityForceField(gravity),
-      new RepellingForceField(cursor_position, repelling_radius, repelling_force),
+      new RepellingForceField(cursorPosition, repellingRadius, repellingForce),
     ]
     return new ParticleMovementStrategy(bounds, forceFields)
   }
@@ -119,26 +119,26 @@ class DigitalRainPerformant {
 
   draw = () => {
     // buffer canvas
-    this.buffer_ctx.clearRect(
+    this.bufferCtx.clearRect(
       0,
       0,
-      this.buffer_ctx.canvas.width,
-      this.buffer_ctx.canvas.height
+      this.bufferCtx.canvas.width,
+      this.bufferCtx.canvas.height
     )
 
-    this.#drawText(this.buffer_ctx)
-    this.particleRenderer.draw(this.buffer_ctx, this.droplets)
+    this.#drawText(this.bufferCtx)
+    this.particleRenderer.draw(this.bufferCtx, this.droplets)
     
 
     // main canvas
     this.ctx.fillStyle = 'rgba(0, 0, 0, 0.18)'
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
 
-    for (let layer = 0; layer < this.num_layers; layer++) {
+    for (let layer = 0; layer < this.numLayers; layer++) {
       this.ctx.globalAlpha = this.layers[layer].alpha
 
       this.ctx.drawImage(
-        this.buffer_ctx.canvas,
+        this.bufferCtx.canvas,
         this.layers[layer].xOffset,
         this.layers[layer].yOffset,
         this.layers[layer].width,
@@ -158,8 +158,8 @@ class DigitalRainPerformant {
     for (let col = 0; col < this.text.length; col++) {
       ctx.fillText(
         this.text[col],
-        (col - this.text_end_col + 1) * CELL_SIZE,
-        this.text_start_row * CELL_SIZE
+        (col - this.textEndCol + 1) * CELL_SIZE,
+        this.textStartRow * CELL_SIZE
       )
     }
     ctx.scale(-1, 1)
@@ -167,8 +167,8 @@ class DigitalRainPerformant {
   }
 
   updateCursorPosition(x, y) {
-    this.cursor_position.x = this.buffer_ctx.canvas.width - x
-    this.cursor_position.y = y
+    this.cursorPosition.x = this.bufferCtx.canvas.width - x
+    this.cursorPosition.y = y
   }
 }
 

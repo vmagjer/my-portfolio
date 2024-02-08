@@ -29,10 +29,10 @@ class ParticleMovementStrategy {
   #afterUpdateSingle = (particle) => {
     const prevIsVisible = particle.isVisible
     const currIsVisible =
-      particle.position.y >= this.bounds.y_start &&
-      particle.position.y <= this.bounds.y_end &&
-      particle.position.x >= this.bounds.x_start &&
-      particle.position.x <= this.bounds.x_end
+      particle.position.y >= this.bounds.yStart &&
+      particle.position.y <= this.bounds.yEnd &&
+      particle.position.x >= this.bounds.xStart &&
+      particle.position.x <= this.bounds.xEnd
 
     if (prevIsVisible && !currIsVisible) {
       particle.reset()

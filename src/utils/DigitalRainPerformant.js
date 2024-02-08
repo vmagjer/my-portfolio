@@ -30,38 +30,38 @@ class DigitalRainPerformant {
   #init(canvas, numLayers, characters, density, text) {
     console.log('init')
     // get canvas dimensions
-    const view_width = (canvas.width = window.innerWidth)
-    const view_height = (canvas.height = window.innerHeight)
+    const viewWidth = (canvas.width = window.innerWidth)
+    const viewHeight = (canvas.height = window.innerHeight)
 
     // create buffer canvas
-    const buffer_scale = 1 / numLayers
-    const buffer_height = Math.ceil(view_height / buffer_scale)
-    const buffer_width = Math.ceil(view_width / buffer_scale)
+    const bufferScale = 1 / numLayers
+    const bufferHeight = Math.ceil(viewHeight / bufferScale)
+    const bufferWidth = Math.ceil(viewWidth / bufferScale)
 
-    const buffer_canvas = new OffscreenCanvas(buffer_width, buffer_height)
-    // buffer_canvas.width = buffer_width
-    // buffer_canvas.height = buffer_height
+    const bufferCanvas = new OffscreenCanvas(bufferWidth, bufferHeight)
+    // bufferCanvas.width = bufferWidth
+    // bufferCanvas.height = bufferHeight
 
     // calculate number of rows and columns
-    const foreground_rows = Math.ceil(view_height / ROW_SIZE)
-    const foreground_cols = Math.ceil(view_width / COL_SIZE)
+    const foregroundRows = Math.ceil(viewHeight / ROW_SIZE)
+    const foregroundCols = Math.ceil(viewWidth / COL_SIZE)
 
-    const rows = Math.ceil(buffer_height / ROW_SIZE)
-    const cols = Math.ceil(buffer_width / COL_SIZE)
+    const rows = Math.ceil(bufferHeight / ROW_SIZE)
+    const cols = Math.ceil(bufferWidth / COL_SIZE)
 
     // generate waves of droplets
-    const wave_length = Math.ceil(foreground_rows / density)
-    const waves = new Array(Math.ceil(rows / wave_length) + 1)
+    const waveLength = Math.ceil(foregroundRows / density)
+    const waves = new Array(Math.ceil(rows / waveLength) + 1)
       .fill(0)
       .map((x, i) => {
         const offsets = new Array(cols)
           .fill(0)
-          .map(() => randomInt(wave_length))
+          .map(() => randomInt(waveLength))
 
         return {
           offsets: offsets,
-          offsets_y: offsets.map(
-            (offset) => -(offset + i * wave_length) * ROW_SIZE
+          offsetsY: offsets.map(
+            (offset) => -(offset + i * waveLength) * ROW_SIZE
           ),
           color: ['red', 'green', 'yellow', 'magenta'][i % 6],
           // color: 'rgb(0, 255, 70)',
@@ -74,57 +74,57 @@ class DigitalRainPerformant {
       .map(() => generateRandomString(rows, characters).split(''))
 
     // set text in center of screen
-    const text_rows = Math.ceil(text.length / foreground_cols)
-    const text_start_row = Math.floor((rows - text_rows) / 2)
-    const text_start_col = Math.floor((cols - text.length) / 2)
+    const textRows = Math.ceil(text.length / foregroundCols)
+    const textStartRow = Math.floor((rows - textRows) / 2)
+    const textStartCol = Math.floor((cols - text.length) / 2)
 
-    for (let row = 0; row < text_rows; row++) {
+    for (let row = 0; row < textRows; row++) {
       for (let col = 0; col < text.length; col++) {
-        strings[text_start_col + col][text_start_row + row] =
+        strings[textStartCol + col][textStartRow + row] =
           text[row * text.length + col]
       }
     }
 
     this.time = 0
     this.prevReset = rows
-    this.d_y = 0
+    this.dY = 0
 
-    this.time_cyclical = 0
+    this.timeCyclical = 0
 
     this.ctx = canvas.getContext('2d')
 
-    this.buffer_ctx = buffer_canvas.getContext('2d')
-    this.buffer_ctx.font = `${ROW_SIZE}px monospace`
-    this.buffer_ctx.textBaseline = 'middle'
-    this.buffer_ctx.textAlign = 'center'
-    // this.buffer_ctx.shadowColor = 'rgba(0, 255, 70, 0.5)'
-    // this.buffer_ctx.shadowBlur = 4
+    this.bufferCtx = bufferCanvas.getContext('2d')
+    this.bufferCtx.font = `${ROW_SIZE}px monospace`
+    this.bufferCtx.textBaseline = 'middle'
+    this.bufferCtx.textAlign = 'center'
+    // this.bufferCtx.shadowColor = 'rgba(0, 255, 70, 0.5)'
+    // this.bufferCtx.shadowBlur = 4
 
-    this.num_layers = numLayers
+    this.numLayers = numLayers
     this.layers = new Array(numLayers).fill(0).map((_, i) => {
       const scale = i + 1
       return {
         scale,
         alpha: scale / numLayers,
-        // xOffset: randomInt(buffer_width - buffer_width / scale),
-        xOffset: buffer_width / 2 - buffer_width / scale / 2,
-        yOffset: buffer_height / 2 - buffer_height / scale / 2,
-        width: buffer_width / scale,
-        height: buffer_height / scale,
+        // xOffset: randomInt(bufferWidth - bufferWidth / scale),
+        xOffset: bufferWidth / 2 - bufferWidth / scale / 2,
+        yOffset: bufferHeight / 2 - bufferHeight / scale / 2,
+        width: bufferWidth / scale,
+        height: bufferHeight / scale,
       }
     })
 
     this.rows = rows
     this.cols = cols
 
-    this.wave_length = wave_length
+    this.waveLength = waveLength
     this.waves = waves
 
     this.strings = strings
-    this.text_start_row = text_start_row
-    this.text_start_col = text_start_col
-    this.text_end_row = text_start_row + text_rows
-    this.text_end_col = text_start_col + text.length
+    this.textStartRow = textStartRow
+    this.textStartCol = textStartCol
+    this.textEndRow = textStartRow + textRows
+    this.textEndCol = textStartCol + text.length
   }
 
   tick() {
@@ -132,40 +132,40 @@ class DigitalRainPerformant {
     this.draw()
 
     this.time++
-    this.d_y += ROW_SIZE
-    this.time_cyclical++
+    this.dY += ROW_SIZE
+    this.timeCyclical++
 
-    if (this.time >= this.prevReset + this.wave_length) {
+    if (this.time >= this.prevReset + this.waveLength) {
       console.log('reset')
       this.prevReset = this.time
 
       this.waves[0].offsets = this.waves[0].offsets.map(() =>
-        randomInt(this.wave_length)
+        randomInt(this.waveLength)
       )
-      this.waves[0].offsets_y = this.waves[0].offsets.map(
-        (offset) => -this.d_y - offset * ROW_SIZE
+      this.waves[0].offsetsY = this.waves[0].offsets.map(
+        (offset) => -this.dY - offset * ROW_SIZE
       )
 
       this.waves.push(this.waves.shift())
     }
 
-    if (this.time_cyclical >= this.rows) {
+    if (this.timeCyclical >= this.rows) {
       console.log('reset cyclical')
-      this.time_cyclical = 0
+      this.timeCyclical = 0
     }
   }
 
   draw() {
-    this.buffer_ctx.clearRect(
+    this.bufferCtx.clearRect(
       0,
       0,
-      this.buffer_ctx.canvas.width,
-      this.buffer_ctx.canvas.height
+      this.bufferCtx.canvas.width,
+      this.bufferCtx.canvas.height
     )
 
-    this.buffer_ctx.translate(0, this.d_y)
+    this.bufferCtx.translate(0, this.dY)
     this.#drawRain()
-    this.buffer_ctx.translate(0, -this.d_y) // required to clearRect
+    this.bufferCtx.translate(0, -this.dY) // required to clearRect
     this.#drawText()
 
     // fade out previous frame
@@ -173,11 +173,11 @@ class DigitalRainPerformant {
     this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height)
 
     // draw layers of rain
-    for (let layer = 0; layer < this.num_layers; layer++) {
+    for (let layer = 0; layer < this.numLayers; layer++) {
       this.ctx.globalAlpha = this.layers[layer].alpha
 
       this.ctx.drawImage(
-        this.buffer_ctx.canvas,
+        this.bufferCtx.canvas,
         this.layers[layer].xOffset,
         this.layers[layer].yOffset,
         this.layers[layer].width,
@@ -191,8 +191,8 @@ class DigitalRainPerformant {
   }
 
   #drawText(){
-    for (let row = this.text_start_row; row < this.text_end_row; row++) {
-      for (let col = this.text_start_col; col < this.text_end_col; col++) {
+    for (let row = this.textStartRow; row < this.textEndRow; row++) {
+      for (let col = this.textStartCol; col < this.textEndCol; col++) {
         this.#drawSymbol({
           symbol: this.strings[col][row],
           x: col * COL_SIZE,
@@ -205,19 +205,19 @@ class DigitalRainPerformant {
   }
 
   #drawRain() {
-    let wave_start = this.time_cyclical
-    for (let wave_index = 0; wave_index < this.waves.length; wave_index++) {
-      this.#drawWave(wave_index, wave_start)
-      wave_start -= this.wave_length
+    let waveStart = this.timeCyclical
+    for (let waveIndex = 0; waveIndex < this.waves.length; waveIndex++) {
+      this.#drawWave(waveIndex, waveStart)
+      waveStart -= this.waveLength
     }
   }
 
-  #drawWave(wave_index, wave_row) {
+  #drawWave(waveIndex, waveRow) {
     let x = 0
 
     for (let col = 0; col < this.cols; col++) {
       
-      let row = wave_row - this.waves[wave_index].offsets[col]
+      let row = waveRow - this.waves[waveIndex].offsets[col]
       if (row < 0) row += this.rows
       
       const isText = this.#isInText(row, col)
@@ -225,10 +225,10 @@ class DigitalRainPerformant {
       this.#drawSymbol({
         symbol: this.strings[col][row],
         x,
-        y: this.waves[wave_index].offsets_y[col],
+        y: this.waves[waveIndex].offsetsY[col],
         alpha: 1,
         // color: '0, 255, 70',
-        color: isText ? 'rgb(200, 255, 200)' : this.waves[wave_index].color,
+        color: isText ? 'rgb(200, 255, 200)' : this.waves[waveIndex].color,
         flip: !isText,
       })
 
@@ -238,24 +238,24 @@ class DigitalRainPerformant {
 
   #isInText(row, col) {
     return (
-      row >= this.text_start_row &&
-      row < this.text_end_row &&
-      col >= this.text_start_col &&
-      col < this.text_end_col
+      row >= this.textStartRow &&
+      row < this.textEndRow &&
+      col >= this.textStartCol &&
+      col < this.textEndCol
     )
   }
 
   #drawSymbol({ symbol, x, y, alpha = 1, color = 'white', flip = false }) {
-    this.buffer_ctx.fillStyle = color
+    this.bufferCtx.fillStyle = color
 
-    this.buffer_ctx.translate(x, y)
-    if (flip) this.buffer_ctx.scale(-1, 1)
+    this.bufferCtx.translate(x, y)
+    if (flip) this.bufferCtx.scale(-1, 1)
 
-    this.buffer_ctx.fillText(symbol, 0, 0)
+    this.bufferCtx.fillText(symbol, 0, 0)
 
     // Reset transformations
-    if (flip) this.buffer_ctx.scale(-1, 1)
-    this.buffer_ctx.translate(-x, -y)
+    if (flip) this.bufferCtx.scale(-1, 1)
+    this.bufferCtx.translate(-x, -y)
   }
 }
 

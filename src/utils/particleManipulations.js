@@ -62,11 +62,11 @@ const bellFunction = (x, radius) => {
 function displaceAround(point, particle) {
   const dx = particle.position.x - point.x
   const dy = particle.position.y - point.y
-  const radius_x = 160
-  const radius_y = 160
+  const radiusX = 160
+  const radiusY = 160
 
   let x = particle.position.x
-  x += bellFunction(dy, radius_x) * bellFunction(-dx, radius_y) * CELL_SIZE
+  x += bellFunction(dy, radiusX) * bellFunction(-dx, radiusY) * CELL_SIZE
 
   return {
     position: { x: x, y: particle.position.y },
@@ -108,8 +108,8 @@ function slowDown(point, particle) {
 }
 
 function restoreInitialVelocity(particle) {
-  const vx = particle.velocity.x * 0.9 + particle.initial_velocity.x * 0.1
-  const vy = particle.velocity.y * 0.9 + particle.initial_velocity.y * 0.1
+  const vx = particle.velocity.x * 0.9 + particle.initialVelocity.x * 0.1
+  const vy = particle.velocity.y * 0.9 + particle.initialVelocity.y * 0.1
 
   return {
     position: { x: particle.position.x, y: particle.position.y },
@@ -140,22 +140,22 @@ class GravityForceField {
 }
 
 class RepellingForceField {
-  constructor(source_position, radius, repelling_force = 0.1) {
-    this.source_position = source_position
+  constructor(sourcePosition, radius, repellingForce = 0.1) {
+    this.sourcePosition = sourcePosition
     this.radius = radius
-    this.repelling_force = repelling_force
+    this.repellingForce = repellingForce
   }
 
   apply = (particle) => {
-    const dx = particle.position.x - this.source_position.x
-    const dy = particle.position.y - this.source_position.y
+    const dx = particle.position.x - this.sourcePosition.x
+    const dy = particle.position.y - this.sourcePosition.y
     if (dx > this.radius || dy > this.radius) return
     if (dx < -this.radius || dy < -this.radius) return
 
     const distance = Math.sqrt(dx ** 2 + dy ** 2)
     if (distance < this.radius) {
-      particle.velocity.x += dx * this.repelling_force
-      particle.velocity.y += dy * this.repelling_force
+      particle.velocity.x += dx * this.repellingForce
+      particle.velocity.y += dy * this.repellingForce
     }
   }
 }
