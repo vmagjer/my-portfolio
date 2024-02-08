@@ -118,6 +118,48 @@ function restoreInitialVelocity(particle) {
   }
 }
 
+class InertiaForceField {
+  constructor(inertia = 0.9) {
+    this.inertia = inertia
+  }
+
+  apply = (particle) => {
+    particle.velocity.x *= this.inertia
+    particle.velocity.y *= this.inertia
+  }
+}
+
+class GravityForceField {
+  constructor(gravity = 0.1) {
+    this.gravity = gravity
+  }
+
+  apply = (particle) => {
+    particle.velocity.y += this.gravity
+  }
+}
+
+class RepellingForceField {
+  constructor(source_position, radius, repelling_force = 0.1) {
+    this.source_position = source_position
+    this.radius = radius
+    this.repelling_force = repelling_force
+  }
+
+  apply = (particle) => {
+    const dx = particle.position.x - this.source_position.x
+    const dy = particle.position.y - this.source_position.y
+    if (dx > this.radius || dy > this.radius) return
+    if (dx < -this.radius || dy < -this.radius) return
+
+    const distance = Math.sqrt(dx ** 2 + dy ** 2)
+    if (distance < this.radius) {
+      particle.velocity.x += dx * this.repelling_force
+      particle.velocity.y += dy * this.repelling_force
+    }
+  }
+}
+
 export {
   bounceOff,
   avoid,
@@ -125,4 +167,7 @@ export {
   bounceAndAvoid,
   slowDown,
   restoreInitialVelocity,
+  InertiaForceField,
+  GravityForceField,
+  RepellingForceField,
 }
