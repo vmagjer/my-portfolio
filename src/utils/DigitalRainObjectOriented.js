@@ -1,3 +1,4 @@
+import MousePosition from './MousePosition'
 import Particle from './Particle/Particle'
 import ParticleMovementStrategy from './Particle/ParticleMovementStrategy'
 import DigitalRainParticleRenderer from './Particle/ParticleRenderer'
@@ -101,11 +102,11 @@ class DigitalRainPerformant {
     const inertia = 0.9
     const gravity = terminalVelocity / inertia - CELL_SIZE
     const repellingRadius = 100
-    const repellingForce = 0.1
+    const repellingStrength = 0.1
     const forceFields = [
       new InertiaForceField(inertia),
       new GravityForceField(gravity),
-      new RepellingForceField(cursorPosition, repellingRadius, repellingForce),
+      new RepellingForceField(cursorPosition, repellingRadius, repellingStrength),
     ]
     return new ParticleMovementStrategy(bounds, forceFields)
   }
@@ -114,6 +115,8 @@ class DigitalRainPerformant {
     console.log('tick')
 
     this.draw()
+    const mouse = MousePosition.prototype.getInstance()
+    this.updateCursorPosition(mouse.x, mouse.y)
     this.particleMovementStrategy.update(this.droplets)
   }
 

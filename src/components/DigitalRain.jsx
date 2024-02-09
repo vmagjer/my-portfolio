@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import DigitalRainController from '../utils/DigitalRainObjectOriented'
 import PropTypes from 'prop-types'
 
@@ -18,29 +18,10 @@ const DigitalRain = ({ className, text = '', layers = 1 }) => {
 
     const interval = setInterval(() => {
       requestAnimationFrame(digitalRain.tick)
-
-      setMouse((m) => {
-        digitalRain.updateCursorPosition(m.x, m.y)
-        return m
-      })
     }, TICK)
 
     return () => clearInterval(interval)
   }, [layers])
-
-  const [mouse, setMouse] = useState({ x: 0, y: 0 })
-
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMouse({ x: e.clientX, y: e.clientY })
-    }
-
-    window.addEventListener('mousemove', handleMouseMove)
-
-    return () => {
-      window.removeEventListener('mousemove', handleMouseMove)
-    }
-  }, [])
 
   return (
     <>
