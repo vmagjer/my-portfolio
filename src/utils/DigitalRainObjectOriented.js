@@ -1,7 +1,7 @@
-import Particle from './Particle'
-import ParticleMovementStrategy from './ParticleMovementStrategy'
-import DigitalRainParticleRenderer from './ParticleRenderer'
-import { GravityForceField, InertiaForceField, RepellingForceField } from './particleManipulations'
+import Particle from './Particle/Particle'
+import ParticleMovementStrategy from './Particle/ParticleMovementStrategy'
+import DigitalRainParticleRenderer from './Particle/ParticleRenderer'
+import { GravityForceField, InertiaForceField, RepellingForceField } from './Particle/particleManipulations'
 import { randomInt } from './random'
 
 const CELL_SIZE = 20

@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-// import DigitalRainPerformant from "../utils/DigitalRainPerformant"
-import DigitalRainPerformant from '../utils/DigitalRainObjectOriented'
+import DigitalRainController from '../utils/DigitalRainObjectOriented'
 import PropTypes from 'prop-types'
 
 const TICK = 100
@@ -10,8 +9,7 @@ const DigitalRain = ({ className, text = '', layers = 1 }) => {
   useEffect(() => {
     const canvas = canvasRef.current
 
-    // const digitalRain = new DigitalRainPerformant({canvas, numLayers: layers, density: 1, text})
-    const digitalRain = new DigitalRainPerformant({
+    const digitalRain = new DigitalRainController({
       canvas,
       numLayers: layers,
       density: 2,

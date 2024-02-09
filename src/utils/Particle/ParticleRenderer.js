@@ -1,4 +1,4 @@
-import { generateRandomString } from "./random"
+import { generateRandomString } from "../random"
 
 const SYMBOLS = '012345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
 
