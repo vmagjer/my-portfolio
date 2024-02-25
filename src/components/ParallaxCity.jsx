@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import "./ParallaxCity.css"
 import Sun from "../assets/Sun"
 import Moon from "../assets/Moon"

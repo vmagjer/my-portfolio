@@ -51,10 +51,10 @@
 .sky {
   background: linear-gradient(
     90deg,
-    rgb(15, 14, 5),
-    rgb(15, 14, 5),
+    rgb(6, 5, 15),
+    rgb(5, 6, 15),
     rgb(24, 11, 43),
-    rgb(88, 46, 187),
+    rgb(196, 110, 44),
     rgb(95, 146, 212),
     rgb(95, 146, 212)
   );
