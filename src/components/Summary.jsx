@@ -1,14 +1,19 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
+import useActiveSection from '../utils/useActiveSection'
 
-function Summary({ items, activeItem }) {
+function Summary({ items }) {
+  
+  const sectionIds = items.map((section) => section.id)
+  const activeSection = useActiveSection(sectionIds)
+
   return (
     <Container className="summary">
       {items.map((item, index) => (
         <SummaryItem
           key={`summary-item-${item.id}`}
           className="summary-item"
-          $active={activeItem === item.id}
+          $active={activeSection === item.id}
           onClick={() => scrollToId(item.id)}
         >
           <span>{index}</span>

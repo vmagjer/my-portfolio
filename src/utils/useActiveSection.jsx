@@ -1,5 +1,11 @@
 import { useState, useEffect } from 'react';
 
+/**
+ * Custom hook that determines the active section based on the scroll position.
+ *
+ * @param {string[]} sectionIds - An array of section IDs.
+ * @returns {string} The ID of the active section.
+ */
 const useActiveSection = (sectionIds) => {
   const [activeSection, setActiveSection] = useState(sectionIds[0]);
 

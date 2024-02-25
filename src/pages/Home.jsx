@@ -1,6 +1,5 @@
 import styled from 'styled-components'
 import Summary from '../components/Summary'
-import useActiveSection from '../utils/useActiveSection'
 
 // care for the order of the sections in list and jsx
 const sections = [
@@ -9,18 +8,12 @@ const sections = [
   { id: 'about', title: 'About' },
   { id: 'contact', title: 'Contact' },
 ]
-const sectionIds = sections.map((section) => section.id)
 
 const HomePage = () => {
-  const activeSection = useActiveSection(sectionIds)
-
   return (
     <>
       <Home>
-        <Summary
-          items={sections}
-          activeItem={activeSection}
-        />
+        <Summary items={sections} />
 
         <Content>
           <Section id="hero">hero</Section>
@@ -34,7 +27,6 @@ const HomePage = () => {
 }
 
 export default HomePage
-
 
 const Home = styled.div`
   min-height: 100vh;
