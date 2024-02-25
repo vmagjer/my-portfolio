@@ -1,91 +1,86 @@
-import "./Home.css"
-// import ParallaxCity from "../components/ParallaxCity"
-// import ParallaxView from "../components/ParallaxView"
-import DigitalRain from "../components/DigitalRain"
+import { useEffect, useState } from 'react'
+import styled from 'styled-components'
+import Summary from '../components/Summary'
+
+const Home = styled.div`
+  min-height: 100vh;
+  width: 100%;
+`
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
+  min-height: 100vh;
+`
+
+const Section = styled.div`
+  padding: 20px;
+  color: white;
+  background: rgba(000 000 000 / 0.3);
+
+  min-height: 80vh;
+`
 
 const HomePage = () => {
+  useEffect(() => {
+    const handleScroll = (event) => {
+      updateActiveSection(event)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+  const [activeSection, setActiveSection] = useState('hero')
+  const updateActiveSection = (scrollEvent) => {
+    const scrollY = scrollEvent.target.scrollingElement.scrollTop
+    const sections = document.querySelectorAll('#content > div')
+
+    let mostVisibleSection = null
+    let mostVisibleSectionPercentage = 0
+
+    sections.forEach((section) => {
+      const sectionTop = section.offsetTop
+      const sectionBottom = sectionTop + section.offsetHeight
+      const sectionId = section.getAttribute('id')
+      const sectionVisibleHeight =
+        Math.min(scrollY + window.innerHeight, sectionBottom) -
+        Math.max(scrollY, sectionTop)
+      const sectionVisiblePercentage =
+        (sectionVisibleHeight / section.offsetHeight) * 100
+
+      if (sectionVisiblePercentage > mostVisibleSectionPercentage) {
+        mostVisibleSection = sectionId
+        mostVisibleSectionPercentage = sectionVisiblePercentage
+      }
+    })
+
+    setActiveSection(mostVisibleSection)
+  }
 
   return (
     <>
-      <div className="home">
-        <DigitalRain className="digital-rain" text="VL4TK0/M4GJ3R" layers={1} />
-        {/* <ParallaxView />
-        <ParallaxCity /> */}
-        
+      <Home>
+        <Summary
+          items={[
+            { id: 'hero', title: 'Hero' },
+            { id: 'experience', title: 'Experience' },
+            { id: 'about', title: 'About' },
+            { id: 'contact', title: 'Contact' },
+          ]}
+          activeItem={activeSection}
+        />
 
-        <div className="content">
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed rem
-            fuga, distinctio nobis officia perferendis, voluptas animi ipsa
-            iusto voluptatibus recusandae tempora voluptatem accusantium nemo
-            asperiores ipsum sunt similique! Voluptatibus, perspiciatis
-            repellendus mollitia minima tenetur illum enim hic. Voluptas magnam
-            suscipit commodi laudantium a, accusamus quos quo aliquid impedit
-            modi nam soluta excepturi sunt, fugiat enim sed provident dolores
-            natus incidunt? Ex ab, perferendis temporibus, neque doloremque,
-            quis deserunt vero quidem maxime totam culpa assumenda fuga officia
-            suscipit architecto nam reprehenderit perspiciatis iusto natus
-            cumque ipsum illum necessitatibus eos! Architecto pariatur quod ab
-            ea, iure dolores odit officiis rem aliquid!
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed rem
-            fuga, distinctio nobis officia perferendis, voluptas animi ipsa
-            iusto voluptatibus recusandae tempora voluptatem accusantium nemo
-            asperiores ipsum sunt similique! Voluptatibus, perspiciatis
-            repellendus mollitia minima tenetur illum enim hic. Voluptas magnam
-            suscipit commodi laudantium a, accusamus quos quo aliquid impedit
-            modi nam soluta excepturi sunt, fugiat enim sed provident dolores
-            natus incidunt? Ex ab, perferendis temporibus, neque doloremque,
-            quis deserunt vero quidem maxime totam culpa assumenda fuga officia
-            suscipit architecto nam reprehenderit perspiciatis iusto natus
-            cumque ipsum illum necessitatibus eos! Architecto pariatur quod ab
-            ea, iure dolores odit officiis rem aliquid!
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed rem
-            fuga, distinctio nobis officia perferendis, voluptas animi ipsa
-            iusto voluptatibus recusandae tempora voluptatem accusantium nemo
-            asperiores ipsum sunt similique! Voluptatibus, perspiciatis
-            repellendus mollitia minima tenetur illum enim hic. Voluptas magnam
-            suscipit commodi laudantium a, accusamus quos quo aliquid impedit
-            modi nam soluta excepturi sunt, fugiat enim sed provident dolores
-            natus incidunt? Ex ab, perferendis temporibus, neque doloremque,
-            quis deserunt vero quidem maxime totam culpa assumenda fuga officia
-            suscipit architecto nam reprehenderit perspiciatis iusto natus
-            cumque ipsum illum necessitatibus eos! Architecto pariatur quod ab
-            ea, iure dolores odit officiis rem aliquid!
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed rem
-            fuga, distinctio nobis officia perferendis, voluptas animi ipsa
-            iusto voluptatibus recusandae tempora voluptatem accusantium nemo
-            asperiores ipsum sunt similique! Voluptatibus, perspiciatis
-            repellendus mollitia minima tenetur illum enim hic. Voluptas magnam
-            suscipit commodi laudantium a, accusamus quos quo aliquid impedit
-            modi nam soluta excepturi sunt, fugiat enim sed provident dolores
-            natus incidunt? Ex ab, perferendis temporibus, neque doloremque,
-            quis deserunt vero quidem maxime totam culpa assumenda fuga officia
-            suscipit architecto nam reprehenderit perspiciatis iusto natus
-            cumque ipsum illum necessitatibus eos! Architecto pariatur quod ab
-            ea, iure dolores odit officiis rem aliquid!
-          </p>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Sed rem
-            fuga, distinctio nobis officia perferendis, voluptas animi ipsa
-            iusto voluptatibus recusandae tempora voluptatem accusantium nemo
-            asperiores ipsum sunt similique! Voluptatibus, perspiciatis
-            repellendus mollitia minima tenetur illum enim hic. Voluptas magnam
-            suscipit commodi laudantium a, accusamus quos quo aliquid impedit
-            modi nam soluta excepturi sunt, fugiat enim sed provident dolores
-            natus incidunt? Ex ab, perferendis temporibus, neque doloremque,
-            quis deserunt vero quidem maxime totam culpa assumenda fuga officia
-            suscipit architecto nam reprehenderit perspiciatis iusto natus
-            cumque ipsum illum necessitatibus eos! Architecto pariatur quod ab
-            ea, iure dolores odit officiis rem aliquid!
-          </p>
-        </div>
-      </div>
+        <Content id="content">
+          <Section id="hero">hero</Section>
+          <Section id="experience">experience</Section>
+          <Section id="about">about</Section>
+          <Section id="contact">contact</Section>
+        </Content>
+      </Home>
     </>
   )
 }
