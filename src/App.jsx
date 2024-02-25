@@ -1,12 +1,13 @@
-import "./App.css"
-import HomePage from "./pages/Home"
+import './App.css'
+import MainLayout from './components/MainLayout'
+import HomePage from './pages/Home'
 
 function App() {
-  
-
   return (
     <>
-      <HomePage/>
+      <MainLayout>
+        <HomePage />
+      </MainLayout>
     </>
   )
 }
