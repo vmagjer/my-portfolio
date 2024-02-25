@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Summary from '../components/Summary'
+import useActiveSection from '../utils/useActiveSection'
 
 const Home = styled.div`
   min-height: 100vh;
@@ -23,58 +24,26 @@ const Section = styled.div`
   min-height: 80vh;
 `
 
+const sections = [
+  { id: 'hero', title: 'Hero' },
+  { id: 'experience', title: 'Experience' },
+  { id: 'about', title: 'About' },
+  { id: 'contact', title: 'Contact' },
+]
+const sectionIds = sections.map((section) => section.id)
+
 const HomePage = () => {
-  useEffect(() => {
-    const handleScroll = (event) => {
-      updateActiveSection(event)
-    }
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
-  const [activeSection, setActiveSection] = useState('hero')
-  const updateActiveSection = (scrollEvent) => {
-    const scrollY = scrollEvent.target.scrollingElement.scrollTop
-    const sections = document.querySelectorAll('#content > div')
-
-    let mostVisibleSection = null
-    let mostVisibleSectionPercentage = 0
-
-    sections.forEach((section) => {
-      const sectionTop = section.offsetTop
-      const sectionBottom = sectionTop + section.offsetHeight
-      const sectionId = section.getAttribute('id')
-      const sectionVisibleHeight =
-        Math.min(scrollY + window.innerHeight, sectionBottom) -
-        Math.max(scrollY, sectionTop)
-      const sectionVisiblePercentage =
-        (sectionVisibleHeight / section.offsetHeight) * 100
-
-      if (sectionVisiblePercentage > mostVisibleSectionPercentage) {
-        mostVisibleSection = sectionId
-        mostVisibleSectionPercentage = sectionVisiblePercentage
-      }
-    })
-
-    setActiveSection(mostVisibleSection)
-  }
+  const activeSection = useActiveSection(sectionIds)
 
   return (
     <>
       <Home>
         <Summary
-          items={[
-            { id: 'hero', title: 'Hero' },
-            { id: 'experience', title: 'Experience' },
-            { id: 'about', title: 'About' },
-            { id: 'contact', title: 'Contact' },
-          ]}
+          items={sections}
           activeItem={activeSection}
         />
 
-        <Content id="content">
+        <Content>
           <Section id="hero">hero</Section>
           <Section id="experience">experience</Section>
           <Section id="about">about</Section>
