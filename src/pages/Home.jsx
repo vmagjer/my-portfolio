@@ -1,29 +1,8 @@
-import { useEffect, useState } from 'react'
 import styled from 'styled-components'
 import Summary from '../components/Summary'
 import useActiveSection from '../utils/useActiveSection'
 
-const Home = styled.div`
-  min-height: 100vh;
-  width: 100%;
-`
-
-const Content = styled.div`
-  display: flex;
-  flex-direction: column;
-  // align-items: center;
-  // justify-content: center;
-  min-height: 100vh;
-`
-
-const Section = styled.div`
-  padding: 20px;
-  color: white;
-  background: rgba(000 000 000 / 0.3);
-
-  min-height: 80vh;
-`
-
+// care for the order of the sections in list and jsx
 const sections = [
   { id: 'hero', title: 'Hero' },
   { id: 'experience', title: 'Experience' },
@@ -55,3 +34,25 @@ const HomePage = () => {
 }
 
 export default HomePage
+
+
+const Home = styled.div`
+  min-height: 100vh;
+  width: 100%;
+`
+
+const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  // justify-content: center;
+  min-height: 100vh;
+`
+
+const Section = styled.div`
+  padding: 20px;
+  color: white;
+  background: rgba(000 000 000 / 0.3);
+
+  min-height: 80vh;
+`

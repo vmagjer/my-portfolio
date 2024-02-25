@@ -1,31 +1,6 @@
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 
-const Container = styled.div`
-  position: fixed;
-  top: 50%;
-  right: 0;
-  transform: translateY(-50%);
-  z-index: 1000;
-
-  display: flex;
-  flex-direction: column;
-  padding: 20px;
-
-  background: rgba(000 000 000 / 0.3);
-  backdrop-filter: blur(5px);
-`
-
-const SummaryItem = styled.button`
-  padding: 10px;
-  margin-bottom: 10px;
-  color: white;
-  background: ${({ $active }) =>
-    $active ? 'rgba(255, 255, 255, 0.3)' : 'transparent'};
-  border: none;
-  cursor: pointer;
-`
-
 function Summary({ items, activeItem }) {
   return (
     <Container className="summary">
@@ -59,3 +34,29 @@ function scrollToId(id) {
 
   window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
 }
+
+
+const Container = styled.div`
+  position: fixed;
+  top: 50%;
+  right: 0;
+  transform: translateY(-50%);
+  z-index: 1000;
+
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+
+  background: rgba(000 000 000 / 0.3);
+  backdrop-filter: blur(5px);
+`
+
+const SummaryItem = styled.button`
+  padding: 10px;
+  margin-bottom: 10px;
+  color: white;
+  background: ${({ $active }) =>
+    $active ? 'rgba(255, 255, 255, 0.3)' : 'transparent'};
+  border: none;
+  cursor: pointer;
+`
