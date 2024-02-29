@@ -3,9 +3,8 @@ import styled from 'styled-components'
 import useActiveSection from '../utils/useActiveSection'
 
 function Summary({ items }) {
-  
   const sectionIds = items.map((section) => section.id)
-  const activeSection = useActiveSection(sectionIds)
+  const { activeSection, scrollToSection } = useActiveSection(sectionIds)
 
   return (
     <Container className="summary">
@@ -14,7 +13,7 @@ function Summary({ items }) {
           key={`summary-item-${item.id}`}
           className="summary-item"
           $active={activeSection === item.id}
-          onClick={() => scrollToId(item.id)}
+          onClick={() => scrollToSection(item.id)}
         >
           <span>{index}</span>
           <span>{item.title}</span>
@@ -30,16 +29,6 @@ Summary.propTypes = {
 }
 
 export default Summary
-
-function scrollToId(id) {
-  const section = document.getElementById(id)
-  const offset = 40 + 32
-  const elementPosition = section.getBoundingClientRect().top
-  const offsetPosition = elementPosition + window.scrollY - offset
-
-  window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
-}
-
 
 const Container = styled.div`
   position: fixed;
