@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 
 const links = [
   { id: 'home', title: 'Home', path: '/' },
@@ -36,16 +37,16 @@ function SideMenu() {
       <AttractiveButton id="attractive-button"></AttractiveButton>
 
       <Container $isOpen={isOpen} $isPeeking={isPeeking}>
-      <Profile>
-        <ProfileImage src="https://i.pravatar.cc/300" alt="profile" />
-        <span>John Doe</span>
-      </Profile>
-      <ul>
-        {links.map((link) => (
-          <NavLink key={`nav-link-${link.id}`}>{link.title}</NavLink>
-        ))}
-      </ul>
-    </Container>
+        <Profile>
+          <ProfileImage src="https://i.pravatar.cc/300" alt="profile" />
+          <span>John Doe</span>
+        </Profile>
+        <div>
+          {links.map((link) => (
+            <NavLink to={link.path} key={`nav-link-${link.id}`}>{link.title}</NavLink>
+          ))}
+        </div>
+      </Container>
     </Wrapper>
   )
 }
@@ -116,12 +117,12 @@ const Wrapper = styled.div`
 `
 
 const Container = styled.div`
-  position: fixed;  
+  position: fixed;
   left: 0;
   height: 100vh;
   width: 300px;
   z-index: 1000;
-  
+
   transform: translateX(
     ${(props) => {
       if (props.$isOpen) return '0'
@@ -133,12 +134,12 @@ const Container = styled.div`
 
   display: flex;
   flex-direction: column;
-  
+
   background: #000;
   border-right: 1px solid #fff;
   border-radius: 0 8px 8px 0;
 `
-const NavLink = styled.div`
+const NavLink = styled(Link)`
   padding: 10px;
   color: white;
 `
