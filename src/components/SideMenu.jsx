@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import profilePicture from '../assets/images/profile-picture.jpg'
 
 const links = [
   { id: 'home', title: 'Home', path: '/' },
@@ -38,7 +38,7 @@ function SideMenu() {
 
       <Container $isOpen={isOpen} $isPeeking={isPeeking}>
         <Profile>
-          <ProfileImage src="https://i.pravatar.cc/300" alt="profile" />
+          <ProfileImage src={profilePicture} alt="profile" $rotate={isOpen} />
           <span>John Doe</span>
         </Profile>
         <div>
