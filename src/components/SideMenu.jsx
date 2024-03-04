@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
+import { NavLink } from 'react-router-dom'
 import data from '../assets/data'
 import profilePicture from '../assets/images/profile-picture.jpg'
 
@@ -42,11 +43,22 @@ function SideMenu() {
           <ProfileImage src={profilePicture} alt="profile" $rotate={isOpen} />
           <span>{`${data.personalInfo.firstName} ${data.personalInfo.lastName}`}</span>
         </Profile>
-        <div>
+
+        <Navigation>
+          <NavList>
           {links.map((link) => (
-            <NavLink to={link.path} key={`nav-link-${link.id}`}>{link.title}</NavLink>
+              <StyledNavLink
+                to={link.path}
+                key={`nav-link-${link.id}`}
+                className={({ isActive, isPending }) =>
+                  isPending ? 'pending' : isActive ? 'active' : ''
+                }
+              >
+                {link.title}
+              </StyledNavLink>
           ))}
-        </div>
+          </NavList>
+        </Navigation>
       </Container>
     </Wrapper>
   )
@@ -137,12 +149,33 @@ const Container = styled.div`
   flex-direction: column;
 
   background: #000;
-  border-right: 1px solid #fff;
-  border-radius: 0 8px 8px 0;
+const Navigation = styled.div`
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  flex: 1;
+  justify-content: center;
 `
-const NavLink = styled(Link)`
+const NavList = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+`
+const StyledNavLink = styled(NavLink)`
   padding: 10px;
-  color: white;
+  color: rgba(255, 255, 255, 0.7);
+  flex: 1;
+  text-decoration: none;
+  &.active {
+    background: rgba(255, 255, 255, 0.05);
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.03);
+    color: rgba(255, 255, 255, 0.8);
+  }
 `
 
 const Profile = styled.div`
