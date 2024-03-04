@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import { useEffect, useState } from 'react'
+import data from '../assets/data'
 import profilePicture from '../assets/images/profile-picture.jpg'
 
 const links = [
@@ -39,7 +40,7 @@ function SideMenu() {
       <Container $isOpen={isOpen} $isPeeking={isPeeking}>
         <Profile>
           <ProfileImage src={profilePicture} alt="profile" $rotate={isOpen} />
-          <span>John Doe</span>
+          <span>{`${data.personalInfo.firstName} ${data.personalInfo.lastName}`}</span>
         </Profile>
         <div>
           {links.map((link) => (

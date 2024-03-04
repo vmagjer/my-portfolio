@@ -322,7 +322,7 @@ const technologies = {
   },
 }
 
-export {
+export default  {
   personalInfo,
   conntactInfo,
   education,
