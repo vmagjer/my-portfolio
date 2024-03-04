@@ -195,8 +195,16 @@ const Profile = styled.div`
 const ProfileImage = styled.img`
   width: 100px;
   height: 100px;
+  object-fit: cover;
   border-radius: 100%;
   margin-bottom: 10px;
+
+  rotate: ${(props) => {
+    if (props.$rotate) return '0deg'
+    return '-180deg'
+  }};
+  scale: -1 1;
+  transition: rotate 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 `
 
 const AttractiveButton = styled.div`
