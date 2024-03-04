@@ -10,29 +10,49 @@ const links = [
   { id: 'contact', title: 'Contact', path: '/contact' },
 ]
 
+const menuWidth = 300
+const menuPeekSpace = 100
+
+const SHOW_THRESHOLD = menuWidth
+const PEEK_THRESHOLD = menuWidth + menuPeekSpace
+
+
 function SideMenu() {
   const [isOpen, setIsOpen] = useState(false)
   const [isPeeking, setIsPeeking] = useState(false)
-
+  
   useEffect(() => {
+    const mousePosition = { x: 0, y: 0 }
+
     const handleMouseMove = (event) => {
-      controlNav(event)
-      controlButtonMovement(event)
+      mousePosition.x = event.clientX
+      mousePosition.y = event.clientY
+      update()
     }
 
-    const controlNav = (event) => {
-      const isWithinThreshold = event.clientX / window.innerWidth < 0.15
-      const isWithinPeekThreshold = event.clientX / window.innerWidth < 0.3
+    const handleScroll = () => {
+      update()
+    }
+
+    const update = ()=> {      
+      const isWithinThreshold = mousePosition.x < SHOW_THRESHOLD
+      const isWithinPeekThreshold = mousePosition.x < PEEK_THRESHOLD
+      const isTopOfPage = window.scrollY < 10
+
       setIsPeeking(isWithinPeekThreshold)
-      setIsOpen(isWithinThreshold)
+      setIsOpen(isWithinThreshold || isTopOfPage)
+      controlButtonMovement(mousePosition)
     }
 
     window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('scroll', handleScroll)
 
     return () => {
       window.removeEventListener('mousemove', handleMouseMove)
+      window.removeEventListener('scroll', handleScroll)
     }
   }, [])
+
   return (
     <Wrapper>
       <AttractiveButton id="attractive-button"></AttractiveButton>
@@ -45,7 +65,7 @@ function SideMenu() {
 
         <Navigation>
           <NavList>
-          {links.map((link) => (
+            {links.map((link) => (
               <StyledNavLink
                 to={link.path}
                 key={`nav-link-${link.id}`}
@@ -55,7 +75,7 @@ function SideMenu() {
               >
                 {link.title}
               </StyledNavLink>
-          ))}
+            ))}
           </NavList>
           <NavList>
             <h3>Projects</h3>
@@ -76,56 +96,36 @@ export default SideMenu
 const menuButtonOffset = 100
 const menuButtonSize = 60
 
-
-const controlButtonMovement = (event) => {
-  const distanceFromRight = window.innerWidth - event.clientX
-  const progressX = distanceFromRight / window.innerWidth
-
-  const distanceFromTop = event.clientY
-  const offsetFromMiddle = window.innerHeight / 2 - distanceFromTop
-
-  let translationX = buttonPosition(progressX)
-  let translationY = -offsetFromMiddle * 0.3 * (1 - progressX * 0.5)
+const controlButtonMovement = (mouse) => {
+  let translationX = buttonPositionX(
+    mouse.x,
+    mouse.y,
+    menuWidth + menuPeekSpace + 100,
+    menuWidth
+  )
+  let translationY = 0
 
   const button = document.getElementById('attractive-button')
   button.style.transform = `translateY(calc(-50% + ${translationY}px)) translateX(${-translationX}px)`
 }
 
-/**
- * Button moves towards the edge of the screen, slows significantly, then moves completely to the edge
- * 
- * @param {number} progress number between 0 and 1
- * @returns 
- */
-const buttonPosition = (progress) => {
-  const slackEnd = 0.6
-  const tensingEnd = 0.7
-  const tenseEnd = 0.7
-  const highlyTenseEnd = 0.85
+const buttonPositionX = (
+  x,
+  y,
+  startsAt = 0.4 * window.innerWidth,
+  endsAt = 0.15 * window.innerWidth
+) => {
+  const startThreshold = startsAt
+  if (x > startThreshold) return 0
 
-  const tensingDistance = 40
-  const highlyTensingDistance = 40
-  const giveDistance = menuButtonOffset
-  // slack
-  if (progress < slackEnd) {
-    return 0
-    // tensing
-  } else if (progress < tensingEnd) {
-    return (tensingDistance * (progress - slackEnd)) / (tensingEnd - slackEnd)
-    // tense
-  } else if (progress < tenseEnd) {
-    return 10
-    // highly tensing
-  } else if (progress < highlyTenseEnd) {
-    return (
-      tensingDistance +
-      (highlyTensingDistance * (progress - tenseEnd)) /
-        (highlyTenseEnd - tenseEnd)
-    )
-    // give
-  } else {
-    return giveDistance
+  const staticFrictionThreshold = endsAt
+  const squishingDistance = startThreshold - staticFrictionThreshold
+  if (x > staticFrictionThreshold) {
+    const progress = 1 - (x - staticFrictionThreshold) / squishingDistance
+    return progress * 80
   }
+
+  return 160
 }
 
 const Wrapper = styled.div`
@@ -140,7 +140,7 @@ const Container = styled.div`
   position: fixed;
   left: 0;
   height: 100vh;
-  width: 300px;
+  width: ${menuWidth}px;
   z-index: 1000;
 
   transform: translateX(
@@ -150,12 +150,16 @@ const Container = styled.div`
       return '-100%'
     }}
   );
-  transition: transform 0.3s;
+  transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 
   background: #000;
+  border-right: 1px solid #464646;
+`
+
 const Navigation = styled.div`
   padding: 20px;
   display: flex;
@@ -213,7 +217,7 @@ const AttractiveButton = styled.div`
   left: ${menuButtonOffset}px;
   z-index: 1000;
   transform: translateY(-50%);
-  transition: transform 0.15s;
+  transition: transform 0.2s;
 
   padding: 20px;
   color: white;
