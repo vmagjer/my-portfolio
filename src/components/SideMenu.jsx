@@ -6,9 +6,8 @@ import profilePicture from '../assets/images/profile-picture.jpg'
 
 const links = [
   { id: 'home', title: 'Home', path: '/' },
-  { id: 'about', title: 'About', path: '/about'},
-  { id: 'contact', title: 'Contact', path: '/contact'},
-  { id: 'projects', title: 'Projects', path: '/project'},
+  { id: 'about', title: 'About', path: '/about' },
+  { id: 'contact', title: 'Contact', path: '/contact' },
 ]
 
 function SideMenu() {
@@ -57,6 +56,14 @@ function SideMenu() {
                 {link.title}
               </StyledNavLink>
           ))}
+          </NavList>
+          <NavList>
+            <h3>Projects</h3>
+            {Object.keys(data.projects).map((projectId) => (
+              <StyledNavLink to={`/project/${projectId}`} key={projectId}>
+                {data.projects[projectId].name}
+              </StyledNavLink>
+            ))}
           </NavList>
         </Navigation>
       </Container>
