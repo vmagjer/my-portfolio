@@ -16,11 +16,10 @@ const menuPeekSpace = 100
 const SHOW_THRESHOLD = menuWidth
 const PEEK_THRESHOLD = menuWidth + menuPeekSpace
 
-
 function SideMenu() {
   const [isOpen, setIsOpen] = useState(false)
   const [isPeeking, setIsPeeking] = useState(false)
-  
+
   useEffect(() => {
     const mousePosition = { x: 0, y: 0 }
 
@@ -34,7 +33,7 @@ function SideMenu() {
       update()
     }
 
-    const update = ()=> {      
+    const update = () => {
       const isWithinThreshold = mousePosition.x < SHOW_THRESHOLD
       const isWithinPeekThreshold = mousePosition.x < PEEK_THRESHOLD
       const isTopOfPage = window.scrollY < 10
@@ -54,14 +53,14 @@ function SideMenu() {
   }, [])
 
   return (
-    <Wrapper>
-      <AttractiveButton id="attractive-button"></AttractiveButton>
+    <>
+      <MenuButton id="menu-button"></MenuButton>
 
       <Container $isOpen={isOpen} $isPeeking={isPeeking}>
-        <Profile>
+        <ProfileSection>
           <ProfileImage src={profilePicture} alt="profile" $rotate={isOpen} />
           <span>{`${data.personalInfo.firstName} ${data.personalInfo.lastName}`}</span>
-        </Profile>
+        </ProfileSection>
 
         <Navigation>
           <NavList>
@@ -78,7 +77,7 @@ function SideMenu() {
             ))}
           </NavList>
           <NavList>
-            <h3>Projects</h3>
+            <NavListHeader>Projects</NavListHeader>
             {Object.keys(data.projects).map((projectId) => (
               <StyledNavLink to={`/project/${projectId}`} key={projectId}>
                 {data.projects[projectId].name}
@@ -86,8 +85,11 @@ function SideMenu() {
             ))}
           </NavList>
         </Navigation>
+        <Footer>
+          Made with ❤️ by {data.personalInfo.firstName}
+        </Footer>
       </Container>
-    </Wrapper>
+    </>
   )
 }
 
@@ -105,7 +107,7 @@ const controlButtonMovement = (mouse) => {
   )
   let translationY = 0
 
-  const button = document.getElementById('attractive-button')
+  const button = document.getElementById('menu-button')
   button.style.transform = `translateY(calc(-50% + ${translationY}px)) translateX(${-translationX}px)`
 }
 
@@ -128,12 +130,21 @@ const buttonPositionX = (
   return 160
 }
 
-const Wrapper = styled.div`
+const MenuButton = styled.div`
   position: fixed;
-  top: 0;
-  left: 0;
-  height: 100vh;
-  width: ${menuButtonOffset + menuButtonSize}px;
+  top: 50%;
+  left: ${menuButtonOffset}px;
+  z-index: 1000;
+  transform: translateY(-50%);
+  transition: transform 0.2s;
+
+  padding: 20px;
+  color: white;
+  background-color: black;
+  
+  width: ${menuButtonSize}px;
+  height: ${menuButtonSize}px;
+  border-radius: 10000px;
 `
 
 const Container = styled.div`
@@ -173,6 +184,12 @@ const NavList = styled.div`
   flex-direction: column;
   gap: 4px;
 `
+
+const NavListHeader = styled.h3`
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
+  margin-bottom: 10px;
+`
 const StyledNavLink = styled(NavLink)`
   padding: 10px;
   color: rgba(255, 255, 255, 0.7);
@@ -189,7 +206,7 @@ const StyledNavLink = styled(NavLink)`
   }
 `
 
-const Profile = styled.div`
+const ProfileSection = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -211,20 +228,9 @@ const ProfileImage = styled.img`
   transition: rotate 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
 `
 
-const AttractiveButton = styled.div`
-  position: fixed;
-  top: 50%;
-  left: ${menuButtonOffset}px;
-  z-index: 1000;
-  transform: translateY(-50%);
-  transition: transform 0.2s;
-
+const Footer = styled.div`
   padding: 20px;
-  color: white;
-  background-color: black;
-  cursor: pointer;
-
-  width: 60px;
-  height: 60px;
-  border-radius: 10000px;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 12px;
 `
