@@ -1,8 +1,10 @@
 const personalInfo = {
   firstName: 'Vlatko',
   lastName: 'Magjer',
-  countryOfResidence: 'Croatia',
-  city: 'Zagreb',
+  fullName: 'Vlatko Magjer',
+  city: 'Gornji Stupnik',
+  county: 'Zagreb County',
+  country: 'Croatia',
 }
 
 const conntactInfo = {
@@ -36,7 +38,7 @@ const education = [
       'Machine Learning',
       'Mathematics',
       'Probability and Statistics',
-      'Object-Oriented Programming',
+      'Object-Oriented Programming (OOP)',
       'Business Intelligence',
       'Social Networks',
 
