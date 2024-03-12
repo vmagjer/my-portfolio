@@ -3,15 +3,22 @@ import SideMenu from './SideMenu'
 import { Outlet } from 'react-router-dom'
 
 export default function MainLayout() {
-
   return (
     <Container>
-      <SideMenu  />
+      <LeftColumn>
+        <SideMenu />
+      </LeftColumn>
 
       <Content>
         <Outlet />
         <Footer>footer</Footer>
       </Content>
+
+      <RightColumn>
+        <div>
+          <h1>Right Column</h1>
+        </div>
+      </RightColumn>
     </Container>
   )
 }
@@ -19,13 +26,40 @@ export default function MainLayout() {
 const Container = styled.div`
   min-height: 100vh;
   width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: center;
+
+  @media (max-width: 1600px) {
+    justify-content: space-between;
+  }
 `
 
-const Content = styled.div``
+const LeftColumn = styled.div`
+  min-width: 300px;
+  width: 360px;
+  color: white;
+
+  @media (max-width: calc(360px * 2)) {
+    display: none;
+  }
+`
+const Content = styled.div`
+  flex-basis: 680px;
+`
+
+const RightColumn = styled.div`
+  width: 360px;
+  color: white;
+
+  @media (max-width: calc(360px * 3)) {
+    display: none;
+  }
+`
 
 const Footer = styled.div`
-  background-color: #f5f5f5;
-  border-top: 1px solid #e7e7e7;
   padding: 10px 0;
   width: 100%;
 `
