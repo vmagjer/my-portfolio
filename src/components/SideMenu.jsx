@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import data from '../assets/data'
 import profilePicture from '../assets/images/profile-picture.jpg'
 import { motion } from 'framer-motion'
+import { useEffect, useRef } from 'react'
 
 const links = [
   { id: 'home', title: 'Home', path: '/' },
@@ -10,26 +11,46 @@ const links = [
   { id: 'contact', title: 'Contact', path: '/contact' },
 ]
 
-const sideSheetState = {
-  hidden: 'hidden',
-  peeking: 'peeking',
-  visible: 'visible',
-}
-
 const navItemState = {
   hover: 'hover',
 }
 
 const navItemVariants = {
-  [sideSheetState.hidden]: { x: -100 },
-  [sideSheetState.peeking]: { x: -100 },
-  [sideSheetState.visible]: { x: 0 },
-  [navItemState.hover]: { x: 10 },
+  [navItemState.hover]: { paddingLeft: '16px', transition: { ease: 'easeInOut' } },
 }
 
 export default function SideMenu() {
+  const containerRef = useRef(null)
+
+  useEffect(() => {
+    const updateContainerRotation = (e) => {
+      const el = containerRef.current
+      if (!el) return
+      const x = e.clientX - el.getBoundingClientRect().x
+      const width = el.getBoundingClientRect().width
+      const percent = x / width
+      const maxRotation = 8
+      let val = 0
+      if (percent <= 0 ) {
+        val = -maxRotation
+      } else if (percent >= 1) {
+        val = maxRotation
+      } else if (percent <= 0.2) {
+        val = Math.max(-maxRotation, -maxRotation * (-(percent - 0.2) / 0.2))
+      } else if (percent <= 0.8) {
+        val = 0
+      } else {
+        val = Math.min(maxRotation, maxRotation * ((percent - 0.8) / 0.2))
+      }
+      el.style.setProperty('--rotation', val.toFixed(2) + 'deg')
+    }
+
+    window.addEventListener('mousemove', updateContainerRotation)
+    return () => window.removeEventListener('mousemove', updateContainerRotation)
+  }, [containerRef])
+
   return (
-    <Container>
+    <Container ref={containerRef}>
       <ProfileSection>
         <ProfileImage src={profilePicture} alt="profile" />
         <span>{`${data.personalInfo.fullName}`}</span>
@@ -43,7 +64,7 @@ export default function SideMenu() {
               key={`nav-link-${link.id}`}
               className={linkClasses}
               variants={navItemVariants}
-              transition={{ ease: 'easeInOut' }}
+              whileHover={navItemState.hover}
             >
               {link.title}
             </StyledNavLink>
@@ -57,7 +78,7 @@ export default function SideMenu() {
               to={`/project/${projectId}`}
               key={projectId}
               variants={navItemVariants}
-              transition={{ ease: 'easeInOut' }}
+              whileHover={navItemState.hover}
             >
               {data.projects[projectId].name}
             </StyledNavLink>
@@ -77,15 +98,22 @@ function linkClasses({ isActive, isPending }) {
 }
 
 const Container = styled(motion.div)`
-  height: 100%;
+  position: sticky;
+  top: 8px;
+  height: calc(100vh - 16px);
   width: 100%;
+  border-radius: 8px;
+
+  transform: perspective(2000px) rotateY(var(--rotation, 8deg));
+  transition: transform 0.2s ease;
 
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   background: #000;
-  border-right: 1px solid #464646;
+  border: 1px solid #464646;
+  margin: 8px 8px;
 `
 
 const ProfileSection = styled.div`
@@ -108,7 +136,7 @@ const Navigation = styled.div`
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 40px;
   flex: 1;
   justify-content: center;
 `
@@ -130,7 +158,8 @@ const StyledNavLink = styled(motion(NavLink))`
   text-decoration: none;
   &.active {
     background: rgba(255, 255, 255, 0.05);
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 1);
+    padding-left: 16px;
   }
 
   &:hover {
