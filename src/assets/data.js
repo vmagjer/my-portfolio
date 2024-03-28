@@ -211,116 +211,139 @@ const workExperience = [
   },
 ]
 
+import jsIcon from './tech-icons/javascript.png'
+import tsIcon from './tech-icons/typescript.png'
+import reactIcon from './tech-icons/react.png'
+import reduxIcon from './tech-icons/redux.png'
+import vueIcon from './tech-icons/vue.png'
+import vuexIcon from './tech-icons/vuex.png'
+import blazorIcon from './tech-icons/blazor.png'
+import ionicIcon from './tech-icons/ionic.png'
+import htmlIcon from './tech-icons/html.png'
+import cssIcon from './tech-icons/css.png'
+import sassIcon from './tech-icons/sass.png'
+import csharpIcon from './tech-icons/csharp.png'
+import pythonIcon from './tech-icons/python.png'
+import javaIcon from './tech-icons/java.png'
+import gitIcon from './tech-icons/git.png'
+import githubIcon from './tech-icons/github.png'
+import gitlabIcon from './tech-icons/gitlab.png'
+import bitbucketIcon from './tech-icons/bitbucket.png'
+import jiraIcon from './tech-icons/jira.png'
+import favroIcon from './tech-icons/favro.png'
+import vsCodeIcon from './tech-icons/vscode.png'
+import visualstudioIcon from './tech-icons/visualstudio.png'
+
 const technologies = {
   javascript: {
     name: 'JavaScript',
     abbreviation: 'JS',
-    icon: '@/assets/tech-icons/javascript.webp',
+    icon: jsIcon,
+  },
+  typescript: {
+    name: 'TypeScript',
+    abbreviation: 'TS',
+    icon: tsIcon,
   },
   react: {
     name: 'React',
     abbreviation: 'React',
-    icon: '@/assets/tech-icons/react.png',
+    icon: reactIcon,
   },
   redux: {
     name: 'Redux',
     abbreviation: 'Redux',
-    icon: '@/assets/tech-icons/redux.png',
+    icon: reduxIcon,
   },
   vue: {
     name: 'Vue',
     abbreviation: 'Vue',
-    icon: '@/assets/tech-icons/vue.png',
+    icon: vueIcon,
   },
   vuex: {
     name: 'Vuex',
     abbreviation: 'Vuex',
-    icon: '@/assets/tech-icons/vuex.png',
+    icon: vuexIcon,
   },
   blazor: {
     name: 'Blazor',
     abbreviation: 'Blazor',
-    icon: '@/assets/tech-icons/blazor.png',
+    icon: blazorIcon,
   },
   ionic: {
     name: 'Ionic',
     abbreviation: 'Ionic',
-    icon: '@/assets/tech-icons/ionic.png',
+    icon: ionicIcon,
   },
   html: {
     name: 'HTML',
     abbreviation: 'HTML',
-    icon: '@/assets/tech-icons/html.png',
+    icon: htmlIcon,
   },
   css: {
     name: 'CSS',
     abbreviation: 'CSS',
-    icon: '@/assets/tech-icons/css.png',
+    icon: cssIcon,
   },
   sass: {
     name: 'Sass',
     abbreviation: 'Sass',
-    icon: '@/assets/tech-icons/sass.png',
+    icon: sassIcon,
   },
   csharp: {
     name: 'C#',
     abbreviation: 'C#',
-    icon: '@/assets/tech-icons/csharp.png',
+    icon: csharpIcon,
   },
   python: {
     name: 'Python',
     abbreviation: 'Python',
-    icon: '@/assets/tech-icons/python.png',
+    icon: pythonIcon,
   },
   java: {
     name: 'Java',
     abbreviation: 'Java',
-    icon: '@/assets/tech-icons/java.png',
+    icon: javaIcon,
   },
-  // sql: {
-  //   name: 'SQL',
-  //   abbreviation: 'SQL',
-  //   icon: '@/assets/tech-icons/sql.png',
-  // },
   git: {
     name: 'Git',
     abbreviation: 'Git',
-    icon: '@/assets/tech-icons/git.png',
+    icon: gitIcon,
   },
   github: {
     name: 'GitHub',
     abbreviation: 'GitHub',
-    icon: '@/assets/tech-icons/github.png',
+    icon: githubIcon,
   },
   gitlab: {
     name: 'GitLab',
     abbreviation: 'GitLab',
-    icon: '@/assets/tech-icons/gitlab.webp',
+    icon: gitlabIcon,
   },
   bitbucket: {
     name: 'Bitbucket',
     abbreviation: 'Bitbucket',
-    icon: '@/assets/tech-icons/bitbucket.png',
+    icon: bitbucketIcon,
   },
   jira: {
     name: 'Jira',
     abbreviation: 'Jira',
-    icon: '@/assets/tech-icons/jira.png',
+    icon: jiraIcon,
   },
   favro: {
     name: 'Favro',
     abbreviation: 'Favro',
-    icon: '@/assets/tech-icons/favro.png',
+    icon: favroIcon,
   },
   vsCode: {
     name: 'Visual Studio Code',
     abbreviation: 'VS Code',
-    icon: '@/assets/tech-icons/vscode.png',
+    icon: vsCodeIcon,
   },
   visualstudio: {
     name: 'Visual Studio',
     abbreviation: 'Visual Studio',
-    icon: '@/assets/tech-icons/visualstudio.png',
+    icon: visualstudioIcon,
   },
 }
 
