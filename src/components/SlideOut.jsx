@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import PropTypes from 'prop-types'
 
-
 const menuWidth = 300
 const menuPeekSpace = 100
 
@@ -21,18 +20,14 @@ const navVariants = {
   [sideSheetState.peeking]: { x: '-96%' },
   [sideSheetState.visible]: {
     x: 0,
-    transition: {
-      staggerChildren: 0.05,
-      ease: 'easeIn',
-    },
   },
 }
 
-SideMenu.propTypes = {
+SlideOut.propTypes = {
   children: PropTypes.node,
 }
 
-export default function SideMenu({children}) {
+export default function SlideOut({ children }) {
   const [menuState, setMenuState] = useState(sideSheetState.hidden)
 
   useEffect(() => {
@@ -72,13 +67,18 @@ export default function SideMenu({children}) {
 
   return (
     <>
-      <MenuButton id="menu-button"></MenuButton>
+      <MenuButton id="menu-button">
+        <span className="material-symbols-outlined">menu</span>
+      </MenuButton>
 
       <Container
         animate={menuState}
         variants={navVariants}
-        transition={{ ease: 'easeInOut' }}
         initial={false}
+        transition={{
+          type: 'keyframes',
+          duration: 0.2,
+        }}
       >
         {children}
       </Container>
@@ -129,13 +129,17 @@ const MenuButton = styled.div`
   transform: translateY(-50%);
   transition: transform 0.2s;
 
-  padding: 20px;
-  color: white;
+  padding: 0;
+  color: #a5a5a5;
   background-color: black;
 
   width: ${menuButtonSize}px;
   height: ${menuButtonSize}px;
   border-radius: 10000px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `
 
 const Container = styled(motion.div)`
@@ -144,11 +148,5 @@ const Container = styled(motion.div)`
   height: 100vh;
   width: ${menuWidth}px;
   z-index: 1000;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-
-  background: #000;
-  border-right: 1px solid #464646;
+  padding: 8px 0;
 `
