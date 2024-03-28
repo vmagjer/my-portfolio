@@ -11,7 +11,14 @@ export default function MainLayout() {
 
       <Content>
         <Outlet />
-        <Footer>footer</Footer>
+        <Footer>
+          footer
+          <br />
+          Icons by{' '}
+          <a target="_blank" href="https://icons8.com" rel="noreferrer">
+            Icons8
+          </a>
+        </Footer>
       </Content>
 
       <RightColumn>
