@@ -3,7 +3,6 @@ import { NavLink } from 'react-router-dom'
 import data from '../assets/data'
 import profilePicture from '../assets/images/profile-picture.jpg'
 import { motion } from 'framer-motion'
-import { useEffect, useRef } from 'react'
 
 const links = [
   { id: 'home', title: 'Home', path: '/' },
@@ -16,41 +15,15 @@ const navItemState = {
 }
 
 const navItemVariants = {
-  [navItemState.hover]: { paddingLeft: '16px', transition: { ease: 'easeInOut' } },
+  [navItemState.hover]: {
+    paddingLeft: '16px',
+    transition: { ease: 'easeInOut' },
+  },
 }
 
 export default function SideMenu() {
-  const containerRef = useRef(null)
-
-  useEffect(() => {
-    const updateContainerRotation = (e) => {
-      const el = containerRef.current
-      if (!el) return
-      const x = e.clientX - el.getBoundingClientRect().x
-      const width = el.getBoundingClientRect().width
-      const percent = x / width
-      const maxRotation = 8
-      let val = 0
-      if (percent <= 0 ) {
-        val = -maxRotation
-      } else if (percent >= 1) {
-        val = maxRotation
-      } else if (percent <= 0.2) {
-        val = Math.max(-maxRotation, -maxRotation * (-(percent - 0.2) / 0.2))
-      } else if (percent <= 0.8) {
-        val = 0
-      } else {
-        val = Math.min(maxRotation, maxRotation * ((percent - 0.8) / 0.2))
-      }
-      el.style.setProperty('--rotation', val.toFixed(2) + 'deg')
-    }
-
-    window.addEventListener('mousemove', updateContainerRotation)
-    return () => window.removeEventListener('mousemove', updateContainerRotation)
-  }, [containerRef])
-
   return (
-    <Container ref={containerRef}>
+    <Container>
       <ProfileSection>
         <ProfileImage src={profilePicture} alt="profile" />
         <span>{`${data.personalInfo.fullName}`}</span>
@@ -98,13 +71,8 @@ function linkClasses({ isActive, isPending }) {
 }
 
 const Container = styled(motion.div)`
-  position: sticky;
-  top: 8px;
   height: calc(100vh - 16px);
   width: 100%;
-  border-radius: 8px;
-
-  transform: perspective(2000px) rotateY(var(--rotation, 8deg));
   transition: transform 0.2s ease;
 
   display: flex;
@@ -113,11 +81,13 @@ const Container = styled(motion.div)`
 
   background: #000;
   border: 1px solid #464646;
-  margin: 8px 8px;
+  border-left: none;
+  border-radius: 0 8px 8px 0;
 `
 
 const ProfileSection = styled.div`
   padding: 20px;
+  padding-top: 40px;
   display: flex;
   flex-direction: column;
   align-items: center;

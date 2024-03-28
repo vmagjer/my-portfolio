@@ -1,12 +1,15 @@
 import styled from 'styled-components'
 import SideMenu from './SideMenu'
 import { Outlet } from 'react-router-dom'
+import SlideOut from './SlideOut'
 
 export default function MainLayout() {
   return (
     <Container>
       <LeftColumn>
-        <SideMenu />
+        <SlideOut>
+          <SideMenu />
+        </SlideOut>
       </LeftColumn>
 
       <Content>
@@ -38,6 +41,7 @@ const Container = styled.div`
   flex-direction: row;
   align-items: stretch;
   justify-content: center;
+  gap: 20px;
 
   @media (max-width: 1600px) {
     justify-content: space-between;
@@ -49,19 +53,19 @@ const LeftColumn = styled.div`
   width: 360px;
   color: white;
 
-  @media (max-width: calc(360px * 2)) {
+  @media (max-width: calc(360px + 420px)) {
     display: none;
   }
 `
 const Content = styled.div`
-  flex-basis: 680px;
+  flex-basis: 1200px;
 `
 
 const RightColumn = styled.div`
   width: 360px;
   color: white;
 
-  @media (max-width: calc(360px * 3)) {
+  @media (max-width: calc(360px * 2 + 420px)) {
     display: none;
   }
 `
