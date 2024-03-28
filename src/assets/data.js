@@ -29,7 +29,8 @@ const education = [
       'University of Zagreb, Faculty of Electrical Engineering and Computing',
     link: 'https://www.fer.unizg.hr/en',
     abbreviation: 'UNIZG FER',
-    year: '2023',
+    from: new Date('2020-10-01'),
+    to: new Date('2023-10-01'),
     thesis:
       'Application of dynamic web pages and 2D graphics in cognitive testing',
     subjects: [
@@ -58,7 +59,8 @@ const education = [
       'University of Zagreb, Faculty of Electrical Engineering and Computing',
     link: 'https://www.fer.unizg.hr/en',
     abbreviation: 'UNIZG FER',
-    year: '2020',
+    from: new Date('2016-10-01'),
+    to: new Date('2020-10-01'),
     thesis: 'Web application for a real estate agency',
     subjects: [
       'Data Structures and Algorithms',
@@ -85,6 +87,7 @@ const projects = {
     description:
       'Driver interface for a crowd-sourced delivery service. The mobile app features a map with real-time updates of the driver’s location, nearby orders, and the optimal routes to deliver them.',
     link: 'https://play.google.com/store/apps/details?id=verdi.go.development&pcampaignid=web_share',
+    image: 'http://unsplash.it/400/300?random&gravity=center',
     technologies: [
       'vue',
       'vuex',
@@ -103,6 +106,7 @@ const projects = {
     description:
       'Ecommerce platform selling fresh local produce and products from small businesses. The app required a custom CMS for the vendors to manage their products and orders.',
     link: 'https://verdi-farm.com/',
+    image: 'http://unsplash.it/400/300?random&gravity=center',
     technologies: [
       'vue',
       'vuex',
@@ -121,6 +125,7 @@ const projects = {
     description:
       'Web app for management of several A1’s CMS-s related to city management.',
     link: null,
+    image: 'http://unsplash.it/400/300?random&gravity=center',
     technologies: [
       'blazor',
       'C#',
@@ -139,6 +144,7 @@ const projects = {
     description:
       'Banking and insurance consulting web app featuring many dynamic forms and informative tools for consultees.',
     link: 'https://www.moj-bankar.hr/',
+    image: 'http://unsplash.it/400/300?random&gravity=center',
     technologies: [
       'react',
       'redux',
@@ -158,6 +164,12 @@ const projects = {
     description:
       'A web app for an architecture firm showcasing their work in an unconventional layout and featuring an image editor for prospective clients to edit and submit their own designs.',
     link: 'https://www.blok-a3.hr/',
+    image: 'http://unsplash.it/400/300?random&gravity=center',
+    images: [
+      '@/assets/projects/blok-a3/blok-a3-landing.png',
+      '@/assets/projects/blok-a3/blok-a3-portfolio.png',
+      '@/assets/projects/blok-a3/blok-a3-map.png',
+    ],
     technologies: [
       'react',
       'redux',
@@ -173,15 +185,17 @@ const projects = {
     ],
   },
 }
+const highlightedProjects = ['blokA3', 'mojBankar', 'verdifarm', 'verdigo']
+
 const workExperience = [
   {
-    position: 'Frontend Developer',
+    role: 'Vue Frontend Developer',
     description:
       'Developing and maintaining web applications and a mobile app.',
     company: 'LMB 1759 Export d.o.o.',
     type: 'contract',
     from: '2022-10-01',
-    to: '2023-05-31',
+    to: '2023-05-1',
     projects: ['verdigo', 'verdifarm'],
     contributions: [
       'Proactively implemented new features and improvements.',
@@ -189,26 +203,100 @@ const workExperience = [
     ],
   },
   {
-    position: 'Frontend Developer',
+    role: '.Net Frontend Developer',
     description: 'Developing web applications for various clients.',
     contributions: ['Created reusable components'],
     company: 'Mediatorium d.o.o.',
     type: 'contract',
-    from: '2022-05-01',
+    from: '2022-03-01',
     to: '2022-09-01',
     projects: ['a1cms'],
   },
   {
-    position: 'Frontend Developer',
+    role: 'React Frontend Developer',
     description:
       'Developing and maintaining web applications for various clients.',
     contributions: ['Introduced React and Redux to the company’s tech stack.'],
     company: 'Mediatorium d.o.o.',
     type: 'contract',
-    from: '2020-3-01',
-    to: '2020-31-09',
+    from: '2020-03-01',
+    to: '2020-08-01',
     projects: ['mojBankar', 'blokA3'],
   },
+]
+
+const technologyCategories = {
+  frontEnd: {
+    name: 'Front-end',
+    technologies: [
+      'react',
+      'redux',
+      'vue',
+      'vuex',
+      'ionic',
+      'blazor',
+      'html',
+      'css',
+      'sass',
+    ],
+  },
+  backEnd: {
+    name: 'Back-end',
+    technologies: ['csharp', 'python', 'java'],
+  },
+  fullStack: {
+    name: 'Full-stack',
+    technologies: [],
+  },
+  programmingLanguage: {
+    name: 'Programming Language',
+    technologies: ['javascript', 'typescript', 'csharp', 'python', 'java'],
+  },
+  stateManagement: {
+    name: 'State Management',
+    technologies: ['redux', 'vuex', 'pinia'],
+  },
+  javascriptFramework: {
+    name: 'JavaScript Framework',
+    technologies: ['react', 'vue'],
+  },
+  webFramework: {
+    name: 'Web Framework',
+    technologies: ['blazor'],
+  },
+  mobileDevelopment: {
+    name: 'Mobile Development',
+    technologies: ['ionic'],
+  },
+  markupLanguage: {
+    name: 'Markup Language',
+    technologies: ['html'],
+  },
+  stylingLanguage: {
+    name: 'Styling Language',
+    technologies: ['css', 'sass', 'tailwind'],
+  },
+  database: {
+    name: 'Database',
+    technologies: ['sql', 'postgresql', 'firebase'],
+  },
+  versionControl: {
+    name: 'Version Control',
+    technologies: ['git', 'github', 'gitlab', 'bitbucket'],
+  },
+  projectManagement: {
+    name: 'Project Management',
+    technologies: ['jira', 'favro', 'confluence'],
+  },
+  developmentEnvironment: {
+    name: 'Development Environment',
+    technologies: ['vsCode', 'visualstudio'],
+  },
+}
+
+technologyCategories.fullStack.technologies = [
+  ...technologyCategories.frontEnd.technologies,
+  ...technologyCategories.backEnd.technologies,
 ]
 
 import jsIcon from './tech-icons/javascript.png'
@@ -347,11 +435,12 @@ const technologies = {
   },
 }
 
-export default  {
+export default {
   personalInfo,
   conntactInfo,
   education,
   projects,
+  highlightedProjects,
   workExperience,
   technologies,
 }
