@@ -20,11 +20,6 @@ const HomePage = () => {
         <h2>Projects</h2>
         <Projects>
           {data.highlightedProjects.map((projectId) => (
-            // <Project key={projectId}>
-            //   <img src={data.projects[projectId].image} alt="" />
-            //   <h3>{data.projects[projectId].name}</h3>
-            //   <p>{data.projects[projectId].description}</p>
-            // </Project>
             <Card3D key={projectId} data={data.projects[projectId]} />
           ))}
         </Projects>
@@ -117,6 +112,7 @@ const Projects = styled.div`
   /* padding: 16px; */
   flex-wrap: wrap ;
 
+  /* perspective: 2000px; */
 `
 
 const Project = styled.div`
