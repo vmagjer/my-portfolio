@@ -7,7 +7,7 @@ const personalInfo = {
   country: 'Croatia',
 }
 
-const conntactInfo = {
+const contactInfo = {
   tel: '+385 91 251 0022',
   email: 'vlatko.magjer@gmail.com',
   socialMedia: [
@@ -81,6 +81,11 @@ const education = [
     technologies: ['csharp', 'python', 'java', 'sql', 'git'],
   },
 ]
+
+import blokA3Landing from './projects/blok-a3/blok-a3-landing.png'
+import blokA3Portfolio from './projects/blok-a3/blok-a3-portfolio.png'
+import blokA3Map from './projects/blok-a3/blok-a3-map.png'
+
 const projects = {
   verdigo: {
     name: 'Verdi Go',
@@ -164,7 +169,7 @@ const projects = {
     description:
       'A web app for an architecture firm showcasing their work in an unconventional layout and featuring an image editor for prospective clients to edit and submit their own designs.',
     link: 'https://www.blok-a3.hr/',
-    image: 'http://unsplash.it/400/300?random&gravity=center',
+    image: blokA3Map,
     images: [
       '@/assets/projects/blok-a3/blok-a3-landing.png',
       '@/assets/projects/blok-a3/blok-a3-portfolio.png',
@@ -228,76 +233,48 @@ const workExperience = [
 const technologyCategories = {
   frontEnd: {
     name: 'Front-end',
-    technologies: [
-      'react',
-      'redux',
-      'vue',
-      'vuex',
-      'ionic',
-      'blazor',
-      'html',
-      'css',
-      'sass',
-    ],
   },
   backEnd: {
     name: 'Back-end',
-    technologies: ['csharp', 'python', 'java'],
   },
   fullStack: {
     name: 'Full-stack',
-    technologies: [],
   },
   programmingLanguage: {
     name: 'Programming Language',
-    technologies: ['javascript', 'typescript', 'csharp', 'python', 'java'],
   },
   stateManagement: {
     name: 'State Management',
-    technologies: ['redux', 'vuex', 'pinia'],
   },
-  javascriptFramework: {
-    name: 'JavaScript Framework',
-    technologies: ['react', 'vue'],
+  framework: {
+    name: 'Framework',
   },
-  webFramework: {
-    name: 'Web Framework',
-    technologies: ['blazor'],
+  library: {
+    name: 'Library',
   },
   mobileDevelopment: {
     name: 'Mobile Development',
-    technologies: ['ionic'],
   },
   markupLanguage: {
     name: 'Markup Language',
-    technologies: ['html'],
   },
   stylingLanguage: {
     name: 'Styling Language',
-    technologies: ['css', 'sass', 'tailwind'],
   },
   database: {
     name: 'Database',
-    technologies: ['sql', 'postgresql', 'firebase'],
   },
   versionControl: {
     name: 'Version Control',
-    technologies: ['git', 'github', 'gitlab', 'bitbucket'],
   },
   projectManagement: {
     name: 'Project Management',
-    technologies: ['jira', 'favro', 'confluence'],
   },
   developmentEnvironment: {
     name: 'Development Environment',
-    technologies: ['vsCode', 'visualstudio'],
   },
 }
 
-technologyCategories.fullStack.technologies = [
-  ...technologyCategories.frontEnd.technologies,
-  ...technologyCategories.backEnd.technologies,
-]
 
 import jsIcon from './tech-icons/javascript.png'
 import tsIcon from './tech-icons/typescript.png'
@@ -323,124 +300,167 @@ import vsCodeIcon from './tech-icons/vscode.png'
 import visualstudioIcon from './tech-icons/visualstudio.png'
 
 const technologies = {
+  // languages
   javascript: {
     name: 'JavaScript',
     abbreviation: 'JS',
     icon: jsIcon,
+    tags: ['frontEnd', 'backEnd', 'programmingLanguage'],
   },
   typescript: {
     name: 'TypeScript',
     abbreviation: 'TS',
     icon: tsIcon,
-  },
-  react: {
-    name: 'React',
-    abbreviation: 'React',
-    icon: reactIcon,
-  },
-  redux: {
-    name: 'Redux',
-    abbreviation: 'Redux',
-    icon: reduxIcon,
-  },
-  vue: {
-    name: 'Vue',
-    abbreviation: 'Vue',
-    icon: vueIcon,
-  },
-  vuex: {
-    name: 'Vuex',
-    abbreviation: 'Vuex',
-    icon: vuexIcon,
-  },
-  blazor: {
-    name: 'Blazor',
-    abbreviation: 'Blazor',
-    icon: blazorIcon,
-  },
-  ionic: {
-    name: 'Ionic',
-    abbreviation: 'Ionic',
-    icon: ionicIcon,
-  },
-  html: {
-    name: 'HTML',
-    abbreviation: 'HTML',
-    icon: htmlIcon,
-  },
-  css: {
-    name: 'CSS',
-    abbreviation: 'CSS',
-    icon: cssIcon,
-  },
-  sass: {
-    name: 'Sass',
-    abbreviation: 'Sass',
-    icon: sassIcon,
+    tags: ['frontEnd', 'backEnd', 'programmingLanguage'],
   },
   csharp: {
     name: 'C#',
     abbreviation: 'C#',
     icon: csharpIcon,
+    tags: ['frontEnd', 'backEnd', 'programmingLanguage'],
   },
   python: {
     name: 'Python',
     abbreviation: 'Python',
     icon: pythonIcon,
+    tags: ['backEnd', 'programmingLanguage'],
   },
   java: {
     name: 'Java',
     abbreviation: 'Java',
     icon: javaIcon,
+    tags: ['backEnd', 'programmingLanguage'],
   },
+  // front-end
+  html: {
+    name: 'HTML',
+    abbreviation: 'HTML',
+    icon: htmlIcon,
+    tags: ['frontEnd', 'markupLanguage'],
+  },
+  css: {
+    name: 'CSS',
+    abbreviation: 'CSS',
+    icon: cssIcon,
+    tags: ['frontEnd', 'stylingLanguage'],
+  },
+  sass: {
+    name: 'Sass',
+    abbreviation: 'Sass',
+    icon: sassIcon,
+    tags: ['frontEnd', 'stylingLanguage'],
+  },
+  // frameworks and libraries
+  react: {
+    name: 'React',
+    abbreviation: 'React',
+    icon: reactIcon,
+    tags: ['frontEnd', 'library', 'javascript'],
+  },
+  vue: {
+    name: 'Vue',
+    abbreviation: 'Vue',
+    icon: vueIcon,
+    tags: ['frontEnd', 'framework', 'javascript'],
+  },
+  blazor: {
+    name: 'Blazor',
+    abbreviation: 'Blazor',
+    icon: blazorIcon,
+    tags: ['backEnd', 'frontEnd', 'framework', 'csharp'],
+  },
+  ionic: {
+    name: 'Ionic',
+    abbreviation: 'Ionic',
+    icon: ionicIcon,
+    tags: ['frontEnd', 'mobileDevelopment', 'framework', 'javascript'],
+  },
+  redux: {
+    name: 'Redux',
+    abbreviation: 'Redux',
+    icon: reduxIcon,
+    tags: ['frontEnd', 'stateManagement', 'javascript', 'library'],
+  },
+  vuex: {
+    name: 'Vuex',
+    abbreviation: 'Vuex',
+    icon: vuexIcon,
+    tags: ['frontEnd', 'stateManagement', 'javascript', 'library'],
+  },
+  // version control
   git: {
     name: 'Git',
     abbreviation: 'Git',
     icon: gitIcon,
+    tags: ['versionControl'],
   },
   github: {
     name: 'GitHub',
     abbreviation: 'GitHub',
     icon: githubIcon,
+    tags: ['versionControl'],
   },
   gitlab: {
     name: 'GitLab',
     abbreviation: 'GitLab',
     icon: gitlabIcon,
+    tags: ['versionControl'],
   },
   bitbucket: {
     name: 'Bitbucket',
     abbreviation: 'Bitbucket',
     icon: bitbucketIcon,
+    tags: ['versionControl'],
   },
+  // project management
   jira: {
     name: 'Jira',
     abbreviation: 'Jira',
     icon: jiraIcon,
+    tags: ['projectManagement'],
   },
   favro: {
     name: 'Favro',
     abbreviation: 'Favro',
     icon: favroIcon,
+    tags: ['projectManagement'],
   },
+  // development environment
   vsCode: {
-    name: 'Visual Studio Code',
+    name: 'VS Code',
     abbreviation: 'VS Code',
     icon: vsCodeIcon,
+    tags: ['developmentEnvironment'],
   },
   visualstudio: {
     name: 'Visual Studio',
     abbreviation: 'Visual Studio',
     icon: visualstudioIcon,
+    tags: ['developmentEnvironment'],
   },
 }
 
+const techAdjacencyMatrix = []
+const techKeys = Object.keys(technologies)
+
+const row = new Array(techKeys.length).fill(0)
+techKeys.forEach(() => techAdjacencyMatrix.push([...row]))
+
+for (let i = 0; i < techKeys.length; i++) {
+  const tech = technologies[techKeys[i]]
+  tech.tags.forEach((tag) => {
+    techAdjacencyMatrix[i][techKeys.indexOf(tag)] = 1
+  })
+}
+
+
 export default {
   personalInfo,
-  conntactInfo,
+  conntactInfo: contactInfo,
   education,
   projects,
   highlightedProjects,
   workExperience,
   technologies,
+  technologyCategories
 }
