@@ -1,6 +1,7 @@
 import styled from 'styled-components'
 import data from '../assets/data'
 import Card3D from '../components/Card3D'
+import SkillGraph from '../components/SkillGraph'
 
 const HomePage = () => {
   return (
@@ -15,6 +16,7 @@ const HomePage = () => {
             </Skill>
           ))}
         </Skills>
+        <SkillGraph />
       </Section>
       <Section>
         <h2>Projects</h2>

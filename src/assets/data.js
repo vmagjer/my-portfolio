@@ -273,6 +273,9 @@ const technologyCategories = {
   developmentEnvironment: {
     name: 'Development Environment',
   },
+  tool: {
+    name: 'Tool',
+  },
 }
 
 
@@ -311,7 +314,7 @@ const technologies = {
     name: 'TypeScript',
     abbreviation: 'TS',
     icon: tsIcon,
-    tags: ['frontEnd', 'backEnd', 'programmingLanguage'],
+    tags: ['frontEnd', 'backEnd', 'programmingLanguage', 'javascript'],
   },
   csharp: {
     name: 'C#',
@@ -392,65 +395,77 @@ const technologies = {
     name: 'Git',
     abbreviation: 'Git',
     icon: gitIcon,
-    tags: ['versionControl'],
+    tags: ['versionControl', 'tool'],
   },
   github: {
     name: 'GitHub',
     abbreviation: 'GitHub',
     icon: githubIcon,
-    tags: ['versionControl'],
+    tags: ['versionControl', 'tool'],
   },
   gitlab: {
     name: 'GitLab',
     abbreviation: 'GitLab',
     icon: gitlabIcon,
-    tags: ['versionControl'],
+    tags: ['versionControl', 'tool'],
   },
   bitbucket: {
     name: 'Bitbucket',
     abbreviation: 'Bitbucket',
     icon: bitbucketIcon,
-    tags: ['versionControl'],
+    tags: ['versionControl', 'tool'],
   },
   // project management
   jira: {
     name: 'Jira',
     abbreviation: 'Jira',
     icon: jiraIcon,
-    tags: ['projectManagement'],
+    tags: ['projectManagement', 'tool'],
   },
   favro: {
     name: 'Favro',
     abbreviation: 'Favro',
     icon: favroIcon,
-    tags: ['projectManagement'],
+    tags: ['projectManagement', 'tool'],
   },
   // development environment
   vsCode: {
     name: 'VS Code',
     abbreviation: 'VS Code',
     icon: vsCodeIcon,
-    tags: ['developmentEnvironment'],
+    tags: ['developmentEnvironment', 'tool'],
   },
   visualstudio: {
     name: 'Visual Studio',
     abbreviation: 'Visual Studio',
     icon: visualstudioIcon,
-    tags: ['developmentEnvironment'],
+    tags: ['developmentEnvironment', 'tool'],
   },
 }
 
 const techAdjacencyMatrix = []
 const techKeys = Object.keys(technologies)
 
-const row = new Array(techKeys.length).fill(0)
-techKeys.forEach(() => techAdjacencyMatrix.push([...row]))
 
 for (let i = 0; i < techKeys.length; i++) {
   const tech = technologies[techKeys[i]]
-  tech.tags.forEach((tag) => {
-    techAdjacencyMatrix[i][techKeys.indexOf(tag)] = 1
-  })
+  const row = new Array(techKeys.length).fill(0)
+
+  for (let j = 0; j < row.length; j++) {
+    if (j===i) continue
+    const otherTech = technologies[techKeys[j]]
+    // count how many tags they have in common
+    row[j] = tech.tags.reduce((acc, tag) => {
+      if (otherTech.tags.includes(tag)) {
+        return acc + 1
+      }
+      return acc
+    }, 0)
+    // count if they have each other as a tag
+    row[j] += otherTech.tags.includes(techKeys[i]) ? 1 : 0
+  }  
+  
+  techAdjacencyMatrix.push(row)
 }
 
 
@@ -462,5 +477,6 @@ export default {
   highlightedProjects,
   workExperience,
   technologies,
-  technologyCategories
+  technologyCategories,
+  techAdjacencyMatrix
 }
