@@ -106,7 +106,7 @@ function Card3D({ data }) {
 export default Card3D
 
 const Wrapper = styled.div`
-  perspective: 2000px;
+  perspective: ${perspective}px;
 `
 
 const Card = styled.div`
@@ -155,7 +155,7 @@ const Frame = styled.div`
 
   --frame-width-x: ${frameWidthX}px;
   --frame-width-y: ${frameWidthY}px;
-  --frame-window-width: calc(100% - var(--frame-width-x) * 2);
+  --frame-window-width: ${cardWidth - 2 * frameWidthX}px;
   --frame-window-height: ${frameInnerHeight}px;
   clip-path: polygon(
     0% 0%,
