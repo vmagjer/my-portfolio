@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
 import PropTypes from 'prop-types'
+import { getCardMeasures } from '../utils/cardMeasures'
 
 Card3D.propTypes = {
   data: PropTypes.shape({
@@ -9,45 +10,22 @@ Card3D.propTypes = {
   }).isRequired,
 }
 
-const maxTiltAngle = toRad(8)
+// CARE: angle mustn't be smaller than 5 degrees or the visual breaks
+const maxTiltAngle = (5 * Math.PI) / 180
 const maxDepth = 60
 const perspective = 2000
 const cardWidth = 300
 const cardHeight = 400
 
-const { peekDistance: peekDistanceX, frameWidth: frameWidthX } =
-  getPeekDistanceAndFrameWidth(maxTiltAngle, maxDepth, perspective, cardWidth)
-const { peekDistance: peekDistanceY, frameWidth: frameWidthY } =
-  getPeekDistanceAndFrameWidth(maxTiltAngle, maxDepth, perspective, cardHeight)
+const { backLength: peekDistanceX, frontLength: frameWidthX } =
+getCardMeasures(cardWidth, maxDepth, perspective, maxTiltAngle)
+const { backLength: peekDistanceY, frontLength: frameWidthY } =
+getCardMeasures(cardHeight, maxDepth, perspective, maxTiltAngle)
+const imgWidth = cardWidth - peekDistanceX * 2
+const aspectRatio = 4/3
+const imgHeight = imgWidth / aspectRatio
+const frameInnerHeight = cardWidth / aspectRatio - frameWidthY * 2
 
-function toRad(deg) {
-  return (deg * Math.PI) / 180
-}
-function getPeekDistanceAndFrameWidth(angle, depth, perspective, width) {
-  const beta = Math.PI / 2 - angle
-  const wHalf = width / 2
-  const c = Math.sqrt(
-    wHalf ** 2 + perspective ** 2 - 2 * wHalf * perspective * Math.cos(beta)
-  )
-  const phi = Math.asin((wHalf * Math.sin(beta)) / c)
-  const x = Math.tan(beta + phi) / depth
-
-  const shorterSide = c + Math.sqrt(x ** 2 + depth ** 2)
-  const bgWidth = width - x * 2
-  const longerSide = Math.sqrt(
-    bgWidth ** 2 +
-      shorterSide ** 2 -
-      2 * bgWidth * shorterSide * Math.cos(Math.PI - beta - phi)
-  )
-  const gamma =
-    Math.asin((bgWidth * Math.sin(Math.PI - beta - phi)) / longerSide) - phi
-  const f = perspective * Math.tan(gamma)
-  const delta = Math.PI - (Math.PI / 2 - gamma)
-  const zetta = Math.PI - angle - delta
-  const frameWidth = wHalf - (f / Math.sin(zetta)) * Math.sin(delta)
-
-  return { peekDistance: x + 6, frameWidth: frameWidth + 10 }
-}
 function easeInOutSine(x) {
   return -(Math.cos(Math.PI * x) - 1) / 2
 }
@@ -57,11 +35,7 @@ function Card3D({ data }) {
   const frameRef = useRef(null)
 
   useEffect(() => {
-    // const mousePosition = { x: 0, y: 0 }
-
     const handleMouseMove = (event) => {
-      // mousePosition.x = event.clientX
-      // mousePosition.y = event.clientY
       update(event)
     }
 
@@ -74,18 +48,17 @@ function Card3D({ data }) {
         x: cardRect.left + cardRect.width / 2,
         y: cardRect.top + cardRect.height / 2,
       }
-
       const distance = {
         x: mouse.clientX - cardCenter.x,
         y: mouse.clientY - cardCenter.y,
       }
-
       const rectDistance = {
         x: Math.abs(distance.x) - cardRect.width / 2,
         y: Math.abs(distance.y) - cardRect.height / 2,
       }
+      
+      // ease tilt intensity outside of the card
       const maxRectDistance = Math.max(rectDistance.x, rectDistance.y)
-
       const easingDistance = cardWidth * 0.3
       let intensity = 0
       if (maxRectDistance < 0) {
@@ -93,17 +66,12 @@ function Card3D({ data }) {
       } else if (maxRectDistance < easingDistance) {
         intensity = 1 - easeInOutSine(maxRectDistance / easingDistance)
       }
-      console.log(intensity)
 
       const maxAngle = maxTiltAngle
 
-      const tiltX = intensity * (distance.y / cardRect.width) * 2 * maxAngle
-      const tiltY = intensity * -(distance.x / cardRect.height) * 2 * maxAngle
+      const tiltX = intensity * (distance.y / cardRect.height) * 2 * maxAngle
+      const tiltY = intensity * -(distance.x / cardRect.width) * 2 * maxAngle
       card.style.transform = `rotateX(${-tiltX}rad) rotateY(${-tiltY}rad)`
-
-      const shadowX = (mouse.x - cardCenter.x) / 20
-      const shadowY = (mouse.y - cardCenter.y) / 20
-      card.style.boxShadow = `${shadowX}px ${shadowY}px 16px rgba(0, 0, 0, 0.1)`
 
       if (!frameRef) return
       const frame = frameRef.current
@@ -161,21 +129,13 @@ const Card = styled.div`
     position: absolute;
     left: calc(${peekDistanceX}px);
     top: calc(${peekDistanceY}px);
-    width: calc(100% - ${peekDistanceX * 2}px);
-    height: calc(300px);
+    width: ${imgWidth}px;
+    height: ${imgHeight}px;
     transform: translateZ(${-maxDepth}px);
-    border-radius: 8px;
+    border-radius: 8px;    
 
-    ::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      box-shadow: 0 0 16px rgba(0, 0, 0, 0.1) inset;
-      border-radius: 8px;
-    }
+    object-fit: cover;
+    object-position: 0 0;
   }
 `
 const Frame = styled.div`
@@ -196,7 +156,7 @@ const Frame = styled.div`
   --frame-width-x: ${frameWidthX}px;
   --frame-width-y: ${frameWidthY}px;
   --frame-window-width: calc(100% - var(--frame-width-x) * 2);
-  --frame-window-height: 200px;
+  --frame-window-height: ${frameInnerHeight}px;
   clip-path: polygon(
     0% 0%,
     0% 100%,
