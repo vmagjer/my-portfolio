@@ -10,7 +10,7 @@ const HomePage = () => {
         <Skills>
           {Object.values(data.technologies).map((tech) => (
             <Skill key={tech.name}>
-              <img src={tech.icon} alt="" width="48" height="48"/>
+              <img src={tech.icon} alt="" width="24" height="24"/>
               {tech.name}            
             </Skill>
           ))}
@@ -84,7 +84,6 @@ const Section = styled.div`
   background-color: rgba(0, 0, 0, 0.1);
 
   border-radius: 8px;
-  /* border: 1px solid red; */
 
   h2 {
     margin-bottom: 8px;
@@ -93,17 +92,23 @@ const Section = styled.div`
 
 const Skills = styled.div`
   display: flex;
+  justify-content: center;
   flex-wrap: wrap;
-  gap: 20px;
+  gap: .75rem;
 `
 
 const Skill = styled.div`
   display: flex;
+  /* flex-direction: column; */
+  gap: .25rem;
+
   align-items: center;
   justify-content: center;
-  padding: 4px 8px;
+  padding: .25rem .5rem;
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgb(255, 255, 255);
+  color: rgba(0, 0, 0, 0.9);
 `
 
 const Projects = styled.div`
