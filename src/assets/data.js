@@ -294,9 +294,10 @@ import csharpIcon from './tech-icons/csharp.png'
 import pythonIcon from './tech-icons/python.png'
 import javaIcon from './tech-icons/java.png'
 import gitIcon from './tech-icons/git.png'
-import githubIcon from './tech-icons/github.png'
+import githubIcon from './tech-icons/github2.png'
 import gitlabIcon from './tech-icons/gitlab.png'
 import bitbucketIcon from './tech-icons/bitbucket.png'
+import notionIcon from './tech-icons/notion.png'
 import jiraIcon from './tech-icons/jira.png'
 import favroIcon from './tech-icons/favro.png'
 import vsCodeIcon from './tech-icons/vscode.png'
@@ -382,13 +383,13 @@ const technologies = {
     name: 'Redux',
     abbreviation: 'Redux',
     icon: reduxIcon,
-    tags: ['frontEnd', 'stateManagement', 'javascript', 'library'],
+    tags: ['frontEnd', 'stateManagement', 'javascript', 'library', 'react'],
   },
   vuex: {
     name: 'Vuex',
     abbreviation: 'Vuex',
     icon: vuexIcon,
-    tags: ['frontEnd', 'stateManagement', 'javascript', 'library'],
+    tags: ['frontEnd', 'stateManagement', 'javascript', 'library', 'vue'],
   },
   // version control
   git: {
@@ -416,6 +417,12 @@ const technologies = {
     tags: ['versionControl', 'tool'],
   },
   // project management
+  notion: {
+    name: 'Notion',
+    abbreviation: 'Notion',
+    icon: notionIcon,
+    tags: ['projectManagement', 'tool'],
+  },
   jira: {
     name: 'Jira',
     abbreviation: 'Jira',
