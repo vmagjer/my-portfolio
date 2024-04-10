@@ -460,6 +460,10 @@ for (let i = 0; i < techKeys.length; i++) {
 
   for (let j = 0; j < row.length; j++) {
     if (j===i) continue
+    if (j<i) {
+      row[j] = techAdjacencyMatrix[j][i]
+      continue
+    }
     const otherTech = technologies[techKeys[j]]
     // count how many tags they have in common
     row[j] = tech.tags.reduce((acc, tag) => {
