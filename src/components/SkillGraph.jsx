@@ -25,19 +25,13 @@ export default function SkillGraph() {
     const skills = Object.values(data.technologies)
     const adjacency = data.techAdjacencyMatrix
 
-    const L = canvas.height / 20 // spring rest length
-    const K_r = 6250 // repulsion constant
-    const R = 0.022
     // const K_s = K_r / (R * L ** 3) // spring constant
-    const delta_t = 2
-    const max_displacement_squared = 2 ** 2
-
     const updatingStrategy = new NetworkUpdatingStrategy({
-      L,
-      K_r,
-      R,
-      delta_t,
-      max_displacement_squared,
+      L: canvas.height / 20, // spring rest length
+      K_r: 6250, // repulsion constant
+      R: 0.022,
+      delta_t: 2,
+      max_displacement_squared: 2 ** 2,
       center: { x: canvas.width / 2, y: canvas.height / 2 },
       centeringForce: 0.0001,
     })
