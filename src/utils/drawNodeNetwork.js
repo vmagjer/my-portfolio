@@ -2,15 +2,19 @@ export class NodeLinkDiagramRenderer {
   isPlaying = true
   constructor(graph, updatingStrategy, drawingStrategy, ctx) {
     this.center = { x: ctx.canvas.width / 2, y: ctx.canvas.height / 2 }
-    this.radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2
+    this.radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2 
 
-    this.nodes = graph.nodes.map((node) => ({
-      node,
-      x: this.center.x + Math.random() * this.radius - this.radius / 2,
-      y: this.center.y + Math.random() * this.radius - this.radius / 2,
-      fx: 0,
-      fy: 0,
-    }))
+    this.nodes = graph.nodes.map((node, i) => {
+      // arrange in circle around center
+      const angle = (i / graph.nodes.length) * Math.PI * 2
+      return ({
+        node,
+        x: this.center.x + Math.cos(angle) * this.radius,
+        y: this.center.y + Math.sin(angle) * this.radius,
+        fx: 0,
+        fy: 0,
+      })
+  })
 
     const maxAdjacency = graph.maxAdjacency
     this.links = []
