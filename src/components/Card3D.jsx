@@ -11,18 +11,26 @@ Card3D.propTypes = {
 }
 
 // CARE: angle mustn't be smaller than 5 degrees or the visual breaks
-const maxTiltAngle = (5 * Math.PI) / 180
-const maxDepth = 60
+const maxTiltAngle = (8 * Math.PI) / 180
+const maxDepth = 40
 const perspective = 2000
 const cardWidth = 300
 const cardHeight = 400
 
-const { backLength: peekDistanceX, frontLength: frameWidthX } =
-getCardMeasures(cardWidth, maxDepth, perspective, maxTiltAngle)
-const { backLength: peekDistanceY, frontLength: frameWidthY } =
-getCardMeasures(cardHeight, maxDepth, perspective, maxTiltAngle)
+const { backLength: peekDistanceX, frontLength: frameWidthX } = getCardMeasures(
+  cardWidth,
+  maxDepth,
+  perspective,
+  maxTiltAngle
+)
+const { backLength: peekDistanceY, frontLength: frameWidthY } = getCardMeasures(
+  cardHeight,
+  maxDepth,
+  perspective,
+  maxTiltAngle
+)
 const imgWidth = cardWidth - peekDistanceX * 2
-const aspectRatio = 4/3
+const aspectRatio = 4 / 3
 const imgHeight = imgWidth / aspectRatio
 const frameInnerHeight = cardWidth / aspectRatio - frameWidthY * 2
 
@@ -56,7 +64,7 @@ function Card3D({ data }) {
         x: Math.abs(distance.x) - cardRect.width / 2,
         y: Math.abs(distance.y) - cardRect.height / 2,
       }
-      
+
       // ease tilt intensity outside of the card
       const maxRectDistance = Math.max(rectDistance.x, rectDistance.y)
       const easingDistance = cardWidth * 0.3
@@ -94,7 +102,9 @@ function Card3D({ data }) {
   return (
     <Wrapper>
       <Card ref={cardRef}>
-        <img src={data.image} alt="" />
+        <ImageFrame>
+          <img src={data.image} alt="" />
+        </ImageFrame>
         <Frame ref={frameRef}>
           <Title>{data.name}</Title>
         </Frame>
@@ -124,19 +134,39 @@ const Card = styled.div`
   -webkit-transform-style: preserve-3d;
 
   cursor: pointer;
-
+  
+  
+`
+const ImageFrame = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateZ(${-maxDepth}px);
   img {
     position: absolute;
     left: calc(${peekDistanceX}px);
     top: calc(${peekDistanceY}px);
     width: ${imgWidth}px;
     height: ${imgHeight}px;
-    transform: translateZ(${-maxDepth}px);
-    border-radius: 8px;    
+    border-radius: 8px;
 
     object-fit: cover;
     object-position: 0 0;
   }
+/* dropshadow inset*/
+&::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: ${frameInnerHeight+frameWidthY*2}px;
+    border-radius: 16px;
+    box-shadow: inset 0 0 ${frameWidthX*2}px rgba(0, 0, 0, 1);
+  }
+
 `
 const Frame = styled.div`
   position: absolute;
@@ -177,6 +207,7 @@ const Frame = styled.div`
       rgba(255, 255, 255, 0) 70%
     );
   border-radius: 16px;
+
 `
 const Title = styled.h3`
   color: white;
