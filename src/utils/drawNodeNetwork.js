@@ -1,10 +1,10 @@
-export class NetworkRenderer {
+export class NodeLinkDiagramRenderer {
   isPlaying = true
-  constructor(nodes, adjacencyMatrix, updatingStrategy, drawingStrategy, ctx) {
+  constructor(graph, updatingStrategy, drawingStrategy, ctx) {
     this.center = { x: ctx.canvas.width / 2, y: ctx.canvas.height / 2 }
     this.radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2
 
-    this.particles = nodes.map((node) => ({
+    this.nodes = graph.nodes.map((node) => ({
       node,
       x: this.center.x + Math.random() * this.radius - this.radius / 2,
       y: this.center.y + Math.random() * this.radius - this.radius / 2,
@@ -12,18 +12,15 @@ export class NetworkRenderer {
       fy: 0,
     }))
 
+    const maxAdjacency = graph.maxAdjacency
     this.links = []
-    const maxAdjacency = Math.max(...adjacencyMatrix.flat())
-    for (let i = 0; i < adjacencyMatrix.length; i++) {
-      for (let j = i + 1; j < adjacencyMatrix[i].length; j++) {
-        if (adjacencyMatrix[i][j] === 0) continue
-        this.links.push({
-          source: i,
-          target: j,
-          strength: adjacencyMatrix[i][j] / maxAdjacency,
-        })
-      }
-    }
+    graph.edges.forEach(([i, j]) => {
+      this.links.push({
+        source: i,
+        target: j,
+        strength: graph.adjacencyMatrix[i][j] / maxAdjacency,
+      })
+    })
 
     this.updatingStrategy = updatingStrategy
     this.drawingStrategy = drawingStrategy
@@ -31,32 +28,43 @@ export class NetworkRenderer {
 
   update() {
     if (!this.isPlaying) return
-    this.updatingStrategy.updateForces(this.particles, this.links)
-    this.updatingStrategy.updatePositions(this.particles)
- 
+    this.updatingStrategy.update(this.nodes, this.links)
   }
 
   draw(ctx) {
     this.links.forEach((link) => {
-      this.drawingStrategy.drawLink(link, this.particles, ctx)
+      this.drawingStrategy.drawLink(link, this.nodes, ctx)
     })
-    this.particles.forEach((particle) => {
-      this.drawingStrategy.drawNode(particle, ctx)
+    this.nodes.forEach((node) => {
+      this.drawingStrategy.drawNode(node, ctx)
     })
   }
 
   reset() {
-    this.particles.forEach((particle) => {
-      particle.x = this.center.x + Math.random() * this.radius - this.radius / 2
-      particle.y = this.center.y + Math.random() * this.radius - this.radius / 2
+    this.nodes.forEach((node) => {
+      node.x = this.center.x + Math.random() * this.radius - this.radius / 2
+      node.y = this.center.y + Math.random() * this.radius - this.radius / 2
     })
   }
 }
 
-// https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6297585
-export class NetworkUpdatingStrategy {
-  timeBudget = 300
-  timeSpent = 0
+/**
+ * Represents a graph topology strategy for node network visualization.
+ * https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6297585
+ */
+export class GraphTopologyStrategy {
+
+  /**
+   * Constructs a new GraphTopologyStrategy.
+   * @param {Object} options - The options for the graph topology strategy.
+   * @param {number} options.L - The spring rest length.
+   * @param {number} options.K_r - The repulsion constant.
+   * @param {number} options.R -  Dimensionless parameter to control the final shape of the layout.
+   * @param {number} options.delta_t - The time step size per iteration.
+   * @param {number} options.max_displacement_squared - The maximum displacement squared.
+   * @param {Object} options.center - The center coordinates of the network.
+   * @param {number} [options.centeringForce=0.0001] - The centering force.
+   */
   constructor({
     L,
     K_r,
@@ -66,15 +74,26 @@ export class NetworkUpdatingStrategy {
     center,
     centeringForce = 0.0001,
   }) {
-    this.L = L // spring rest length
-    this.K_r = K_r // repulsion constant
+    this.L = L
+    this.K_r = K_r
     this.R = R
     this.K_s = K_r / (R * L ** 3) // spring constant
-    this.delta_t_init = delta_t
     this.delta_t = delta_t * 1000
     this.max_displacement_squared = max_displacement_squared
     this.centeringForce = centeringForce
     this.center = center
+    
+    this.iterations = 1000
+    this.min_delta_t = delta_t
+  }
+
+  update(particles, links) {
+    this.updateForces(particles, links)
+    this.updatePositions(particles)
+    if (this.iterations > 0) {
+      this.iteration--
+      this.delta_t = Math.max(this.delta_t * 0.99, this.min_delta_t)
+    } 
   }
 
   updateForces(particles, links) {
@@ -162,13 +181,7 @@ export class NetworkUpdatingStrategy {
       }
       particle.x += dx
       particle.y += dy
-    })
-
-    this.timeSpent += 1
-    this.delta_t = Math.max(
-      (1 - this.timeSpent / this.timeBudget) * this.delta_t_init * 1000,
-      this.delta_t_init
-    )
+    })    
   }
 }
 
@@ -194,5 +207,31 @@ export class NetworkDrawingStrategy {
     ctx.lineWidth = strength * 4
     ctx.stroke()
     ctx.closePath()
+  }
+}
+
+export class UndirectedGraph {
+  constructor(nodes, adjacencyFunction) {
+    this.nodes = nodes
+    this.adjacencyMatrix = this.nodes.map((node1) =>
+      this.nodes.map((node2) => adjacencyFunction(node1, node2))
+    )
+
+    this.edges = []
+    this.adjacencyMatrix.forEach((row, i) =>
+      this.edges.push(
+        ...row.map((adjacency, j) => {
+          if (i >= j) return null
+          if (adjacency === 0) return null
+          // return { source: i, target: j, strength: adjacency }
+          return [i, j]
+        })
+      )
+    )
+    this.edges = this.edges.filter((edge) => edge !== null)
+  }
+
+  get maxAdjacency() {
+    return Math.max(...this.adjacencyMatrix.flat())
   }
 }

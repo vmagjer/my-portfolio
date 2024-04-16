@@ -270,6 +270,9 @@ const technologyCategories = {
   projectManagement: {
     name: 'Project Management',
   },
+  documentation: {
+    name: 'Documentation',
+  },
   developmentEnvironment: {
     name: 'Development Environment',
   },
@@ -421,7 +424,7 @@ const technologies = {
     name: 'Notion',
     abbreviation: 'Notion',
     icon: notionIcon,
-    tags: ['projectManagement', 'tool'],
+    tags: ['projectManagement', 'documentation', 'tool'],
   },
   jira: {
     name: 'Jira',
@@ -449,6 +452,10 @@ const technologies = {
     tags: ['developmentEnvironment', 'tool'],
   },
 }
+
+Object.keys(technologies).forEach((key) => {
+  technologies[key].id = key
+})
 
 const techAdjacencyMatrix = []
 const techKeys = Object.keys(technologies)
