@@ -16,15 +16,7 @@ export class NodeLinkDiagramRenderer {
       })
   })
 
-    const maxAdjacency = graph.maxAdjacency
-    this.links = []
-    graph.edges.forEach(([i, j]) => {
-      this.links.push({
-        source: i,
-        target: j,
-        strength: graph.adjacencyMatrix[i][j] / maxAdjacency,
-      })
-    })
+    this.links = graph.edges
 
     this.updatingStrategy = updatingStrategy
     this.drawingStrategy = drawingStrategy
@@ -216,26 +208,68 @@ export class NetworkDrawingStrategy {
 
 export class UndirectedGraph {
   constructor(nodes, adjacencyFunction) {
-    this.nodes = nodes
-    this.adjacencyMatrix = this.nodes.map((node1) =>
-      this.nodes.map((node2) => adjacencyFunction(node1, node2))
+    this._nodes = nodes
+    this.adjacencyMatrix = this._nodes.map((node1) =>
+      this._nodes.map((node2) => adjacencyFunction(node1, node2))
     )
 
-    this.edges = []
+    this._edges = []
+    const maxAdjacency = Math.max(...this.adjacencyMatrix.flat())
     this.adjacencyMatrix.forEach((row, i) =>
-      this.edges.push(
+      this._edges.push(
         ...row.map((adjacency, j) => {
           if (i >= j) return null
           if (adjacency === 0) return null
-          // return { source: i, target: j, strength: adjacency }
-          return [i, j]
+          return { source: i, target: j, strength: adjacency / maxAdjacency }
         })
       )
     )
-    this.edges = this.edges.filter((edge) => edge !== null)
+    this._edges = this._edges.filter((edge) => edge !== null)
+
+    // use barycentric heuristic to order nodes
+    this._nodes.forEach((node, i) => {
+      node.neighbors = this._edges
+        .filter((edge) => edge.source === i || edge.target === i)
+        .map((edge) => (edge.source === i ? edge.target : edge.source))
+      node.position = i
+    })
+
+    this._orderedNodes = this._nodes.map((node, i) => ({ index: i, average: 0 }))
+
+    this._nodes.forEach((node1, i) => {
+      const p1 = this.positionOfNode(i)
+      let sum = p1
+      node1.neighbors.forEach((j) => {
+        const p2 = this.positionOfNode(j)
+        sum += p2
+      })
+
+      this._orderedNodes[p1].average = sum / (node1.neighbors.length + 1)
+    })
+
+    this._orderedNodes.sort((a, b) => a.average - b.average)
   }
 
-  get maxAdjacency() {
-    return Math.max(...this.adjacencyMatrix.flat())
+  get nodes() {
+    return this._orderedNodes.map((node) => this._nodes[node.index])
+  }
+
+  get edges() {
+    return this._edges.map(({ source, target, strength }) => ({
+      source: this.positionOfNode(source),
+      target: this.positionOfNode(target),
+      strength,
+    }))
+  }
+
+  positionOfNode(i) {
+    if (this._orderedNodes[this._nodes[i].position].index != i) {
+      // invalid position
+      // update ALL cached positions
+      for (let p = 0; p < this._orderedNodes.length; p++) {
+        this._nodes[this._orderedNodes[p].index].position = p
+      }
+    }
+    return this._nodes[i].position
   }
 }
