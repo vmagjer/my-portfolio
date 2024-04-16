@@ -11,8 +11,8 @@ import {
 const skillsGraph = new UndirectedGraph(Object.values(data.technologies), (a, b) => {
   if (a.id === b.id) return 0
   const commonTagsCount = a.tags.filter(tag => b.tags.includes(tag)).length
-  const aTagsIncludesB = a.tags.includes(b.id)
-  const bTagsIncludesA = b.tags.includes(a.id)
+  const aTagsIncludesB = a.tags.includes(b.id) ? 1 : 0
+  const bTagsIncludesA = b.tags.includes(a.id) ? 1 : 0
   return commonTagsCount + aTagsIncludesB + bTagsIncludesA
 })
 
