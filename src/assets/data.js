@@ -457,34 +457,6 @@ Object.keys(technologies).forEach((key) => {
   technologies[key].id = key
 })
 
-const techAdjacencyMatrix = []
-const techKeys = Object.keys(technologies)
-
-
-for (let i = 0; i < techKeys.length; i++) {
-  const tech = technologies[techKeys[i]]
-  const row = new Array(techKeys.length).fill(0)
-
-  for (let j = 0; j < row.length; j++) {
-    if (j===i) continue
-    if (j<i) {
-      row[j] = techAdjacencyMatrix[j][i]
-      continue
-    }
-    const otherTech = technologies[techKeys[j]]
-    // count how many tags they have in common
-    row[j] = tech.tags.reduce((acc, tag) => {
-      if (otherTech.tags.includes(tag)) {
-        return acc + 1
-      }
-      return acc
-    }, 0)
-    // count if they have each other as a tag
-    row[j] += otherTech.tags.includes(techKeys[i]) ? 1 : 0
-  }  
-  
-  techAdjacencyMatrix.push(row)
-}
 
 
 export default {
@@ -496,5 +468,4 @@ export default {
   workExperience,
   technologies,
   technologyCategories,
-  techAdjacencyMatrix
 }
