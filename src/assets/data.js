@@ -142,7 +142,7 @@ const projects = {
   },
   // COMMERCIAL PROJECTS
   verdigo: {
-    name: 'Verdi Go',
+    name: 'Crowdsourced delivery app',
     description:
       'Driver interface for a crowd-sourced delivery service. The mobile app features a map with real-time updates of the driver’s location, nearby orders, and the optimal routes to deliver them.',
     link: 'https://play.google.com/store/apps/details?id=verdi.go.development&pcampaignid=web_share',
@@ -161,7 +161,7 @@ const projects = {
     ],
   },
   verdifarm: {
-    name: 'Verdi Farm',
+    name: 'Web shop for local produce',
     description:
       'Ecommerce platform selling fresh local produce and products from small businesses. The app required a custom CMS for the vendors to manage their products and orders.',
     link: 'https://verdi-farm.com/',
@@ -180,7 +180,7 @@ const projects = {
     ],
   },
   a1cms: {
-    name: 'A1 City Management System',
+    name: 'City management CMS',
     description:
       'Web app for management of several A1’s CMS-s related to city management.',
     link: null,
@@ -199,7 +199,7 @@ const projects = {
     ],
   },
   mojBankar: {
-    name: 'Moj Bankar',
+    name: 'Banking and insurance consulting',
     description:
       'Banking and insurance consulting web app featuring many dynamic forms and informative tools for consultees.',
     link: 'https://www.moj-bankar.hr/',
@@ -219,7 +219,7 @@ const projects = {
     ],
   },
   blokA3: {
-    name: 'Blok A3',
+    name: 'Architecture firm portfolio',
     description:
       'A web app for an architecture firm showcasing their work in an unconventional layout and featuring an image editor for prospective clients to edit and submit their own designs.',
     link: 'https://www.blok-a3.hr/',
