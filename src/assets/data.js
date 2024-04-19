@@ -90,6 +90,57 @@ import mojBankarProduct from './projects/moj-bankar/product.png'
 import mojBankarDictionary from './projects/moj-bankar/dictionary.png'
 
 const projects = {
+  // PERSONAL PROJECTS
+  digitalRain: {
+    name: 'Digital rain',
+    description:
+      'A digital rain animation inspired by the Matrix movie. The rain is implemented through a particle system and interacts with the cursor. Several settings can be adjusted to customize the experience',
+    link: '/projects/digital-rain',
+    image: 'http://unsplash.it/400/300?random&gravity=center',
+    technologies: ['react', 'javascript', 'html', 'css', 'git', 'vsCode'],
+  },
+  scrollBasedAnimation: {
+    name: 'Scroll based animation',
+    description:
+      'A scroll-based animation that controls the timeline of a animated html elements based on scroll position. The animation includes the parallax effect.',
+    link: '/projects/scroll-based-animation',
+    image: 'http://unsplash.it/400/300?random&gravity=center',
+    technologies: ['react', 'javascript', 'html', 'css', 'git', 'vsCode'],
+  },
+  nodeLinkDiagram: {
+    name: 'Node link diagram',
+    description:
+      'A network visualization of subjects and their relationships (in this case technologies I\'ve worked with). The graph is drawn using a force-directed layout algorithm.',
+    link: '/projects/node-link-diagram',
+    image: 'http://unsplash.it/400/300?random&gravity=center',
+    technologies: ['react', 'javascript', 'html', 'css', 'git', 'vsCode'],
+  },
+  card3D: {
+    name: '3D Card component',
+    description:
+      'A 3D card component inspired by Harry Potter movies. The card is implemented using CSS 3D transforms.',
+    link: '/projects/3d-card',
+    image: 'http://unsplash.it/400/300?random&gravity=center',
+    technologies: ['react', 'javascript', 'html', 'css', 'git', 'vsCode'],
+  },
+  // UNIVERISTY PROJECTS
+  augmentedReality: {
+    name: 'Augmented reality app',
+    description:
+      'An augmented reality mobile app that displays information about the user’s surroundings. The app uses the device’s camera and GPS to display the information.',
+    link: null,
+    image: 'http://unsplash.it/400/300?random&gravity=center',
+    technologies: ['unity', 'csharp', 'git', 'vsCode'],
+  },
+  cognitiveTesting: {
+    name: 'Cognitive testing web',
+    description:
+      'A web app for cognitive testing. The app features several tests for cognitive abilities, such as memory, attention, and problem-solving.',
+    link: null,
+    image: 'http://unsplash.it/400/300?random&gravity=center',
+    technologies: ['react', 'redux', 'csharp', 'sql', 'git', 'vsCode'],
+  },
+  // COMMERCIAL PROJECTS
   verdigo: {
     name: 'Verdi Go',
     description:
