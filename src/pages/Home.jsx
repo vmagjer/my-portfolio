@@ -7,6 +7,14 @@ const HomePage = () => {
   return (
     <Container>
       <Section>
+        <h2>Projects</h2>
+        <Projects>
+          {data.highlightedProjects.map((projectId) => (
+            <Card3D key={projectId} data={data.projects[projectId]} />
+          ))}
+        </Projects>
+      </Section>
+      <Section>
         <h2>Skills</h2>
         <Skills>
           {Object.values(data.technologies).map((tech) => (
@@ -17,14 +25,6 @@ const HomePage = () => {
           ))}
         </Skills>
         <SkillGraph />
-      </Section>
-      <Section>
-        <h2>Projects</h2>
-        <Projects>
-          {data.highlightedProjects.map((projectId) => (
-            <Card3D key={projectId} data={data.projects[projectId]} />
-          ))}
-        </Projects>
       </Section>
       <Section>
         <h2>Work Experience</h2>

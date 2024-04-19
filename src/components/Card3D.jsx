@@ -134,8 +134,6 @@ const Card = styled.div`
   -webkit-transform-style: preserve-3d;
 
   cursor: pointer;
-  
-  
 `
 const ImageFrame = styled.div`
   position: absolute;
@@ -144,6 +142,7 @@ const ImageFrame = styled.div`
   width: 100%;
   height: 100%;
   transform: translateZ(${-maxDepth}px);
+
   img {
     position: absolute;
     left: calc(${peekDistanceX}px);
@@ -155,18 +154,18 @@ const ImageFrame = styled.div`
     object-fit: cover;
     object-position: 0 0;
   }
-/* dropshadow inset*/
-&::after {
+
+  /* dropshadow inset*/
+  &::after {
     content: '';
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
-    height: ${frameInnerHeight+frameWidthY*2}px;
+    height: ${frameInnerHeight + frameWidthY * 2}px;
     border-radius: 16px;
-    box-shadow: inset 0 0 ${frameWidthX*2}px rgba(0, 0, 0, 1);
+    box-shadow: inset 0 0 ${frameWidthX * 1}px rgba(0, 0, 0, 1);
   }
-
 `
 const Frame = styled.div`
   position: absolute;
@@ -207,7 +206,6 @@ const Frame = styled.div`
       rgba(255, 255, 255, 0) 70%
     );
   border-radius: 16px;
-
 `
 const Title = styled.h3`
   color: white;

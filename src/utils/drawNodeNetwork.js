@@ -2,19 +2,19 @@ export class NodeLinkDiagramRenderer {
   isPlaying = true
   constructor(graph, updatingStrategy, drawingStrategy, ctx) {
     this.center = { x: ctx.canvas.width / 2, y: ctx.canvas.height / 2 }
-    this.radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 2 
+    this.radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 4
 
     this.nodes = graph.nodes.map((node, i) => {
       // arrange in circle around center
       const angle = (i / graph.nodes.length) * Math.PI * 2
-      return ({
+      return {
         node,
         x: this.center.x + Math.cos(angle) * this.radius,
         y: this.center.y + Math.sin(angle) * this.radius,
         fx: 0,
         fy: 0,
-      })
-  })
+      }
+    })
 
     this.links = graph.edges
 
@@ -49,7 +49,6 @@ export class NodeLinkDiagramRenderer {
  * https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6297585
  */
 export class GraphTopologyStrategy {
-
   /**
    * Constructs a new GraphTopologyStrategy.
    * @param {Object} options - The options for the graph topology strategy.
@@ -78,7 +77,7 @@ export class GraphTopologyStrategy {
     this.max_displacement_squared = max_displacement_squared
     this.centeringForce = centeringForce
     this.center = center
-    
+
     this.iterations = 1000
     this.min_delta_t = delta_t
   }
@@ -89,7 +88,7 @@ export class GraphTopologyStrategy {
     if (this.iterations > 0) {
       this.iteration--
       this.delta_t = Math.max(this.delta_t * 0.99, this.min_delta_t)
-    } 
+    }
   }
 
   updateForces(particles, links) {
@@ -177,7 +176,7 @@ export class GraphTopologyStrategy {
       }
       particle.x += dx
       particle.y += dy
-    })    
+    })
   }
 }
 
@@ -234,7 +233,10 @@ export class UndirectedGraph {
       node.position = i
     })
 
-    this._orderedNodes = this._nodes.map((node, i) => ({ index: i, average: 0 }))
+    this._orderedNodes = this._nodes.map((node, i) => ({
+      index: i,
+      average: 0,
+    }))
 
     this._nodes.forEach((node1, i) => {
       const p1 = this.positionOfNode(i)
