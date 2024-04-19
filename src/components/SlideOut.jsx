@@ -28,7 +28,7 @@ SlideOut.propTypes = {
 }
 
 export default function SlideOut({ children }) {
-  const [menuState, setMenuState] = useState(sideSheetState.hidden)
+  const [menuState, setMenuState] = useState(sideSheetState.visible)
 
   useEffect(() => {
     const mousePosition = { x: 0, y: 0 }
