@@ -333,8 +333,10 @@ const technologyCategories = {
   tool: {
     name: 'Tool',
   },
+  baseWebTechnology: {
+    name: 'Base Web Technology',
+  },
 }
-
 
 import jsIcon from './tech-icons/javascript.png'
 import tsIcon from './tech-icons/typescript.png'
@@ -366,7 +368,7 @@ const technologies = {
     name: 'JavaScript',
     abbreviation: 'JS',
     icon: jsIcon,
-    tags: ['frontEnd', 'backEnd', 'programmingLanguage'],
+    tags: ['frontEnd', 'backEnd', 'programmingLanguage', 'baseWebTechnology'],
   },
   typescript: {
     name: 'TypeScript',
@@ -397,13 +399,13 @@ const technologies = {
     name: 'HTML',
     abbreviation: 'HTML',
     icon: htmlIcon,
-    tags: ['frontEnd', 'markupLanguage'],
+    tags: ['frontEnd', 'markupLanguage', 'baseWebTechnology'],
   },
   css: {
     name: 'CSS',
     abbreviation: 'CSS',
     icon: cssIcon,
-    tags: ['frontEnd', 'stylingLanguage'],
+    tags: ['frontEnd', 'stylingLanguage', 'baseWebTechnology'],
   },
   sass: {
     name: 'Sass',
@@ -510,8 +512,6 @@ const technologies = {
 Object.keys(technologies).forEach((key) => {
   technologies[key].id = key
 })
-
-
 
 export default {
   personalInfo,
