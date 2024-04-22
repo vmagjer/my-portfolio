@@ -3,6 +3,7 @@ import { NavLink } from 'react-router-dom'
 import data from '../assets/data'
 import profilePicture from '../assets/images/profile-picture.jpg'
 import { motion } from 'framer-motion'
+import { ReactNode } from 'react'
 
 const links = [
   { id: 'home', title: 'Home', path: '/' },
@@ -46,14 +47,14 @@ export default function SideMenu() {
 
         <NavList>
           <NavListHeader>Projects</NavListHeader>
-          {Object.keys(data.projects).map((projectId) => (
+          {Object.entries(data.projects).map(([key, value]) => (
             <StyledNavLink
-              to={`/project/${projectId}`}
-              key={projectId}
+              to={`/project/${key}`}
+              key={key}
               variants={navItemVariants}
               whileHover={navItemState.hover}
             >
-              {data.projects[projectId].name}
+              {value.name}
             </StyledNavLink>
           ))}
         </NavList>
@@ -64,7 +65,13 @@ export default function SideMenu() {
   )
 }
 
-function linkClasses({ isActive, isPending }) {
+function linkClasses({
+  isActive,
+  isPending,
+}: {
+  isActive: boolean
+  isPending: boolean
+}) {
   if (isPending) return 'pending'
   if (isActive) return 'active'
   return ''
@@ -121,7 +128,25 @@ const NavListHeader = styled.h3`
   font-size: 12px;
   margin-bottom: 10px;
 `
-const StyledNavLink = styled(motion(NavLink))`
+
+// guaranteed to have className
+const NavLinkWithClassName = ({
+  className,
+  to,
+  children,
+  ...props
+}: {
+  // eslint-disable-next-line no-unused-vars
+  className?: string | ((props: any) => string | undefined) | undefined
+  to: string
+  children: ReactNode
+}) => (
+  <NavLink to={to} className={className} {...props}>
+    {children}
+  </NavLink>
+)
+
+const StyledNavLink = styled(motion(NavLinkWithClassName))`
   padding: 10px;
   color: rgba(255, 255, 255, 0.7);
   flex: 1;

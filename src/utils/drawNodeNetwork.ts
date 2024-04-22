@@ -1,6 +1,13 @@
-export class NodeLinkDiagramRenderer {
+export class NodeLinkDiagramRenderer<TNode> {
   isPlaying = true
-  constructor(graph, updatingStrategy, drawingStrategy, ctx) {
+  center: { x: number; y: number }
+  radius: number
+  nodes: NodeParticle<TNode>[]
+  links: Edge[]
+  updatingStrategy: UpdatingStrategy
+  drawingStrategy: DrawingStrategy
+
+  constructor(graph: Graph<TNode>, updatingStrategy: UpdatingStrategy, drawingStrategy: DrawingStrategy, ctx: CanvasRenderingContext2D) {
     this.center = { x: ctx.canvas.width / 2, y: ctx.canvas.height / 2 }
     this.radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 4
 
@@ -27,13 +34,8 @@ export class NodeLinkDiagramRenderer {
     this.updatingStrategy.update(this.nodes, this.links)
   }
 
-  draw(ctx) {
-    this.links.forEach((link) => {
-      this.drawingStrategy.drawLink(link, this.nodes, ctx)
-    })
-    this.nodes.forEach((node) => {
-      this.drawingStrategy.drawNode(node, ctx)
-    })
+  draw(ctx : CanvasRenderingContext2D) {
+    this.drawingStrategy.draw(this.links, this.nodes, ctx)
   }
 
   reset() {
@@ -44,11 +46,26 @@ export class NodeLinkDiagramRenderer {
   }
 }
 
+interface UpdatingStrategy {
+  update(particles: Particle[], links: Edge[]): void
+}
+
 /**
  * Represents a graph topology strategy for node network visualization.
  * https://ieeexplore.ieee.org/stamp/stamp.jsp?tp=&arnumber=6297585
  */
-export class GraphTopologyStrategy {
+export class GraphTopologyStrategy implements UpdatingStrategy {
+  L: number
+  K_r: number
+  R: number
+  K_s: number
+  delta_t: number
+  max_displacement_squared: number
+  centeringForce: number
+  center: { x: number; y: number }
+  iterations: number
+  min_delta_t: number
+
   /**
    * Constructs a new GraphTopologyStrategy.
    * @param {Object} options - The options for the graph topology strategy.
@@ -68,6 +85,14 @@ export class GraphTopologyStrategy {
     max_displacement_squared,
     center,
     centeringForce = 0.0001,
+  }:{
+    L: number
+    K_r: number
+    R: number
+    delta_t: number
+    max_displacement_squared: number
+    center: { x: number; y: number }
+    centeringForce?: number  
   }) {
     this.L = L
     this.K_r = K_r
@@ -82,16 +107,16 @@ export class GraphTopologyStrategy {
     this.min_delta_t = delta_t
   }
 
-  update(particles, links) {
+  update(particles: Particle[], links: Edge[]) {
     this.updateForces(particles, links)
     this.updatePositions(particles)
     if (this.iterations > 0) {
-      this.iteration--
+      this.iterations--
       this.delta_t = Math.max(this.delta_t * 0.99, this.min_delta_t)
     }
   }
 
-  updateForces(particles, links) {
+  updateForces(particles: Particle[], links: Edge[]) {
     // reset velocities
     particles.forEach((particle) => {
       particle.fx = 0
@@ -162,7 +187,7 @@ export class GraphTopologyStrategy {
     })
   }
 
-  updatePositions(particles) {
+  updatePositions(particles: Particle[]) {
     particles.forEach((particle) => {
       let dx = this.delta_t * particle.fx
       let dy = this.delta_t * particle.fy
@@ -180,8 +205,30 @@ export class GraphTopologyStrategy {
   }
 }
 
-export class NetworkDrawingStrategy {
-  drawNode(particle, ctx) {
+interface DrawingStrategy {
+  draw(links: Edge[], particles: Particle[], ctx: CanvasRenderingContext2D): void
+}
+
+type Particle = {
+  x: number
+  y: number
+  fx: number
+  fy: number
+}
+
+type NodeParticle<TNode>  = Particle & { node: TNode }
+type NodeWithIcon = { icon: string }
+export class NetworkDrawingStrategy implements DrawingStrategy {
+  draw(links: Edge[], particles: NodeParticle<NodeWithIcon>[], ctx: CanvasRenderingContext2D) {
+    links.forEach((link) => {
+      this.drawLink(link, particles, ctx)
+    })
+    particles.forEach((particle) => {
+      this.drawNode(particle, ctx)
+    })
+  }
+
+  drawNode(particle: NodeParticle<NodeWithIcon>, ctx: CanvasRenderingContext2D) {
     const { x, y, node } = particle
     // draw node
     const img = new Image()
@@ -189,7 +236,7 @@ export class NetworkDrawingStrategy {
     ctx.drawImage(img, x - 12, y - 12, 24, 24)
   }
 
-  drawLink(link, particles, ctx) {
+  drawLink(link: Edge, particles: NodeParticle<NodeWithIcon>[], ctx: CanvasRenderingContext2D) {
     const { source, target, strength } = link
 
     const { x: x1, y: y1 } = particles[source]
@@ -205,33 +252,56 @@ export class NetworkDrawingStrategy {
   }
 }
 
-export class UndirectedGraph {
-  constructor(nodes, adjacencyFunction) {
-    this._nodes = nodes
-    this.adjacencyMatrix = this._nodes.map((node1) =>
-      this._nodes.map((node2) => adjacencyFunction(node1, node2))
-    )
+interface Graph<TNode> {
+  nodes: TNode[]
+  edges: Edge[]
+}
+
+type Edge = {
+  source: number
+  target: number
+  strength: number
+}
+type NodeComparator<TNode> = (a: TNode, b: TNode) => number
+
+export class UndirectedGraph<TNode> implements Graph<TNode> {
+  private _nodes: (TNode & { neighbors: number[]; position: number })[]
+  private _edges: Edge[]
+  private _adjacencyMatrix: number[][]
+  private _orderedNodes: { index: number; average: number }[]
+
+  constructor(nodes: TNode[], adjacencyFunction: NodeComparator<TNode>) {    
+    this._adjacencyMatrix = []
+    for (let i = 0; i < nodes.length; i++) {
+      const row: number[] = []
+      for (let j = 0 ; j < nodes.length; j++) {
+        // diagonal is 0 - no self loops
+        if (i===j) row.push(0)
+        // upper triangle is mirrored in lower triangle        
+        if (i>j) row.push(this._adjacencyMatrix[j][i])          
+        row.push(adjacencyFunction(nodes[i], nodes[j]))
+      }
+      this._adjacencyMatrix.push(row)
+    }
 
     this._edges = []
-    const maxAdjacency = Math.max(...this.adjacencyMatrix.flat())
-    this.adjacencyMatrix.forEach((row, i) =>
-      this._edges.push(
-        ...row.map((adjacency, j) => {
-          if (i >= j) return null
-          if (adjacency === 0) return null
-          return { source: i, target: j, strength: adjacency / maxAdjacency }
-        })
-      )
-    )
-    this._edges = this._edges.filter((edge) => edge !== null)
+    const maxAdjacency = Math.max(...this._adjacencyMatrix.flat())
+    // map edges and their strength, normalize strength to [0, 1]
+    for (let i = 0; i < nodes.length - 1; i++) {
+      for (let j = i + 1; j < nodes.length; j++) {
+        if (this._adjacencyMatrix[i][j] === 0) continue
+        this._edges.push({ source: i, target: j, strength: this._adjacencyMatrix[i][j] / maxAdjacency })
+      }
+    }
 
     // use barycentric heuristic to order nodes
-    this._nodes.forEach((node, i) => {
-      node.neighbors = this._edges
+    this._nodes = nodes.map((node, i) => ({
+      ...node,
+      neighbors : this._edges
         .filter((edge) => edge.source === i || edge.target === i)
-        .map((edge) => (edge.source === i ? edge.target : edge.source))
-      node.position = i
-    })
+        .map((edge) => (edge.source === i ? edge.target : edge.source)),
+      position : i
+    }))
 
     this._orderedNodes = this._nodes.map((node, i) => ({
       index: i,
@@ -264,7 +334,7 @@ export class UndirectedGraph {
     }))
   }
 
-  positionOfNode(i) {
+  positionOfNode(i: number) {
     if (this._orderedNodes[this._nodes[i].position].index != i) {
       // invalid position
       // update ALL cached positions

@@ -14,39 +14,44 @@ const HomePage = () => {
           ))}
         </Projects>
       </Section>
+
       <Section>
         <h2>Skills</h2>
         <Skills>
           {Object.values(data.technologies).map((tech) => (
             <Skill key={tech.name}>
-              <img src={tech.icon} alt="" width="24" height="24"/>
-              {tech.name}            
+              <img src={tech.icon} alt="" width="24" height="24" />
+              {tech.name}
             </Skill>
           ))}
         </Skills>
         <SkillGraph />
       </Section>
+
       <Section>
         <h2>Work Experience</h2>
         <WorkExperiences>
-          {Object.keys(data.workExperience).map((workId) => (
-            <WorkExperience key={workId}>
-              <h3>{data.workExperience[workId].role}</h3>
-              <span>at {data.workExperience[workId].company}</span>
-              <span>{data.workExperience[workId].type}</span>
-              <span>{getDurationMonths(data.workExperience[workId].from,data.workExperience[workId].to)} months</span>
+          {data.workExperience.map((workExp) => (
+            <WorkExperience key={workExp.from}>
+              <h3>{workExp.role}</h3>
+              <span>at {workExp.company}</span>
+              <span>{workExp.type}</span>
+              <span>{getDurationMonths(workExp.from, workExp.to)} months</span>
             </WorkExperience>
           ))}
         </WorkExperiences>
       </Section>
+
       <Section>
         <h2>Education</h2>
         <Education>
-          {Object.keys(data.education).map((educationId) => (
-            <EducationItem key={educationId}>
-              <h3>{data.education[educationId].degree}</h3>
-              <span>{data.education[educationId].school}</span>
-              <span>{getMMYYYY(data.education[educationId].from)} - {getMMYYYY(data.education[educationId].to)}</span>
+          {data.education.map((eduExp) => (
+            <EducationItem key={eduExp.degree}>
+              <h3>{eduExp.degree}</h3>
+              <span>{eduExp.school}</span>
+              <span>
+                {getMMYYYY(eduExp.from)} - {getMMYYYY(eduExp.to)}
+              </span>
             </EducationItem>
           ))}
         </Education>
@@ -57,13 +62,17 @@ const HomePage = () => {
 
 export default HomePage
 
-function getDurationMonths(from, to) {
+function getDurationMonths(from: string, to: string) {
   const fromDate = new Date(from)
   const toDate = new Date(to)
-  return (toDate.getFullYear() - fromDate.getFullYear()) * 12 + toDate.getMonth() - fromDate.getMonth()
+  return (
+    (toDate.getFullYear() - fromDate.getFullYear()) * 12 +
+    toDate.getMonth() -
+    fromDate.getMonth()
+  )
 }
 
-function getMMYYYY(date) {
+function getMMYYYY(date: Date) {
   return `${date.getMonth() + 1}/${date.getFullYear()}`
 }
 
@@ -96,17 +105,17 @@ const Skills = styled.div`
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: .75rem;
+  gap: 0.75rem;
 `
 
 const Skill = styled.div`
   display: flex;
   /* flex-direction: column; */
-  gap: .25rem;
+  gap: 0.25rem;
 
   align-items: center;
   justify-content: center;
-  padding: .25rem .5rem;
+  padding: 0.25rem 0.5rem;
   border-radius: 4px;
   background-color: rgba(255, 255, 255, 0.1);
   background-color: rgb(255, 255, 255);
@@ -117,7 +126,7 @@ const Projects = styled.div`
   display: flex;
   gap: 16px;
   /* padding: 16px; */
-  flex-wrap: wrap ;
+  flex-wrap: wrap;
 
   /* perspective: 2000px; */
 `

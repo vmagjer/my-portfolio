@@ -6,18 +6,25 @@ import { useState, useEffect } from 'react'
  * @param {string[]} sectionIds - An array of section IDs.
  * @returns {string} The ID of the active section.
  */
-const useActiveSection = (sectionIds) => {
+const useActiveSection = (sectionIds: string[]) => {
   const [activeSection, setActiveSection] = useState(sectionIds[0])
 
   useEffect(() => {
-    const updateActiveSection = (scrollEvent) => {
-      const scrollY = scrollEvent.target.scrollingElement.scrollTop
+    const updateActiveSection = (scrollEvent: Event) => {
+      if (!scrollEvent.target) {
+        return
+      }
+      const scrollY = (scrollEvent.target as Window).scrollY
 
       let mostVisibleSection = null
       let mostVisibleSectionPercentage = 0
 
       sectionIds.forEach((sectionId) => {
         const section = document.getElementById(sectionId)
+        if (!section) {
+          console.error(`Section with ID "${sectionId}" not found`)
+          return
+        }
         const sectionTop = section.offsetTop
         const sectionBottom = sectionTop + section.offsetHeight
         const sectionVisibleHeight =
@@ -32,6 +39,11 @@ const useActiveSection = (sectionIds) => {
         }
       })
 
+      if (mostVisibleSection === null) {
+        console.error('No section found')
+        return
+      }
+
       setActiveSection(mostVisibleSection)
     }
 
@@ -42,8 +54,12 @@ const useActiveSection = (sectionIds) => {
     }
   }, [sectionIds])
 
-  function scrollToSection(id) {
+  function scrollToSection(id: string) {
     const section = document.getElementById(id)
+    if (!section) {
+      console.error(`Section with ID "${id}" not found`)
+      return
+    }
     const offset = 40 + 32
     const elementPosition = section.getBoundingClientRect().top
     const offsetPosition = elementPosition + window.scrollY - offset

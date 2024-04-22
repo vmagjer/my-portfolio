@@ -22,7 +22,19 @@ const contactInfo = {
   ],
 }
 
-const education = [
+type Education = {
+  degree: string
+  school: string
+  link: string
+  abbreviation: string
+  from: Date
+  to: Date
+  thesis: string
+  subjects: string[]
+  technologies: string[]
+}
+
+const education: Education[] = [
   {
     degree: 'Master of Science in Computer Science',
     school:
@@ -89,7 +101,16 @@ import mojBankarLanding from './projects/moj-bankar/landing.png'
 import mojBankarProduct from './projects/moj-bankar/product.png'
 import mojBankarDictionary from './projects/moj-bankar/dictionary.png'
 
-const projects = {
+type Project = {
+  name: string
+  description: string
+  link: string | null
+  image: string
+  images?: string[]
+  technologies: string[]
+}
+
+const projects: Record<string, Project> = {
   // PERSONAL PROJECTS
   digitalRain: {
     name: 'Digital rain',
@@ -246,7 +267,17 @@ const projects = {
 }
 const highlightedProjects = ['blokA3', 'mojBankar', 'verdifarm', 'verdigo']
 
-const workExperience = [
+type WorkExperience = {
+  role: string
+  description: string
+  company: string
+  type: 'full-time' | 'contract'
+  from: string
+  to: string
+  projects: string[]
+  contributions: string[]
+}
+const workExperience: WorkExperience[] = [
   {
     role: 'Vue Frontend Developer',
     description:
@@ -284,7 +315,11 @@ const workExperience = [
   },
 ]
 
-const technologyCategories = {
+type TechnologyCategory = {
+  name: string
+}
+
+const technologyCategories: Record<string, TechnologyCategory> = {
   frontEnd: {
     name: 'Front-end',
   },
@@ -362,7 +397,15 @@ import favroIcon from './tech-icons/favro.png'
 import vsCodeIcon from './tech-icons/vscode.png'
 import visualstudioIcon from './tech-icons/visualstudio.png'
 
-const technologies = {
+type Technology = {
+  id: string
+  name: string
+  abbreviation: string
+  icon: string
+  tags: string[]
+}
+
+const _technologies: Record<string, Omit<Technology, 'id'>> = {
   // languages
   javascript: {
     name: 'JavaScript',
@@ -509,9 +552,10 @@ const technologies = {
   },
 }
 
-Object.keys(technologies).forEach((key) => {
-  technologies[key].id = key
-})
+const technologies: Record<string, Technology> = {}
+Object.keys(_technologies).forEach((key) => { technologies[key] = { ..._technologies[key], id: key } })
+
+
 
 export default {
   personalInfo,

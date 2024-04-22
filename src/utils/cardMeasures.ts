@@ -1,9 +1,9 @@
 export function getCardMeasures(
-  cardWidth,
-  imageDepth,
-  perspective,
-  maxRotationAngle
-) {
+  cardWidth: number,
+  imageDepth: number,
+  perspective: number,
+  maxRotationAngle: number
+): { backLength: number; frontLength: number } {
   const EYE = {
     x: 0,
     y: 0,
@@ -66,14 +66,16 @@ export function getCardMeasures(
   }
 }
 
-function rotatePointAroundPivot(point, pivot, angle) {
+type Point = { x: number; y: number }
+
+function rotatePointAroundPivot(point: Point, pivot: Point, angle: number): Point {
   const translateToOrigin = translate(point, inverse(pivot))
   const rotateAroundOrigin = rotate(translateToOrigin, angle)
   const translateToPivot = translate(rotateAroundOrigin, pivot)
   return translateToPivot
 }
 
-function rotate(point, angle) {
+function rotate(point: Point, angle: number): Point {
   const cos = Math.cos(angle)
   const sin = Math.sin(angle)
   return {
@@ -82,32 +84,32 @@ function rotate(point, angle) {
   }
 }
 
-function translate(point, vector) {
+function translate(point: Point, vector: Point): Point {
   return {
     x: point.x + vector.x,
     y: point.y + vector.y,
   }
 }
 
-function subtract(v1, v2) {
+function subtract(v1: Point, v2: Point): Point {
   return translate(v1, inverse(v2))
 }
 
-function inverse(v) {
+function inverse(v: Point): Point {
   return {
     x: -v.x,
     y: -v.y,
   }
 }
 
-function length(v) {
+function length(v: Point): number {
   return Math.sqrt(v.x ** 2 + v.y ** 2)
 }
 
 // line intercept math by Paul Bourke http://paulbourke.net/geometry/pointlineplane/
 // Determine the intersection point of two line segments
 // Return FALSE if the lines don't intersect
-function intersect(x1, y1, x2, y2, x3, y3, x4, y4) {
+function intersect(x1: number, y1: number, x2: number, y2: number, x3: number, y3: number, x4: number, y4: number) {
   // Check if none of the lines are of length 0
   if ((x1 === x2 && y1 === y2) || (x3 === x4 && y3 === y4)) {
     return false

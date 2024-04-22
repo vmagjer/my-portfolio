@@ -1,8 +1,15 @@
-import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import useActiveSection from '../utils/useActiveSection'
+export type Section = {
+  id: string
+  title: string
+}
 
-function Summary({ items }) {
+type Props = {
+  items: Section[]
+}
+
+function Summary({ items }: Props) {
   const sectionIds = items.map((section) => section.id)
   const { activeSection, scrollToSection } = useActiveSection(sectionIds)
 
@@ -12,7 +19,7 @@ function Summary({ items }) {
         <SummaryItem
           key={`summary-item-${item.id}`}
           className="summary-item"
-          $active={activeSection === item.id}
+          active={activeSection === item.id}
           onClick={() => scrollToSection(item.id)}
         >
           <span>{index}</span>
@@ -21,11 +28,6 @@ function Summary({ items }) {
       ))}
     </Container>
   )
-}
-
-Summary.propTypes = {
-  items: PropTypes.array.isRequired,
-  activeItem: PropTypes.string.isRequired,
 }
 
 export default Summary
@@ -45,12 +47,12 @@ const Container = styled.div`
   backdrop-filter: blur(5px);
 `
 
-const SummaryItem = styled.button`
+const SummaryItem = styled.button<{ active: boolean }>`
   padding: 10px;
   margin-bottom: 10px;
   color: white;
-  background: ${({ $active }) =>
-    $active ? 'rgba(255, 255, 255, 0.3)' : 'transparent'};
+  background: ${({ active }) =>
+    active ? 'rgba(255, 255, 255, 0.3)' : 'transparent'};
   border: none;
   cursor: pointer;
 `

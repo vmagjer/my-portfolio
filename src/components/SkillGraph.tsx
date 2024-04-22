@@ -20,8 +20,8 @@ const skillsGraph = new UndirectedGraph(
 )
 
 export default function SkillGraph() {
-  const wrapperRef = useRef(null)
-  const canvasRef = useRef(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useEffect(() => {
     if (!wrapperRef.current) return
@@ -30,6 +30,9 @@ export default function SkillGraph() {
     canvas.width = wrapperRef.current.clientWidth
     canvas.height = wrapperRef.current.clientHeight
     const ctx = canvas.getContext('2d')
+    if (!ctx) {
+      throw new Error('Failed to get 2d context')
+    }
 
     const updatingStrategy = new GraphTopologyStrategy({
       L: 20,
@@ -49,8 +52,9 @@ export default function SkillGraph() {
       ctx
     )
 
-    let requestId = null
+    let requestId: number = -1
     function loop() {
+      if (!ctx) return
       ctx.clearRect(0, 0, canvas.width, canvas.height)
       network.draw(ctx)
       network.update()

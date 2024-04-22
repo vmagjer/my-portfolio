@@ -1,5 +1,5 @@
 import styled from 'styled-components'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
 import PropTypes from 'prop-types'
 
@@ -27,13 +27,21 @@ SlideOut.propTypes = {
   children: PropTypes.node,
 }
 
-export default function SlideOut({ children }) {
+type Props = {
+  children: ReactNode
+}
+
+type ScreenPosition = {
+  x: number
+  y: number
+}
+export default function SlideOut({ children }: Props) {
   const [menuState, setMenuState] = useState(sideSheetState.visible)
 
   useEffect(() => {
-    const mousePosition = { x: 0, y: 0 }
+    const mousePosition: ScreenPosition = { x: 0, y: 0 }
 
-    const handleMouseMove = (event) => {
+    const handleMouseMove = (event: MouseEvent) => {
       mousePosition.x = event.clientX
       mousePosition.y = event.clientY
       update()
@@ -89,7 +97,7 @@ export default function SlideOut({ children }) {
 const menuButtonOffset = 100
 const menuButtonSize = 60
 
-const controlButtonMovement = (mouse) => {
+const controlButtonMovement = (mouse: ScreenPosition) => {
   let translationX = buttonPositionX(
     mouse.x,
     mouse.y,
@@ -99,12 +107,16 @@ const controlButtonMovement = (mouse) => {
   let translationY = 0
 
   const button = document.getElementById('menu-button')
+  if (!button) {
+    console.error('Button not found')
+    return
+  }
   button.style.transform = `translateY(calc(-50% + ${translationY}px)) translateX(${-translationX}px)`
 }
 
 const buttonPositionX = (
-  x,
-  y,
+  x: number,
+  y: number,
   startsAt = 0.4 * window.innerWidth,
   endsAt = 0.15 * window.innerWidth
 ) => {
