@@ -1,7 +1,6 @@
 import styled from 'styled-components'
 import { ReactNode, useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import PropTypes from 'prop-types'
 
 const menuWidth = 300
 const menuPeekSpace = 100
@@ -21,10 +20,6 @@ const navVariants = {
   [sideSheetState.visible]: {
     x: 0,
   },
-}
-
-SlideOut.propTypes = {
-  children: PropTypes.node,
 }
 
 type Props = {
@@ -98,13 +93,13 @@ const menuButtonOffset = 100
 const menuButtonSize = 60
 
 const controlButtonMovement = (mouse: ScreenPosition) => {
-  let translationX = buttonPositionX(
+  const translationX = buttonPositionX(
     mouse.x,
     mouse.y,
     menuWidth + menuPeekSpace + 100,
     menuWidth
   )
-  let translationY = 0
+  const translationY = 0
 
   const button = document.getElementById('menu-button')
   if (!button) {

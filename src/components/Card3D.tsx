@@ -1,14 +1,6 @@
 import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import PropTypes from 'prop-types'
 import { getCardMeasures } from '../utils/cardMeasures'
-
-Card3D.propTypes = {
-  data: PropTypes.shape({
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string,
-  }).isRequired,
-}
 
 // CARE: angle mustn't be smaller than 5 degrees or the visual breaks
 const maxTiltAngle = (8 * Math.PI) / 180
@@ -34,20 +26,20 @@ const aspectRatio = 4 / 3
 const imgHeight = imgWidth / aspectRatio
 const frameInnerHeight = cardWidth / aspectRatio - frameWidthY * 2
 
-function easeInOutSine(x) {
+function easeInOutSine(x: number) {
   return -(Math.cos(Math.PI * x) - 1) / 2
 }
 
-function Card3D({ data }) {
-  const cardRef = useRef(null)
-  const frameRef = useRef(null)
+function Card3D({ data }: {data: {name: string; image: string}}) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const frameRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const handleMouseMove = (event) => {
+    const handleMouseMove = (event: MouseEvent) => {
       update(event)
     }
 
-    const update = (mouse) => {
+    const update = (mouse: MouseEvent) => {
       if (!cardRef.current) return
 
       const card = cardRef.current
@@ -81,8 +73,8 @@ function Card3D({ data }) {
       const tiltY = intensity * -(distance.x / cardRect.width) * 2 * maxAngle
       card.style.transform = `rotateX(${-tiltX}rad) rotateY(${-tiltY}rad)`
 
-      if (!frameRef) return
       const frame = frameRef.current
+      if (!frame) return
       frame.style.background = ` #313131 radial-gradient(
         circle at ${50 + (tiltY / maxAngle) * 40}% ${
         20 + (-tiltX / maxAngle) * 40

@@ -94,14 +94,14 @@ const education: Education[] = [
   },
 ]
 
-import blokA3Landing from './projects/blok-a3/blok-a3-landing.png'
-import blokA3Portfolio from './projects/blok-a3/blok-a3-portfolio.png'
+// import blokA3Landing from './projects/blok-a3/blok-a3-landing.png'
+// import blokA3Portfolio from './projects/blok-a3/blok-a3-portfolio.png'
 import blokA3Map from './projects/blok-a3/blok-a3-map.png'
 import mojBankarLanding from './projects/moj-bankar/landing.png'
-import mojBankarProduct from './projects/moj-bankar/product.png'
-import mojBankarDictionary from './projects/moj-bankar/dictionary.png'
+// import mojBankarProduct from './projects/moj-bankar/product.png'
+// import mojBankarDictionary from './projects/moj-bankar/dictionary.png'
 
-type Project = {
+export type Project = {
   name: string
   description: string
   link: string | null

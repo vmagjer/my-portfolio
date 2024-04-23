@@ -122,8 +122,8 @@ function intersect(x1: number, y1: number, x2: number, y2: number, x3: number, y
     return false
   }
 
-  let ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator
-  let ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator
+  const ua = ((x4 - x3) * (y1 - y3) - (y4 - y3) * (x1 - x3)) / denominator
+  const ub = ((x2 - x1) * (y1 - y3) - (y2 - y1) * (x1 - x3)) / denominator
 
   // is the intersection along the segments
   if (ua < 0 || ua > 1 || ub < 0 || ub > 1) {
@@ -132,8 +132,8 @@ function intersect(x1: number, y1: number, x2: number, y2: number, x3: number, y
   }
 
   // Return a object with the x and y coordinates of the intersection
-  let x = x1 + ua * (x2 - x1)
-  let y = y1 + ua * (y2 - y1)
+  const x = x1 + ua * (x2 - x1)
+  const y = y1 + ua * (y2 - y1)
 
   return { x, y }
 }

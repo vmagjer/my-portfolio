@@ -131,24 +131,24 @@ const Projects = styled.div`
   /* perspective: 2000px; */
 `
 
-const Project = styled.div`
-  padding: 12px;
-  border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.1);
+// const Project = styled.div`
+//   padding: 12px;
+//   border-radius: 4px;
+//   background-color: rgba(255, 255, 255, 0.1);
 
-  h3 {
-    margin-bottom: 4px;
-  }
+//   h3 {
+//     margin-bottom: 4px;
+//   }
 
-  img {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-    border-radius: 4px;
+//   img {
+//     width: 100%;
+//     height: 200px;
+//     object-fit: cover;
+//     border-radius: 4px;
 
-    margin-bottom: 8px;
-  }
-`
+//     margin-bottom: 8px;
+//   }
+// `
 const WorkExperiences = styled.div`
   display: flex;
   flex-direction: column;

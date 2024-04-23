@@ -2,25 +2,12 @@ import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
 import data from '../assets/data'
 import profilePicture from '../assets/images/profile-picture.jpg'
-import { motion } from 'framer-motion'
-import { ReactNode } from 'react'
 
 const links = [
   { id: 'home', title: 'Home', path: '/' },
   { id: 'about', title: 'About', path: '/about' },
   { id: 'contact', title: 'Contact', path: '/contact' },
 ]
-
-const navItemState = {
-  hover: 'hover',
-}
-
-const navItemVariants = {
-  [navItemState.hover]: {
-    paddingLeft: '16px',
-    transition: { ease: 'easeInOut' },
-  },
-}
 
 export default function SideMenu() {
   return (
@@ -37,8 +24,6 @@ export default function SideMenu() {
               to={link.path}
               key={`nav-link-${link.id}`}
               className={linkClasses}
-              variants={navItemVariants}
-              whileHover={navItemState.hover}
             >
               {link.title}
             </StyledNavLink>
@@ -51,8 +36,6 @@ export default function SideMenu() {
             <StyledNavLink
               to={`/project/${key}`}
               key={key}
-              variants={navItemVariants}
-              whileHover={navItemState.hover}
             >
               {value.name}
             </StyledNavLink>
@@ -77,7 +60,7 @@ function linkClasses({
   return ''
 }
 
-const Container = styled(motion.div)`
+const Container = styled.div`
   height: calc(100vh - 16px);
   width: 100%;
   transition: transform 0.2s ease;
@@ -130,23 +113,23 @@ const NavListHeader = styled.h3`
 `
 
 // guaranteed to have className
-const NavLinkWithClassName = ({
-  className,
-  to,
-  children,
-  ...props
-}: {
-  // eslint-disable-next-line no-unused-vars
-  className?: string | ((props: any) => string | undefined) | undefined
-  to: string
-  children: ReactNode
-}) => (
-  <NavLink to={to} className={className} {...props}>
-    {children}
-  </NavLink>
-)
+// const NavLinkWithClassName = ({
+//   className,
+//   to,
+//   children,
+//   ...props
+// }: {
+//   // eslint-disable-next-line no-unused-vars
+//   className?: string | ((props: any) => string | undefined) | undefined
+//   to: string
+//   children: ReactNode
+// }) => (
+//   <NavLink to={to} className={className} {...props}>
+//     {children}
+//   </NavLink>
+// )
 
-const StyledNavLink = styled(motion(NavLinkWithClassName))`
+const StyledNavLink = styled(NavLink)`
   padding: 10px;
   color: rgba(255, 255, 255, 0.7);
   flex: 1;

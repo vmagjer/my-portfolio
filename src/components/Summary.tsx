@@ -1,5 +1,6 @@
 import styled from 'styled-components'
 import useActiveSection from '../utils/useActiveSection'
+import { useMemo } from 'react'
 export type Section = {
   id: string
   title: string
@@ -10,7 +11,7 @@ type Props = {
 }
 
 function Summary({ items }: Props) {
-  const sectionIds = items.map((section) => section.id)
+  const sectionIds = useMemo(() => items.map((item) => item.id), [items])
   const { activeSection, scrollToSection } = useActiveSection(sectionIds)
 
   return (
@@ -19,7 +20,7 @@ function Summary({ items }: Props) {
         <SummaryItem
           key={`summary-item-${item.id}`}
           className="summary-item"
-          active={activeSection === item.id}
+          $active={activeSection === item.id}
           onClick={() => scrollToSection(item.id)}
         >
           <span>{index}</span>
@@ -47,12 +48,12 @@ const Container = styled.div`
   backdrop-filter: blur(5px);
 `
 
-const SummaryItem = styled.button<{ active: boolean }>`
+const SummaryItem = styled.button<{ $active: boolean }>`
   padding: 10px;
   margin-bottom: 10px;
   color: white;
-  background: ${({ active }) =>
-    active ? 'rgba(255, 255, 255, 0.3)' : 'transparent'};
+  background: ${({ $active }) =>
+    $active ? 'rgba(255, 255, 255, 0.3)' : 'transparent'};
   border: none;
   cursor: pointer;
 `
