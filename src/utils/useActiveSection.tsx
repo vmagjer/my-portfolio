@@ -14,7 +14,7 @@ const useActiveSection = (sectionIds: string[]) => {
       if (!scrollEvent.target) {
         return
       }
-      const scrollY = (scrollEvent.target as Window).scrollY
+      const scrollY = window.scrollY
 
       let mostVisibleSection = null
       let mostVisibleSectionPercentage = 0
@@ -25,14 +25,16 @@ const useActiveSection = (sectionIds: string[]) => {
           console.error(`Section with ID "${sectionId}" not found`)
           return
         }
+
+        // Calculate the percentage of the section that is visible
         const sectionTop = section.offsetTop
         const sectionBottom = sectionTop + section.offsetHeight
-        const sectionVisibleHeight =
-          Math.min(scrollY + window.innerHeight, sectionBottom) -
-          Math.max(scrollY, sectionTop)
+        const upperVisiblePoint = Math.max(scrollY, sectionTop)
+        const lowerVisiblePoint = Math.min(scrollY + window.innerHeight, sectionBottom)
+        const sectionVisibleHeight = lowerVisiblePoint - upperVisiblePoint
         const sectionVisiblePercentage =
           (sectionVisibleHeight / section.offsetHeight) * 100
-
+        
         if (sectionVisiblePercentage > mostVisibleSectionPercentage) {
           mostVisibleSection = sectionId
           mostVisibleSectionPercentage = sectionVisiblePercentage
@@ -42,7 +44,7 @@ const useActiveSection = (sectionIds: string[]) => {
       if (mostVisibleSection === null) {
         console.error('No section found')
         return
-      }
+      } 
 
       setActiveSection(mostVisibleSection)
     }
