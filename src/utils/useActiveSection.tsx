@@ -10,8 +10,8 @@ const useActiveSection = (sectionIds: string[]) => {
   const [activeSection, setActiveSection] = useState<string>(sectionIds[0])
 
   useEffect(() => {
-    const updateActiveSection = () => {      
-      const newActiveSection = getMostVisibleSection(sectionIds)
+    const updateActiveSection = () => {
+      const newActiveSection = getTopVisibleSection(sectionIds)
 
       if (newActiveSection === null) {
         console.error('No section found')
@@ -78,4 +78,26 @@ function getMostVisibleSection(sectionIds: string[]): string | null {
   })
 
   return mostVisibleSection
+}
+
+function getTopVisibleSection(sectionIds: string[]): string | null {
+  const offset = 40 + 32 + 16
+  const scrollY = window.scrollY + offset
+
+  // sectionIds.forEach((sectionId) => {
+  for (const sectionId of sectionIds) {
+    const section = document.getElementById(sectionId)
+    if (section === null) {
+      throw new Error(`Section with ID "${sectionId}" not found`)
+    }
+
+    const sectionTop = section.offsetTop
+    const sectionBottom = sectionTop + section.offsetHeight
+
+    if (scrollY >= sectionTop && scrollY <= sectionBottom) {
+      return sectionId
+    }
+  }
+
+  return null
 }
