@@ -9,7 +9,7 @@ const sections: SectionType[] = [
   { id: 'contact', title: 'Contact' },
 ]
 
-function ProjectView() {
+export default function ProjectView() {
   return (
     <Container>
       <Summary items={sections} />
@@ -23,8 +23,6 @@ function ProjectView() {
     </Container>
   )
 }
-
-export default ProjectView
 
 const Container = styled.div`
   min-height: 100vh;
@@ -44,7 +42,11 @@ const Section = styled.div`
   color: white;
   background: rgba(000 000 000 / 0.3);
 
-  min-height: 80vh;
+  min-height: 360px;
   width: 100%;
   max-width: 800px;
+
+  &:last-of-type {
+    min-height: 100vh;
+  }
 `

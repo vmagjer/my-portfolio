@@ -10,7 +10,7 @@ type Props = {
   items: Section[]
 }
 
-function Summary({ items }: Props) {
+export default function Summary({ items }: Props) {
   const sectionIds = useMemo(() => items.map((item) => item.id), [items])
   const { activeSection, scrollToSection } = useActiveSection(sectionIds)
 
@@ -18,7 +18,7 @@ function Summary({ items }: Props) {
     <Container className="summary">
       {items.map((item, index) => (
         <SummaryItem
-          key={`summary-item-${item.id}`}
+          key={`summary-item-${item.id}`} 
           className="summary-item"
           $active={activeSection === item.id}
           onClick={() => scrollToSection(item.id)}
@@ -30,8 +30,6 @@ function Summary({ items }: Props) {
     </Container>
   )
 }
-
-export default Summary
 
 const Container = styled.div`
   position: fixed;
