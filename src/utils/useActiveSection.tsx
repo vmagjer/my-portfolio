@@ -7,46 +7,18 @@ import { useState, useEffect } from 'react'
  * @returns {string} The ID of the active section.
  */
 const useActiveSection = (sectionIds: string[]) => {
-  const [activeSection, setActiveSection] = useState(sectionIds[0])
+  const [activeSection, setActiveSection] = useState<string>(sectionIds[0])
 
   useEffect(() => {
-    const updateActiveSection = (scrollEvent: Event) => {
-      if (!scrollEvent.target) {
-        return
-      }
-      const scrollY = window.scrollY
+    const updateActiveSection = () => {      
+      const newActiveSection = getMostVisibleSection(sectionIds)
 
-      let mostVisibleSection = null
-      let mostVisibleSectionPercentage = 0
-
-      sectionIds.forEach((sectionId) => {
-        const section = document.getElementById(sectionId)
-        if (!section) {
-          console.error(`Section with ID "${sectionId}" not found`)
-          return
-        }
-
-        // Calculate the percentage of the section that is visible
-        const sectionTop = section.offsetTop
-        const sectionBottom = sectionTop + section.offsetHeight
-        const upperVisiblePoint = Math.max(scrollY, sectionTop)
-        const lowerVisiblePoint = Math.min(scrollY + window.innerHeight, sectionBottom)
-        const sectionVisibleHeight = lowerVisiblePoint - upperVisiblePoint
-        const sectionVisiblePercentage =
-          (sectionVisibleHeight / section.offsetHeight) * 100
-        
-        if (sectionVisiblePercentage > mostVisibleSectionPercentage) {
-          mostVisibleSection = sectionId
-          mostVisibleSectionPercentage = sectionVisiblePercentage
-        }
-      })
-
-      if (mostVisibleSection === null) {
+      if (newActiveSection === null) {
         console.error('No section found')
         return
-      } 
+      }
 
-      setActiveSection(mostVisibleSection)
+      setActiveSection(newActiveSection)
     }
 
     window.addEventListener('scroll', updateActiveSection)
@@ -73,3 +45,37 @@ const useActiveSection = (sectionIds: string[]) => {
 }
 
 export default useActiveSection
+
+function getMostVisibleSection(sectionIds: string[]): string | null {
+  const scrollY = window.scrollY
+
+  let mostVisibleSection = null
+  let mostVisibleSectionPercentage = 0
+
+  sectionIds.forEach((sectionId) => {
+    const section = document.getElementById(sectionId)
+    if (!section) {
+      console.error(`Section with ID "${sectionId}" not found`)
+      return
+    }
+
+    // Calculate the percentage of the section that is visible
+    const sectionTop = section.offsetTop
+    const sectionBottom = sectionTop + section.offsetHeight
+    const upperVisiblePoint = Math.max(scrollY, sectionTop)
+    const lowerVisiblePoint = Math.min(
+      scrollY + window.innerHeight,
+      sectionBottom
+    )
+    const sectionVisibleHeight = lowerVisiblePoint - upperVisiblePoint
+    const sectionVisiblePercentage =
+      (sectionVisibleHeight / section.offsetHeight) * 100
+
+    if (sectionVisiblePercentage > mostVisibleSectionPercentage) {
+      mostVisibleSection = sectionId
+      mostVisibleSectionPercentage = sectionVisiblePercentage
+    }
+  })
+
+  return mostVisibleSection
+}
