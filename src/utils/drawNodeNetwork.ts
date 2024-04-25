@@ -11,9 +11,10 @@ export class NodeLinkDiagramRenderer<TNode> {
     this.center = { x: ctx.canvas.width / 2, y: ctx.canvas.height / 2 }
     this.radius = Math.min(ctx.canvas.width, ctx.canvas.height) / 4
 
+    const angleIncrement = (Math.PI * 2) / graph.nodes.length
     this.nodes = graph.nodes.map((node, i) => {
       // arrange in circle around center
-      const angle = (i / graph.nodes.length) * Math.PI * 2
+      const angle = i * angleIncrement
       return {
         node,
         x: this.center.x + Math.cos(angle) * this.radius,
@@ -34,7 +35,7 @@ export class NodeLinkDiagramRenderer<TNode> {
     this.updatingStrategy.update(this.nodes, this.links)
   }
 
-  draw(ctx : CanvasRenderingContext2D) {
+  draw(ctx: CanvasRenderingContext2D) {
     this.drawingStrategy.draw(this.links, this.nodes, ctx)
   }
 
@@ -85,14 +86,14 @@ export class GraphTopologyStrategy implements UpdatingStrategy {
     max_displacement_squared,
     center,
     centeringForce = 0.0001,
-  }:{
+  }: {
     L: number
     K_r: number
     R: number
     delta_t: number
     max_displacement_squared: number
     center: { x: number; y: number }
-    centeringForce?: number  
+    centeringForce?: number
   }) {
     this.L = L
     this.K_r = K_r
@@ -216,7 +217,7 @@ type Particle = {
   fy: number
 }
 
-type NodeParticle<TNode>  = Particle & { node: TNode }
+type NodeParticle<TNode> = Particle & { node: TNode }
 type NodeWithIcon = { icon: string }
 export class NetworkDrawingStrategy implements DrawingStrategy {
   draw(links: Edge[], particles: NodeParticle<NodeWithIcon>[], ctx: CanvasRenderingContext2D) {
@@ -265,83 +266,91 @@ type Edge = {
 type NodeComparator<TNode> = (a: TNode, b: TNode) => number
 
 export class UndirectedGraph<TNode> implements Graph<TNode> {
-  private _nodes: (TNode & { neighbors: number[]; position: number })[]
+  private _nodes: TNode[]
   private _edges: Edge[]
   private _adjacencyMatrix: number[][]
-  private _orderedNodes: { index: number; average: number }[]
 
-  constructor(nodes: TNode[], adjacencyFunction: NodeComparator<TNode>) {    
-    this._adjacencyMatrix = []
+  constructor(nodes: TNode[], nodeAdjacency: NodeComparator<TNode>) {
+    const adjacencyMatrix = this.createAdjacencyMatrix(nodes, nodeAdjacency)
+
+    const edges = this.createEdges(nodes, adjacencyMatrix)
+
+    const sortedNodeIndexes = this.sortedNodes(nodes, edges)
+
+    this._nodes = sortedNodeIndexes.map((i) => nodes[i])
+    // sort row
+    this._adjacencyMatrix = sortedNodeIndexes.map((i) => adjacencyMatrix[i])
+    // sort columns
+    this._adjacencyMatrix = this._adjacencyMatrix.map((row) =>
+      sortedNodeIndexes.map((i) => row[i])
+    )
+    // update edges
+    this._edges = this.createEdges(this._nodes, this._adjacencyMatrix)
+  }
+
+  get nodes() {
+    return this._nodes
+  }
+
+  get edges() {
+    return this._edges
+  }
+
+  createAdjacencyMatrix(nodes: TNode[], nodeAdjacency: NodeComparator<TNode>): number[][] {
+    const adjacencyMatrix = []
     for (let i = 0; i < nodes.length; i++) {
-      const row: number[] = []
-      for (let j = 0 ; j < nodes.length; j++) {
-        // diagonal is 0 - no self loops
-        if (i===j) row.push(0)
-        // upper triangle is mirrored in lower triangle        
-        if (i>j) row.push(this._adjacencyMatrix[j][i])          
-        row.push(adjacencyFunction(nodes[i], nodes[j]))
+      const row = []
+      for (let j = 0; j < nodes.length; j++) {
+        if (i === j) {
+          row.push(0)
+          continue
+        }
+        if (i > j) {
+          row.push(adjacencyMatrix[j][i])
+          continue
+        }
+        row.push(nodeAdjacency(nodes[i], nodes[j]))
       }
-      this._adjacencyMatrix.push(row)
+      adjacencyMatrix.push(row)
     }
+    return adjacencyMatrix
+  }
 
-    this._edges = []
-    const maxAdjacency = Math.max(...this._adjacencyMatrix.flat())
-    // map edges and their strength, normalize strength to [0, 1]
+  createEdges(nodes: TNode[], adjacencyMatrix: number[][]): Edge[] {
+    const edges = []
+    const maxAdjacency = Math.max(...adjacencyMatrix.flat())
     for (let i = 0; i < nodes.length - 1; i++) {
       for (let j = i + 1; j < nodes.length; j++) {
-        if (this._adjacencyMatrix[i][j] === 0) continue
-        this._edges.push({ source: i, target: j, strength: this._adjacencyMatrix[i][j] / maxAdjacency })
+        edges.push({ source: i, target: j, strength: adjacencyMatrix[i][j] / maxAdjacency })
       }
     }
+    return edges
+  }
 
+  sortedNodes(nodes: TNode[], edges: Edge[]): number[] {
     // use barycentric heuristic to order nodes
-    this._nodes = nodes.map((node, i) => ({
-      ...node,
-      neighbors : this._edges
+    const helperValues = nodes.map((node, i) => ({
+      neighbors: edges
         .filter((edge) => edge.source === i || edge.target === i)
         .map((edge) => (edge.source === i ? edge.target : edge.source)),
-      position : i
+      position: i
     }))
 
-    this._orderedNodes = this._nodes.map((node, i) => ({
+    const orderedNodes = nodes.map((node, i) => ({
       index: i,
       average: 0,
     }))
 
-    this._nodes.forEach((node1, i) => {
-      const p1 = this.positionOfNode(i)
-      let sum = p1
-      node1.neighbors.forEach((j) => {
-        const p2 = this.positionOfNode(j)
-        sum += p2
-      })
+    for (let p = 0; p < orderedNodes.length; p++) {
+      helperValues[orderedNodes[p].index].position = p
+    }
 
-      this._orderedNodes[p1].average = sum / (node1.neighbors.length + 1)
+    helperValues.forEach((node1) => {
+      const sum = node1.position + node1.neighbors.reduce((acc, j) => acc + helperValues[j].position, 0)
+      orderedNodes[node1.position].average = sum / (node1.neighbors.length + 1)
     })
 
-    this._orderedNodes.sort((a, b) => a.average - b.average)
-  }
+    return orderedNodes.toSorted((a, b) => a.average - b.average).map((node) => node.index)
 
-  get nodes() {
-    return this._orderedNodes.map((node) => this._nodes[node.index])
-  }
-
-  get edges() {
-    return this._edges.map(({ source, target, strength }) => ({
-      source: this.positionOfNode(source),
-      target: this.positionOfNode(target),
-      strength,
-    }))
-  }
-
-  positionOfNode(i: number) {
-    if (this._orderedNodes[this._nodes[i].position].index != i) {
-      // invalid position
-      // update ALL cached positions
-      for (let p = 0; p < this._orderedNodes.length; p++) {
-        this._nodes[this._orderedNodes[p].index].position = p
-      }
-    }
-    return this._nodes[i].position
   }
 }
