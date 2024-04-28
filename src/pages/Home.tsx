@@ -1,16 +1,22 @@
 import styled from 'styled-components'
 import data from '../assets/data'
-import Card3D from '../components/Card3D'
+// import Card3D from '../components/Card3D'
 import SkillGraph from '../components/SkillGraph'
+import { ProjectItem } from '../components/ProjectItem'
 
 const HomePage = () => {
   return (
     <Container>
       <Section>
-        <h2>Projects</h2>
+        <h2>Highlighted Projects</h2>
         <Projects>
           {data.highlightedProjects.map((projectId) => (
-            <Card3D key={projectId} data={data.projects[projectId]} />
+            <ProjectItem
+              key={projectId}
+              title={data.projects[projectId].name}
+              image={data.projects[projectId].image}
+              navLink={`/projects/${projectId}`}
+            />
           ))}
         </Projects>
       </Section>
@@ -123,10 +129,17 @@ const Skill = styled.div`
 `
 
 const Projects = styled.div`
-  display: flex;
-  gap: 16px;
-  /* padding: 16px; */
+  /* display: flex;
+  flex-direction: column;
   flex-wrap: wrap;
+  max-height: 800px;
+
+  align-content: flex-start; */
+
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+
+  /* padding: 16px; */
 
   /* perspective: 2000px; */
 `
