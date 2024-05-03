@@ -3,6 +3,7 @@ import MainLayout from './components/MainLayout'
 import HomePage from './pages/Home'
 import ErrorView from './pages/ErrorView'
 import ProjectView from './pages/ProjectView'
+import { BrokenGlassProjectView } from './pages/projects/BrokenGlassProjectView'
 
 const router = createBrowserRouter([
   {
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
       },
     ],
   },
+  {
+    path: '/projects/brokenGlass',
+    element: <BrokenGlassProjectView />,
+  }
 ])
 
 export default router
