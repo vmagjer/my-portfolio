@@ -10,12 +10,12 @@ const HomePage = () => {
       <Section>
         <h2>Highlighted Projects</h2>
         <Projects>
-          {data.highlightedProjects.map((projectId) => (
+          {data.highlightedProjects.map((proj) => (
             <ProjectItem
-              key={projectId}
-              title={data.projects[projectId].name}
-              image={data.projects[projectId].image}
-              navLink={`/projects/${projectId}`}
+              key={proj.id}
+              title={proj.name}
+              image={proj. image}
+              navLink={`/projects/${proj.id}`}
             />
           ))}
         </Projects>

@@ -8,7 +8,7 @@ const personalInfo = {
 }
 
 const contactInfo = {
-  tel: '+385 91 251 0022',
+  // NO TELEPHONE NUMBER - SPAM PROTECTION
   email: 'vlatko.magjer@gmail.com',
   socialMedia: [
     {
@@ -94,14 +94,17 @@ const education: Education[] = [
   },
 ]
 
-// import blokA3Landing from './projects/blok-a3/blok-a3-landing.png'
+import blokA3Landing from './projects/blok-a3/blok-a3-landing.png'
 // import blokA3Portfolio from './projects/blok-a3/blok-a3-portfolio.png'
-import blokA3Map from './projects/blok-a3/blok-a3-map.png'
+// import blokA3Map from './projects/blok-a3/blok-a3-map.png'
 import mojBankarLanding from './projects/moj-bankar/landing.png'
 // import mojBankarProduct from './projects/moj-bankar/product.png'
 // import mojBankarDictionary from './projects/moj-bankar/dictionary.png'
+import card3dBanner from './projects/card3d/placeholder.jpeg'
+import digitalRainBanner from './projects/digital-rain/placeholder.gif'
 
 export type Project = {
+  id: string
   name: string
   description: string
   link: string | null
@@ -113,15 +116,17 @@ export type Project = {
 const projects: Record<string, Project> = {
   // PERSONAL PROJECTS
   digitalRain: {
+    id: 'digitalRain',
     name: 'Digital rain',
     description:
       'A digital rain animation inspired by the Matrix movie. The rain is implemented through a particle system and interacts with the cursor. Several settings can be adjusted to customize the experience',
     link: '/projects/digital-rain',
-    image: 'http://unsplash.it/400/300?random&gravity=center',
+    image: digitalRainBanner,
     technologies: ['react', 'javascript', 'html', 'css', 'git', 'vsCode'],
   },
   scrollBasedAnimation: {
-    name: 'Scroll based animation',
+    id: 'scrollBasedAnimation',
+    name: 'Scroll based animation & parallax',
     description:
       'A scroll-based animation that controls the timeline of a animated html elements based on scroll position. The animation includes the parallax effect.',
     link: '/projects/scroll-based-animation',
@@ -129,6 +134,7 @@ const projects: Record<string, Project> = {
     technologies: ['react', 'javascript', 'html', 'css', 'git', 'vsCode'],
   },
   nodeLinkDiagram: {
+    id: 'nodeLinkDiagram',
     name: 'Node link diagram',
     description:
       'A network visualization of subjects and their relationships (in this case technologies I\'ve worked with). The graph is drawn using a force-directed layout algorithm.',
@@ -137,15 +143,26 @@ const projects: Record<string, Project> = {
     technologies: ['react', 'javascript', 'html', 'css', 'git', 'vsCode'],
   },
   card3D: {
+    id: 'card3D',
     name: '3D Card component',
     description:
       'A 3D card component inspired by Harry Potter movies. The card is implemented using CSS 3D transforms.',
     link: '/projects/3d-card',
+    image: card3dBanner,
+    technologies: ['react', 'javascript', 'html', 'css', 'git', 'vsCode'],
+  },
+  brokenGlass:{
+    id: 'brokenGlass',
+    name: 'Broken Glass',
+    description:
+      'A project showcasing a broken glass effect using CSS and React. The project includes a menu with glass shards that break into smaller pieces when hovered over.',
+    link: '/projects/brokenGlass',
     image: 'http://unsplash.it/400/300?random&gravity=center',
     technologies: ['react', 'javascript', 'html', 'css', 'git', 'vsCode'],
   },
   // UNIVERISTY PROJECTS
   augmentedReality: {
+    id: 'augmentedReality',
     name: 'Augmented reality app',
     description:
       'An augmented reality mobile app that displays information about the user’s surroundings. The app uses the device’s camera and GPS to display the information.',
@@ -154,6 +171,7 @@ const projects: Record<string, Project> = {
     technologies: ['unity', 'csharp', 'git', 'vsCode'],
   },
   cognitiveTesting: {
+    id: 'cognitiveTesting',
     name: 'Cognitive testing web',
     description:
       'A web app for cognitive testing. The app features several tests for cognitive abilities, such as memory, attention, and problem-solving.',
@@ -163,6 +181,7 @@ const projects: Record<string, Project> = {
   },
   // COMMERCIAL PROJECTS
   verdigo: {
+    id: 'verdigo',
     name: 'Crowdsourced delivery app',
     description:
       'Driver interface for a crowd-sourced delivery service. The mobile app features a map with real-time updates of the driver’s location, nearby orders, and the optimal routes to deliver them.',
@@ -182,6 +201,7 @@ const projects: Record<string, Project> = {
     ],
   },
   verdifarm: {
+    id: 'verdifarm',
     name: 'Web shop for local produce',
     description:
       'Ecommerce platform selling fresh local produce and products from small businesses. The app required a custom CMS for the vendors to manage their products and orders.',
@@ -201,6 +221,7 @@ const projects: Record<string, Project> = {
     ],
   },
   a1cms: {
+    id: 'a1cms',
     name: 'City management CMS',
     description:
       'Web app for management of several A1’s CMS-s related to city management.',
@@ -220,6 +241,7 @@ const projects: Record<string, Project> = {
     ],
   },
   mojBankar: {
+    id: 'mojBankar',
     name: 'Banking and insurance consulting',
     description:
       'Banking and insurance consulting web app featuring many dynamic forms and informative tools for consultees.',
@@ -240,11 +262,12 @@ const projects: Record<string, Project> = {
     ],
   },
   blokA3: {
+    id: 'blokA3',
     name: 'Architecture firm portfolio',
     description:
       'A web app for an architecture firm showcasing their work in an unconventional layout and featuring an image editor for prospective clients to edit and submit their own designs.',
     link: 'https://www.blok-a3.hr/',
-    image: blokA3Map,
+    image: blokA3Landing,
     images: [
       '@/assets/projects/blok-a3/blok-a3-landing.png',
       '@/assets/projects/blok-a3/blok-a3-portfolio.png',
@@ -265,7 +288,7 @@ const projects: Record<string, Project> = {
     ],
   },
 }
-const highlightedProjects = ['blokA3', 'mojBankar', 'verdifarm', 'verdigo']
+const highlightedProjects: string[] = ['card3D', 'scrollBasedAnimation', 'digitalRain', 'nodeLinkDiagram', 'blokA3', 'mojBankar']
 
 type WorkExperience = {
   role: string
@@ -562,7 +585,7 @@ export default {
   conntactInfo: contactInfo,
   education,
   projects,
-  highlightedProjects,
+  highlightedProjects: highlightedProjects.map((projectId) => projects[projectId]),
   workExperience,
   technologies,
   technologyCategories,

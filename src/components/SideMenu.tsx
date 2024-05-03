@@ -34,7 +34,7 @@ export default function SideMenu() {
           <NavListHeader>Projects</NavListHeader>
           {Object.entries(data.projects).map(([key, value]) => (
             <StyledNavLink
-              to={`/project/${key}`}
+              to={`/projects/${key}`}
               key={key}
             >
               {value.name}
