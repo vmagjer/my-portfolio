@@ -1,10 +1,20 @@
+import { Bounds } from "../DigitalRainObjectOriented"
+import Particle from "./Particle"
+
+export type ForceField = {
+  apply: (particle: Particle) => void
+}
+
 class ParticleMovementStrategy {
-  constructor(bounds, forceFields) {
+  bounds: Bounds
+  forceFields: ForceField[]
+
+  constructor(bounds: Bounds, forceFields: ForceField[]) {
     this.bounds = bounds
     this.forceFields = forceFields
   }
 
-  update = (particles) => {
+  update = (particles: Particle[]) => {
     for (let i = 0; i < particles.length; i++) {
       const particle = particles[i]
 
@@ -15,18 +25,18 @@ class ParticleMovementStrategy {
     }
   }
 
-  #updatePositionSingle = (particle) => {
+  #updatePositionSingle = (particle: Particle) => {
     particle.position.x += particle.velocity.x
     particle.position.y += particle.velocity.y
   }
 
-  #updateVelocitySingle = (particle) => {
+  #updateVelocitySingle = (particle: Particle) => {
     for (let i = 0; i < this.forceFields.length; i++) {
       this.forceFields[i].apply(particle)
     }
   }
 
-  #afterUpdateSingle = (particle) => {
+  #afterUpdateSingle = (particle: Particle) => {
     const prevIsVisible = particle.isVisible
     const currIsVisible =
       particle.position.y >= this.bounds.yStart &&

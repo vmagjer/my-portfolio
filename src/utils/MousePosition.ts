@@ -1,5 +1,7 @@
 class MousePosition {
-  static #instance = null
+  static #instance: MousePosition | null = null
+  x: number
+  y: number
 
   constructor() {
     if (MousePosition.#instance !== null) {
@@ -19,7 +21,7 @@ class MousePosition {
     return MousePosition.#instance
   }
 
-  #update = (event) => {
+  #update = (event:MouseEvent) => {
     this.x = event.clientX
     this.y = event.clientY
   }

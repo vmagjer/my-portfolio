@@ -1,13 +1,18 @@
 import { useEffect, useRef } from 'react'
 import DigitalRainController from '../utils/DigitalRainObjectOriented'
-import PropTypes from 'prop-types'
 
 const TICK = 100
 
-const DigitalRain = ({ className, text = '', layers = 1 }) => {
+type DigitalRainProps = {
+  className?: string
+  text?: string
+  layers?: number
+}
+const DigitalRain = ({ className, text = '', layers = 1 }:DigitalRainProps) => {
   const canvasRef = useRef(null)
   useEffect(() => {
     const canvas = canvasRef.current
+    if (!canvas) return
 
     const digitalRain = new DigitalRainController({
       canvas,
@@ -21,19 +26,13 @@ const DigitalRain = ({ className, text = '', layers = 1 }) => {
     }, TICK)
 
     return () => clearInterval(interval)
-  }, [layers])
+  }, [layers, text])
 
   return (
     <>
       <canvas ref={canvasRef} className={className} />
     </>
   )
-}
-
-DigitalRain.propTypes = {
-  className: PropTypes.string.isRequired,
-  text: PropTypes.string,
-  layers: PropTypes.number,
 }
 
 export default DigitalRain

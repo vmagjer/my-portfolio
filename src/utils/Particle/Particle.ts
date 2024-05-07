@@ -1,4 +1,15 @@
+
+export type Vector2D = { x: number, y: number }
+
 class Particle {
+  position: Vector2D
+  velocity: Vector2D
+  isVisible: boolean
+
+  initialPosition: Vector2D
+  initialVelocity: Vector2D
+  initialIsVisible: boolean
+
   constructor({
     initialPosition = { x: 0, y: 0 },
     initialVelocity = { x: 0, y: 20 },

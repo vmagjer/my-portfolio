@@ -1,6 +1,9 @@
+import Particle, { Vector2D } from "./Particle"
+import { ForceField } from "./ParticleMovementStrategy"
+
 const CELL_SIZE = 20
 
-function bounceOff(point, particle) {
+function bounceOff(point: Vector2D, particle: Particle) {
   const dx = particle.position.x - point.x
   const dy = particle.position.y - point.y
 
@@ -23,7 +26,7 @@ function bounceOff(point, particle) {
   }
 }
 
-function avoid(point, particle) {
+function avoid(point: Vector2D, particle: Particle){
   const dx = particle.position.x - point.x
   const dy = particle.position.y - point.y
 
@@ -51,15 +54,15 @@ function avoid(point, particle) {
   }
 }
 
-const ease = (x) => 1 - (1 - x) ** 2
-const bellFunction = (x, radius) => {
+const ease = (x: number): number => 1 - (1 - x) ** 2
+const bellFunction = (x: number, radius: number) => {
   if (x < -radius || x > radius) {
     return 0
   }
   return Math.sin((x / radius) * Math.PI)
 }
 
-function displaceAround(point, particle) {
+function displaceAround(point: Vector2D, particle: Particle) {
   const dx = particle.position.x - point.x
   const dy = particle.position.y - point.y
   const radiusX = 160
@@ -75,7 +78,7 @@ function displaceAround(point, particle) {
   }
 }
 
-function bounceAndAvoid(point, particle) {
+function bounceAndAvoid(point: Vector2D, particle: Particle) {
   const dy = particle.position.y - point.y
 
   if (dy < 0) {
@@ -85,7 +88,7 @@ function bounceAndAvoid(point, particle) {
   }
 }
 
-function slowDown(point, particle) {
+function slowDown(point: Vector2D, particle: Particle){
   const dx = particle.position.x - point.x
   const dy = particle.position.y - point.y
 
@@ -107,7 +110,7 @@ function slowDown(point, particle) {
   }
 }
 
-function restoreInitialVelocity(particle) {
+function restoreInitialVelocity(particle: Particle) {
   const vx = particle.velocity.x * 0.9 + particle.initialVelocity.x * 0.1
   const vy = particle.velocity.y * 0.9 + particle.initialVelocity.y * 0.1
 
@@ -118,35 +121,41 @@ function restoreInitialVelocity(particle) {
   }
 }
 
-class InertiaForceField {
+class InertiaForceField implements ForceField {
+  inertia: number
   constructor(inertia = 0.9) {
     this.inertia = inertia
   }
 
-  apply = (particle) => {
+  apply = (particle: Particle) => {
     particle.velocity.x *= this.inertia
     particle.velocity.y *= this.inertia
   }
 }
 
-class GravityForceField {
+class GravityForceField implements ForceField {
+  gravity: number
   constructor(gravity = 0.1) {
     this.gravity = gravity
   }
 
-  apply = (particle) => {
+  apply = (particle: Particle) => {
     particle.velocity.y += this.gravity
   }
 }
 
-class RepellingForceField {
-  constructor(sourcePosition, radius, repellingForce = 0.1) {
+class RepellingForceField implements ForceField {
+  sourcePosition: Vector2D
+  radius: number
+  repellingForce: number
+
+  constructor(sourcePosition: Vector2D, radius: number, repellingForce = 0.1) {
     this.sourcePosition = sourcePosition
     this.radius = radius
     this.repellingForce = repellingForce
   }
 
-  apply = (particle) => {
+  apply = (particle: Particle) => {
     const dx = particle.position.x - this.sourcePosition.x
     const dy = particle.position.y - this.sourcePosition.y
     if (dx > this.radius || dy > this.radius) return

@@ -1,6 +1,15 @@
 import { generateRandomString } from "../random"
+import Particle from "./Particle"
 
 const SYMBOLS = '012345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
+
+type Props = {
+  numParticles: number
+  numSymbols: number
+  bounds: { xStart: number, yStart: number, xEnd: number, yEnd: number }
+  resolution?: number
+  text?: string
+}
 
 class DigitalRainParticleRenderer {
   #symbols
@@ -12,7 +21,7 @@ class DigitalRainParticleRenderer {
   #textXStart
   #textXEnd
 
-  constructor({numParticles, numSymbols, bounds, resolution = 1, text = null}) {
+  constructor({ numParticles, numSymbols, bounds, resolution = 1, text = '' }: Props) {
     this.#numSymbols = numSymbols
     this.#symbols = new Array(numParticles)
       .fill(0)
@@ -29,7 +38,7 @@ class DigitalRainParticleRenderer {
     this.#textXEnd = this.#textXStart + textWidth
   }
 
-  draw = (ctx, particles) => {
+  draw = (ctx: CanvasRenderingContext2D | OffscreenCanvasRenderingContext2D, particles: Particle[]) => {
     ctx.font = `${this.#resolution}px monospace`
     ctx.textBaseline = 'middle'
     ctx.textAlign = 'center'
@@ -67,7 +76,7 @@ class DigitalRainParticleRenderer {
     this.#nextSymbol()
   }
 
-  #nearestTextIndex = (x, y) => {
+  #nearestTextIndex = (x: number, y: number) => {
     if (!this.#text) return -1
 
     const dy = y - this.#textY

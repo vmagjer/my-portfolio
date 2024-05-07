@@ -1,5 +1,5 @@
 import MousePosition from './MousePosition'
-import Particle from './Particle/Particle'
+import Particle, { Vector2D } from './Particle/Particle'
 import ParticleMovementStrategy from './Particle/ParticleMovementStrategy'
 import DigitalRainParticleRenderer from './Particle/ParticleRenderer'
 import { GravityForceField, InertiaForceField, RepellingForceField } from './Particle/particleManipulations'
@@ -7,35 +7,56 @@ import { randomInt } from './random'
 
 const CELL_SIZE = 20
 
+export type Bounds = { xStart: number, yStart: number, xEnd: number, yEnd: number }
+type Layer = { scale: number, alpha: number, xOffset: number, yOffset: number, width: number, height: number }
+
 /**
  * Uses an offscreen canvas to draw the rain, then draws the offscreen canvas to the main canvas for each layer of rain.
  * Utilizes translate and scale to draw the rain in the correct position.
  * Relies on hardware acceleration to improve performance.
  */
 class DigitalRainPerformant {
+  ctx: CanvasRenderingContext2D
+  bufferCtx: OffscreenCanvasRenderingContext2D
+  rows: number
+  cols: number
+  droplets: Particle[]
+  cursorPosition: Vector2D
+  particleMovementStrategy: ParticleMovementStrategy
+  text: string
+  particleRenderer: DigitalRainParticleRenderer
+  numLayers: number
+  layers: Layer[]
+  textStartRow = 0
+  textEndCol = 0
+
   constructor({
     canvas,
     numLayers = 1,
     density = 1,
     text = '',
-  }) {
-    this.#init(canvas, numLayers, density, text)
+  }: {
+    canvas: HTMLCanvasElement
+    numLayers?: number
+    density?: number
+    text?: string
   }
-
-  #init(canvas, numLayers, density, text) {
+  ) {
     console.log('init')
 
     const viewWidth = (canvas.width = window.innerWidth)
     const viewHeight = (canvas.height = window.innerHeight)
-    this.ctx = canvas.getContext('2d')
+    const ctx = canvas.getContext('2d')
+    if (!ctx) throw new Error('Could not get 2d context')
+    this.ctx = ctx
 
     const bufferHeight = Math.ceil(viewHeight * numLayers)
     const bufferWidth = Math.ceil(viewWidth * numLayers)
     this.bufferCtx = this.#initDrawingContext(bufferWidth, bufferHeight)
 
     this.rows = Math.ceil(bufferHeight / CELL_SIZE)
-    this.cols = Math.ceil(bufferWidth / CELL_SIZE)    
-    
+    this.cols = Math.ceil(bufferWidth / CELL_SIZE)
+
     const terminalVelocity = CELL_SIZE
     this.droplets = this.#initRain(this.cols, this.rows, density, terminalVelocity)
 
@@ -71,9 +92,10 @@ class DigitalRainPerformant {
     })
   }
 
-  #initDrawingContext(width, height) {
+  #initDrawingContext(width: number, height: number): OffscreenCanvasRenderingContext2D {
     const canvas = new OffscreenCanvas(width, height)
     const ctx = canvas.getContext('2d')
+    if (!ctx) throw new Error('Could not get 2d context')
     ctx.scale(-1, 1)
     ctx.translate(-width, 0)
     // ctx.shadowColor = 'rgba(0, 255, 70, 0.5)'
@@ -82,7 +104,7 @@ class DigitalRainPerformant {
     return ctx
   }
 
-  #initRain(cols, rows, density, velocityY) {
+  #initRain(cols: number, rows: number, density: number, velocityY: number): Particle[] {
     const droplets = []
     for (let col = 0; col < cols; col++) {
       for (let i = 0; i < density; i++) {
@@ -98,7 +120,7 @@ class DigitalRainPerformant {
     return droplets
   }
 
-  #initRainMovement(bounds, cursorPosition, terminalVelocity) {
+  #initRainMovement(bounds: Bounds, cursorPosition: Vector2D, terminalVelocity: number): ParticleMovementStrategy {
     const inertia = 0.9
     const gravity = terminalVelocity / inertia - CELL_SIZE
     const repellingRadius = 100
@@ -131,7 +153,7 @@ class DigitalRainPerformant {
 
     this.#drawText(this.bufferCtx)
     this.particleRenderer.draw(this.bufferCtx, this.droplets)
-    
+
 
     // main canvas
     this.ctx.fillStyle = 'rgba(0, 0, 0, 0.18)'
@@ -154,7 +176,7 @@ class DigitalRainPerformant {
     }
   }
 
-  #drawText = (ctx) => {
+  #drawText = (ctx: OffscreenCanvasRenderingContext2D) => {
     if (!this.text) return
     ctx.fillStyle = 'rgba(255, 255, 255, 0.05)'
     ctx.scale(-1, 1)
@@ -169,7 +191,7 @@ class DigitalRainPerformant {
     ctx.fillStyle = 'rgba(0, 255, 70, 1)'
   }
 
-  updateCursorPosition(x, y) {
+  updateCursorPosition(x: number, y: number) {
     this.cursorPosition.x = this.bufferCtx.canvas.width - x
     this.cursorPosition.y = y
   }

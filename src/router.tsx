@@ -4,6 +4,7 @@ import HomePage from './pages/Home'
 import ErrorView from './pages/ErrorView'
 import ProjectView from './pages/ProjectView'
 import { BrokenGlassProjectView } from './pages/projects/BrokenGlassProjectView'
+import { DigitalRainProjectView } from './pages/projects/DigitalRainProjectView'
 
 const router = createBrowserRouter([
   {
@@ -23,6 +24,10 @@ const router = createBrowserRouter([
   {
     path: '/projects/brokenGlass',
     element: <BrokenGlassProjectView />,
+  },
+  {
+    path: '/projects/digitalRain',
+    element: <DigitalRainProjectView />,
   }
 ])
 
