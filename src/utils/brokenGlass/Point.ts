@@ -1,14 +1,17 @@
+
+export function normalize(p: Point): Point {
+  const length = Math.sqrt(p.x ** 2 + p.y ** 2)
+  return new Point(
+    p.x / length,
+    p.y / length,
+  )
+}
+
 export function getNormal(points: Point[]): Point {
-  const normal = {
-    x: points[1].y - points[0].y,
-    y: points[0].x - points[1].x
-  };
-  const length = Math.sqrt(normal.x * normal.x + normal.y * normal.y);
-  const normalized = {
-    x: normal.x / length,
-    y: normal.y / length
-  };
-  return new Point(normalized.x, normalized.y);
+  return new Point(
+    points[1].y - points[0].y,
+    points[0].x - points[1].x
+  );
 }
 
 export function getMidPoint(points: Point[]): Point {

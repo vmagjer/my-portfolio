@@ -1,11 +1,11 @@
 import { IPiece, getPath } from "./BrokenGlass";
-import Crack from "./Crack";
+import Edge from "./Crack";
 import { Point } from "./Point";
 import SmallShard from "./SmallShard";
 
 export default class BigShard implements IPiece {
   pieces: SmallShard[];
-  perimiter: Crack[];
+  perimiter: Edge[];
   center: Point;
   constructor(pieces: SmallShard[]) {
     this.pieces = pieces;
@@ -21,12 +21,12 @@ export default class BigShard implements IPiece {
       });
   }
 
-  getPerimiter(): Crack[] {
+  getPerimiter(): Edge[] {
     // get all edges that only appear once
-    const allCracks: Crack[] = this.pieces.map(p => p.edges).flat();
-    const sharedEdges: Set<Crack> = new Set();
-    const visited: Crack[] = [];
-    let perimiter: Crack[] = [];
+    const allCracks: Edge[] = this.pieces.map(p => p.edges).flat();
+    const sharedEdges: Set<Edge> = new Set();
+    const visited: Edge[] = [];
+    let perimiter: Edge[] = [];
 
     allCracks.forEach(edge => {
       if (visited.some(c => c.equals(edge))) {

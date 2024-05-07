@@ -1,9 +1,9 @@
 import { IPiece, getPath } from "./BrokenGlass";
-import Crack from "./Crack";
+import Edge from "./Crack";
 
 export default class SmallShard implements IPiece {
-  edges: Crack[];
-  constructor(cracks: Crack[]) {
+  edges: Edge[];
+  constructor(cracks: Edge[]) {
     this.edges = cracks;
   }
 

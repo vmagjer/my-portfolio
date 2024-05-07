@@ -2,41 +2,44 @@ import styled from 'styled-components'
 import data from '../assets/data'
 import { BrokenGlass } from '../utils/brokenGlass/BrokenGlass'
 
-const NUM_TRAVERSE_CRACKS = 7
+const NUM_SMALL_PIECES = 7
+const TRANSITION_DURATION = 0.5
 
 // working with percentages to make it responsive to different screen sizes
 const brokenGlass = new BrokenGlass(
   1,
   1,
   data.highlightedProjects.length,
-  NUM_TRAVERSE_CRACKS
+  NUM_SMALL_PIECES
 )
 
 export default function BrokenGlassMenu({
-  width,
-  height,
+  width: viewWidth,
+  height: viewHeight,
 }: {
   width: number
   height: number
 }) {
-  const radius = Math.sqrt(width ** 2 + height ** 2) / 2
+  const radius = Math.sqrt(viewWidth ** 2 + viewHeight ** 2) / 2
   const bgWidth = radius * 1.5
-  const bgHeight = +bgWidth * (height / width)
-  const impactPoint = [width / 2, height / 2]
+  const bgHeight = +bgWidth * (viewHeight / viewWidth)
+
+  const impactPoint = [viewWidth / 2, viewHeight / 2]
   return (
-    <Container $width={width} $height={height}>
+    <Container $width={viewWidth} $height={viewHeight}>
       {brokenGlass.pieces.map((shard, i) => (
         <BigPiece
           key={`shard-${i}`}
           index={i}
-          perimiter={shard.getPath(width, height)}
-          center={[shard.center.x * width, shard.center.y * height]}
+          perimiter={shard.getPath(viewWidth, viewHeight)}
           pieces={shard.pieces.map((smallShard) =>
-            smallShard.getPath(width, height)
+            smallShard.getPath(viewWidth, viewHeight)
           )}
+          center={[shard.center.x * viewWidth, shard.center.y * viewHeight]}
           impactPoint={impactPoint}
           image={data.highlightedProjects[i].image}
-          bgSize={[bgWidth, bgHeight]}
+          imgSize={[bgWidth, bgHeight]}
+          onClick={() => console.log(`clicked shard ${i}`)}
         />
       ))}
       {/* {brokenGlass.pieces.map((shard, i) => (
@@ -58,7 +61,8 @@ const BigPiece = ({
   pieces,
   impactPoint,
   image,
-  bgSize,
+  imgSize,
+  onClick,
 }: {
   index: number
   perimiter: string
@@ -66,25 +70,27 @@ const BigPiece = ({
   pieces: string[]
   impactPoint: number[]
   image: string
-  bgSize: number[]
+  imgSize: number[]
+  onClick: () => void
 }) => (
   <>
     <GlassShard
       $path={perimiter}
       $center={center}
-      $bgFocus={center}
+      $bgFocus={[imgSize[0] / 2, imgSize[1] / 2]}
       $impactPoint={impactPoint}
       $index={index}
+      onClick={onClick}
     />
     {pieces.map((smallShard, j) => {
       return (
-        <SmallShard
+        <SmallPiece
           key={`small-shard-${j}`}
           $path={smallShard}
           $image={`url(${image})`}
           $center={center}
-          $bgWidth={bgSize[0]}
-          $bgHeight={bgSize[1]}
+          $bgWidth={imgSize[0]}
+          $bgHeight={imgSize[1]}
         />
       )
     })}
@@ -98,17 +104,9 @@ const Container = styled.div<{
   position: relative;
   width: ${({ $width: width }) => width}px;
   height: ${({ $height: height }) => height}px;
-  background: #000;
+  background-image: linear-gradient(45deg, #d341c7, #4893bb);
 `
-const BigPieceContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 1;
-  pointer-events: none;
-`
+
 const GlassShard = styled.div<{
   $path: string
   $center: number[]
@@ -122,7 +120,7 @@ const GlassShard = styled.div<{
   left: 0;
   width: 100%;
   height: 100%;
-  /* background: linear-gradient(90deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)); */
+
   z-index: 1;
 
   clip-path: ${({ $path: path }) => path};
@@ -131,17 +129,18 @@ const GlassShard = styled.div<{
   &:hover {
     cursor: pointer;
   }
+
   ${({ $center, $bgFocus, $impactPoint, $index }) =>
     createSmallShardStylesOnHover({
       shardIndex: $index,
       shardCenter: $center,
-      numSmallShards: NUM_TRAVERSE_CRACKS + 1,
+      numSmallShards: NUM_SMALL_PIECES,
       bgFocus: $bgFocus,
       impactPoint: $impactPoint,
     })}
 `
 
-const SmallShard = styled.div<{
+const SmallPiece = styled.div<{
   $path: string
   $image: string
   $center: number[]
@@ -165,9 +164,10 @@ const SmallShard = styled.div<{
   z-index: 3;
 
   clip-path: ${({ $path: path }) => path};
-  transition: 0.5s ease-in-out;
+  transition: all ${TRANSITION_DURATION}s ease-in-out;
   pointer-events: none;
 `
+
 function createSmallShardStylesOnHover({
   shardIndex,
   shardCenter,
@@ -182,22 +182,23 @@ function createSmallShardStylesOnHover({
   numSmallShards: number
 }) {
   let styles = ''
-  const dx = (shardCenter[0] - impactPoint[0]) * 0.05
-  const dy = (shardCenter[1] - impactPoint[1]) * 0.05
-  const maxRotation = 6
+  const dx = (impactPoint[0] - shardCenter[0]) * 0.2
+  const dy = (impactPoint[1] - shardCenter[1]) * 0.2
+  const MAX_ROTATION = 6
+  const MIN_SCALE = 0.8
   for (let i = 0; i < numSmallShards; i++) {
-    const radialProgress = (i + 1) / numSmallShards
-    const scale = radialProgress ** 2 * 0.2 + 0.8
-    const rotation = (Math.random() * maxRotation) / 2 - maxRotation
-    // const rotation = 0
+    const radialProgress = (i + 1) / (numSmallShards + 1)
+    const squareProgress = radialProgress ** 2
+    const scale = squareProgress * (1 - MIN_SCALE) + MIN_SCALE
+    const rotation = Math.random() * MAX_ROTATION - MAX_ROTATION / 2
 
-    // bg position
     const bgPosition = [
-      shardCenter[0] - bgFocus[0] + i * dx,
-      shardCenter[1] - bgFocus[1] + i * dy,
+      shardCenter[0] - bgFocus[0] - squareProgress * dx,
+      shardCenter[1] - bgFocus[1] - squareProgress * dy,
     ]
 
-    const delay = (numSmallShards - i) * 0.02 // seconds
+    const delay2 = squareProgress * TRANSITION_DURATION
+    const delay1 = (1-squareProgress) * TRANSITION_DURATION
 
     // const translationX = (dx * (i + 1)) / 2
     // const translationY = (dy * (i + 1)) / 2
@@ -205,15 +206,18 @@ function createSmallShardStylesOnHover({
 
     // &:hover > *:nth-child(${i + 1}) {
     // &:not(:hover) > *:nth-child(${i + 1}) {
-    // transform-origin: ${shardCenter[0]}px ${shardCenter[1]}px;
+    const childIndex = shardIndex * (numSmallShards + 1) + i + 1
     styles += `
-      &:not(:hover) ~ *:nth-child(${shardIndex * numSmallShards + i + 1}) {
-        transform: scale(${scale}) rotate(${rotation}deg) ;
+      ~ *:nth-child(${childIndex}) {
+        transition-delay: ${delay1}s;
+      }
+      &:not(:hover) ~ *:nth-child(${childIndex}) {
+        transform: scale(${scale}) rotate(${0}deg) ;
         z-index: ${i + 2};
         background-position: left ${bgPosition[0]}px 
                             top ${bgPosition[1]}px;
-        transition-delay: ${delay}s;
         z-index: 2;
+        transition-delay: ${delay2}s;
       }
     `
   }

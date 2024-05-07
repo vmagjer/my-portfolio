@@ -1,28 +1,6 @@
 import styled from "styled-components"
 import BrokenGlassMenu from "../../components/BrokenGlassMenu"
-import { useEffect, useState } from "react"
-
-function useWindowSize() {
-  const [windowSize, setWindowSize] = useState({
-    width: window.innerWidth,
-    height: window.innerHeight,
-  })
-
-  useEffect(() => {
-    function handleResize() {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      })
-      console.log(windowSize)
-    }
-
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
-
-  return windowSize
-}
+import useWindowSize from "../../utils/useWindowResize"
 
 export const BrokenGlassProjectView = () => {
   const windowSize = useWindowSize()

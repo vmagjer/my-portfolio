@@ -1,6 +1,6 @@
 import BigShard from "./BigShard";
-import Crack from "./Crack";
-import { Point, getMidPoint, getNormal } from "./Point";
+import Edge from "./Crack";
+import { Point, getMidPoint, getNormal, normalize } from "./Point";
 import SmallShard from "./SmallShard";
 
 export class BrokenGlass {
@@ -9,6 +9,7 @@ export class BrokenGlass {
   viewHeight: number;
   numberOfPieces: number;
   numSmallPieces: number;
+
   constructor(viewWidth: number, viewHeight: number, numberOfPieces: number, numSmallPieces: number) {
     this.viewWidth = viewWidth;
     this.viewHeight = viewHeight;
@@ -36,7 +37,7 @@ export class BrokenGlass {
         const x = center.x + Math.cos(angle) * outerCircleRadius * radialProgress;
         const y = center.y + Math.sin(angle) * outerCircleRadius * radialProgress;
         const newPoint = new Point(x, y);
-        const perturbedPoint = this.perturbPoint(newPoint, maxPerturbation * radialProgress);
+        const perturbedPoint = perturbPoint(newPoint, maxPerturbation * radialProgress);
         // const boundedPoint = new Point(
         //   Math.max(0, Math.min(this.viewWidth, perturbedPoint.x)),
         //   Math.max(0, Math.min(this.viewHeight, perturbedPoint.y))
@@ -49,23 +50,23 @@ export class BrokenGlass {
 
     // RADIAL CRACKS
     const maxRadialOffset = 0.04 * outerCircleRadius;
-    const radialCracks: Crack[][] = [];
+    const radialCracks: Edge[][] = [];
     for (let iRad = 0; iRad < numRadialCracks; iRad++) {
-      const crack: Crack[] = [];
+      const crack: Edge[] = [];
       let start = center.clone();
       for (let iShard = 0; iShard < numSmallShards; iShard++) {
         const end = points[iRad][iShard];
         const radialProgress = ((iShard + 1) / numSmallShards) ** 2;
 
         const midPoint = getMidPoint([start, end]);
-        const normal = getNormal([start, end]);
+        const normal = normalize(getNormal([start, end]));
         const offset = (Math.random() * maxRadialOffset * 2 - maxRadialOffset) * radialProgress;
         const controlPoint = new Point(
           midPoint.x + normal.x * offset,
           midPoint.y + normal.y * offset
         );
 
-        crack.push(new Crack(start, end, controlPoint));
+        crack.push(new Edge(start, end, controlPoint));
         start = end.clone();
       }
       radialCracks.push(crack);
@@ -73,9 +74,9 @@ export class BrokenGlass {
 
     // TRAVERSE CRACKS
     const maxTraverseOffset = 0.1 * outerCircleRadius;
-    const traverseCracks: Crack[][] = [];
+    const traverseCracks: Edge[][] = [];
     for (let iRad = 0; iRad < numRadialCracks; iRad++) {
-      const cracks: Crack[] = [];
+      const cracks: Edge[] = [];
       for (let iTrv = 0; iTrv < numTraverseCracks; iTrv++) {
         const iRadNext = (iRad + 1) % numRadialCracks;
         const radialProgress = ((iTrv + 1) / numTraverseCracks) ** 2;
@@ -84,15 +85,15 @@ export class BrokenGlass {
         const end = points[iRadNext][iTrv];
 
         const midPoint = getMidPoint([start, end]);
-        const normal = getNormal([start, end]);
+        const normal = normalize(getNormal([start, end]));
         // const maxOffset = 10;
-        const offset = (Math.random() * maxTraverseOffset * 2 ) * radialProgress;
+        const offset = (Math.random() * maxTraverseOffset * 2) * radialProgress;
         const controlPoint = new Point(
           midPoint.x + normal.x * offset,
           midPoint.y + normal.y * offset
         );
 
-        cracks.push(new Crack(start, end, controlPoint));
+        cracks.push(new Edge(start, end, controlPoint));
       }
       traverseCracks.push(cracks);
     }
@@ -102,7 +103,7 @@ export class BrokenGlass {
     for (let iRad = 0; iRad < numRadialCracks; iRad++) {
       const smallShardsOnRadialCrack: SmallShard[] = [];
       for (let iShard = 0; iShard < numSmallShards; iShard++) {
-        const cracks: Crack[] = [];
+        const cracks: Edge[] = [];
         const iRadNext = (iRad + 1) % numRadialCracks;
         const iShardPrev = iShard - 1;
         if (iShard === 0) {
@@ -132,13 +133,13 @@ export class BrokenGlass {
             );
             const midPoint1 = getMidPoint([outermostPoint1, cornerPoint]); // todo implement straight crack
             const midPoint2 = getMidPoint([cornerPoint, outermostPoint2]);
-            const crack21 = new Crack(outermostPoint1, cornerPoint, midPoint1);
-            const crack22 = new Crack(cornerPoint, outermostPoint2, midPoint2);
+            const crack21 = new Edge(outermostPoint1, cornerPoint, midPoint1);
+            const crack22 = new Edge(cornerPoint, outermostPoint2, midPoint2);
             cracks.push(crack21);
             cracks.push(crack22);
           } else {
             // otherwise add one straight crack
-            const crack2 = new Crack(outermostPoint1, outermostPoint2, midPoint);
+            const crack2 = new Edge(outermostPoint1, outermostPoint2, midPoint);
             cracks.push(crack2);
           }
           const crack4 = traverseCracks[iRad][iShardPrev].clone();
@@ -174,19 +175,19 @@ export class BrokenGlass {
     return pieces;
   }
 
-  perturbPoint(point: Point, maxOffset: number): Point {
-    return new Point(
-      point.x + Math.random() * maxOffset * 2 - maxOffset,
-      point.y + Math.random() * maxOffset * 2 - maxOffset
-    );
-  }
 }
 
+function perturbPoint(point: Point, maxOffset: number): Point {
+  return new Point(
+    point.x + Math.random() * maxOffset * 2 - maxOffset,
+    point.y + Math.random() * maxOffset * 2 - maxOffset
+  );
+}
 export interface IPiece {
   getPath(width: number, height: number): string;
 }
 
-export function getPath(edges: Crack[], width: number = 1, height: number = 1): string {
+export function getPath(edges: Edge[], width: number = 1, height: number = 1): string {
   const commands = []
   const firstEdge = edges[0];
   const start = firstEdge.start;

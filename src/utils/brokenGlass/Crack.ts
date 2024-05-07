@@ -1,7 +1,7 @@
 import { Point } from "./Point";
 
 
-export default class Crack {
+export default class Edge {
   ends: Point[];
   controlPoint: Point;
 
@@ -18,11 +18,12 @@ export default class Crack {
     return this.ends[1];
   }
 
-  equals = (other: Crack): boolean => {
-    return this.start.equals(other.start) && this.end.equals(other.end)
-      || this.start.equals(other.end) && this.end.equals(other.start);
+  equals = (other: Edge): boolean => {
+    if (this.start.equals(other.start) && this.end.equals(other.end)) return true;
+    if (this.start.equals(other.end) && this.end.equals(other.start)) return true;
+    return false;
   }
-  clone = (): Crack => {
-    return new Crack(this.start, this.end, this.controlPoint);
+  clone = (): Edge => {
+    return new Edge(this.start, this.end, this.controlPoint);
   }
 }
