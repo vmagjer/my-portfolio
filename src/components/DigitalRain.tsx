@@ -26,7 +26,7 @@ const DigitalRain = ({ className, text = '', layers = 1 }:DigitalRainProps) => {
     }, TICK)
 
     return () => clearInterval(interval)
-  }, [layers, text])
+  }, [layers, text, canvasRef])
 
   return (
     <>

@@ -155,7 +155,7 @@ class RepellingForceField implements ForceField {
     this.repellingForce = repellingForce
   }
 
-  apply = (particle: Particle) => {
+  apply = (particle: Particle) => {    
     const dx = particle.position.x - this.sourcePosition.x
     const dy = particle.position.y - this.sourcePosition.y
     if (dx > this.radius || dy > this.radius) return

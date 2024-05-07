@@ -1,5 +1,5 @@
 import MousePosition from './MousePosition'
-import Particle, { Vector2D } from './Particle/Particle'
+import Particle from './Particle/Particle'
 import ParticleMovementStrategy from './Particle/ParticleMovementStrategy'
 import DigitalRainParticleRenderer from './Particle/ParticleRenderer'
 import { GravityForceField, InertiaForceField, RepellingForceField } from './Particle/particleManipulations'
@@ -21,7 +21,6 @@ class DigitalRainPerformant {
   rows: number
   cols: number
   droplets: Particle[]
-  cursorPosition: Vector2D
   particleMovementStrategy: ParticleMovementStrategy
   text: string
   particleRenderer: DigitalRainParticleRenderer
@@ -66,8 +65,7 @@ class DigitalRainPerformant {
       xEnd: this.bufferCtx.canvas.width,
       yEnd: this.bufferCtx.canvas.height,
     }
-    this.cursorPosition = { x: -100, y: 0 }
-    this.particleMovementStrategy = this.#initRainMovement(bounds, this.cursorPosition, terminalVelocity)
+    this.particleMovementStrategy = this.#initRainMovement(bounds, terminalVelocity)
 
     this.text = text
     this.particleRenderer = new DigitalRainParticleRenderer({
@@ -120,7 +118,7 @@ class DigitalRainPerformant {
     return droplets
   }
 
-  #initRainMovement(bounds: Bounds, cursorPosition: Vector2D, terminalVelocity: number): ParticleMovementStrategy {
+  #initRainMovement(bounds: Bounds, terminalVelocity: number): ParticleMovementStrategy {
     const inertia = 0.9
     const gravity = terminalVelocity / inertia - CELL_SIZE
     const repellingRadius = 100
@@ -128,7 +126,7 @@ class DigitalRainPerformant {
     const forceFields = [
       new InertiaForceField(inertia),
       new GravityForceField(gravity),
-      new RepellingForceField(cursorPosition, repellingRadius, repellingStrength),
+      new RepellingForceField(MousePosition.prototype.getInstance(), repellingRadius, repellingStrength),
     ]
     return new ParticleMovementStrategy(bounds, forceFields)
   }
@@ -137,8 +135,6 @@ class DigitalRainPerformant {
     console.log('tick')
 
     this.draw()
-    const mouse = MousePosition.prototype.getInstance()
-    this.updateCursorPosition(mouse.x, mouse.y)
     this.particleMovementStrategy.update(this.droplets)
   }
 
@@ -189,11 +185,6 @@ class DigitalRainPerformant {
     }
     ctx.scale(-1, 1)
     ctx.fillStyle = 'rgba(0, 255, 70, 1)'
-  }
-
-  updateCursorPosition(x: number, y: number) {
-    this.cursorPosition.x = this.bufferCtx.canvas.width - x
-    this.cursorPosition.y = y
   }
 }
 
