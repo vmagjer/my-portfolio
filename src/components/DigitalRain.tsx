@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import DigitalRainController from '../utils/DigitalRainObjectOriented'
+import DigitalRainController from '../utils/digitalRain/DigitalRainController'
 
 const TICK = 100
 

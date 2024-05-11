@@ -1,11 +1,11 @@
-import { Bounds } from "../DigitalRainObjectOriented"
-import Particle from "./Particle"
+import { Bounds } from "./DigitalRainController"
+import Particle from "../Particle/Particle"
 
-export type ForceField = {
+export interface ForceField {
   apply: (particle: Particle) => void
 }
 
-class ParticleMovementStrategy {
+class PhysicalParticleMovement {
   bounds: Bounds
   forceFields: ForceField[]
 
@@ -39,10 +39,10 @@ class ParticleMovementStrategy {
   #afterUpdateSingle = (particle: Particle) => {
     const prevIsVisible = particle.isVisible
     const currIsVisible =
-      particle.position.y >= this.bounds.yStart &&
-      particle.position.y <= this.bounds.yEnd &&
-      particle.position.x >= this.bounds.xStart &&
-      particle.position.x <= this.bounds.xEnd
+      particle.position.y >= this.bounds.start.y &&
+      particle.position.y <= this.bounds.end.y &&
+      particle.position.x >= this.bounds.start.x &&
+      particle.position.x <= this.bounds.end.x
 
     if (prevIsVisible && !currIsVisible) {
       particle.reset()
@@ -52,4 +52,4 @@ class ParticleMovementStrategy {
   }
 }
 
-export default ParticleMovementStrategy
+export default PhysicalParticleMovement

@@ -4,7 +4,7 @@ import DigitalRain from "../../components/DigitalRain"
 export const DigitalRainProjectView = () => {
   return (
     <Container>
-      <DigitalRain text="Broken Glass" layers={3} />
+      <DigitalRain text="DIGITAL RAIN PARTICLES" layers={2} />
     </Container>
   )
 }
