@@ -7,11 +7,7 @@ type ProjectItemProps = {
   navLink: string
 }
 
-export const ProjectItem = ({
-  title,
-  image,
-  navLink,
-}: ProjectItemProps) => {
+export const ProjectItem = ({ title, image, navLink }: ProjectItemProps) => {
   return (
     <Container to={navLink}>
       <Text>
@@ -27,6 +23,8 @@ export const ProjectItem = ({
 
 const Container = styled(Link)`
   position: relative;
+  width: 100%;
+  height: 100%;
   /* width: 420px; */
 
   transition: transform 0.3s;
@@ -37,9 +35,8 @@ const Container = styled(Link)`
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
   &:hover h3 {
-      background-size: 0 var(--underline-height),
-        100% var(--underline-height);
-    }
+    background-size: 0 var(--underline-height), 100% var(--underline-height);
+  }
 `
 
 const Text = styled.div`
@@ -59,15 +56,13 @@ const Text = styled.div`
 
     /* animated underline */
     --underline-height: 1px;
-    background-image: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0)),
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
       linear-gradient(currentColor, currentColor);
     background-repeat: no-repeat;
-    background-size: 100% var(--underline-height),
-      0 var(--underline-height);
+    background-size: 100% var(--underline-height), 0 var(--underline-height);
     background-position: 100% 100%, 0 100%;
 
     transition: background-size 0.25s linear, background-position 0.25s linear;
-    
   }
 
   p {
@@ -76,7 +71,12 @@ const Text = styled.div`
 `
 
 const Image = styled.div`
+  width: 100%;
+  height: 100%;
+  
   img {
     width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 `
