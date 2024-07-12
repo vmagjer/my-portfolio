@@ -26,6 +26,7 @@ export class BrokenGlass {
     const outerCircleRadius = Math.sqrt(this.viewWidth ** 2 + this.viewHeight ** 2) / 2;
     const center: Point = new Point(this.viewWidth / 2, this.viewHeight / 2)
 
+    // ################### Crack Glass
     // generate points
     const maxPerturbation = 0.1 * outerCircleRadius;
     const points: Point[][] = [];
@@ -164,6 +165,9 @@ export class BrokenGlass {
       smallShards.push(smallShardsOnRadialCrack);
     }
 
+
+    // ################### Assign shards to items
+
     // BIG SHARDS
     const pieces: BigShard[] = [];
     for (let i = 0; i < numRadialCracks; i++) {
@@ -174,6 +178,8 @@ export class BrokenGlass {
 
     return pieces;
   }
+
+  
 
 }
 

@@ -26,7 +26,6 @@ export default function MainLayout() {
 
       <RightColumn>
         <div>
-          <h1>Right Column</h1>
         </div>
       </RightColumn>
     </Container>

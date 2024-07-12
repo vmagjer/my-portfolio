@@ -112,23 +112,6 @@ const NavListHeader = styled.h3`
   margin-bottom: 10px;
 `
 
-// guaranteed to have className
-// const NavLinkWithClassName = ({
-//   className,
-//   to,
-//   children,
-//   ...props
-// }: {
-//   // eslint-disable-next-line no-unused-vars
-//   className?: string | ((props: any) => string | undefined) | undefined
-//   to: string
-//   children: ReactNode
-// }) => (
-//   <NavLink to={to} className={className} {...props}>
-//     {children}
-//   </NavLink>
-// )
-
 const StyledNavLink = styled(NavLink)`
   padding: 10px;
   color: rgba(255, 255, 255, 0.7);
