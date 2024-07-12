@@ -411,14 +411,9 @@ import csharpIcon from './tech-icons/csharp.png'
 import pythonIcon from './tech-icons/python.png'
 import javaIcon from './tech-icons/java.png'
 import gitIcon from './tech-icons/git.png'
-import githubIcon from './tech-icons/github2.png'
-import gitlabIcon from './tech-icons/gitlab.png'
-import bitbucketIcon from './tech-icons/bitbucket.png'
 import notionIcon from './tech-icons/notion.png'
 import jiraIcon from './tech-icons/jira.png'
 import favroIcon from './tech-icons/favro.png'
-import vsCodeIcon from './tech-icons/vscode.png'
-import visualstudioIcon from './tech-icons/visualstudio.png'
 
 type Technology = {
   id: string
@@ -516,29 +511,11 @@ const _technologies: Record<string, Omit<Technology, 'id'>> = {
     icon: vuexIcon,
     tags: ['frontEnd', 'stateManagement', 'javascript', 'library', 'vue'],
   },
-  // version control
+  // tools
   git: {
     name: 'Git',
     abbreviation: 'Git',
     icon: gitIcon,
-    tags: ['versionControl', 'tool'],
-  },
-  github: {
-    name: 'GitHub',
-    abbreviation: 'GitHub',
-    icon: githubIcon,
-    tags: ['versionControl', 'tool'],
-  },
-  gitlab: {
-    name: 'GitLab',
-    abbreviation: 'GitLab',
-    icon: gitlabIcon,
-    tags: ['versionControl', 'tool'],
-  },
-  bitbucket: {
-    name: 'Bitbucket',
-    abbreviation: 'Bitbucket',
-    icon: bitbucketIcon,
     tags: ['versionControl', 'tool'],
   },
   // project management
@@ -559,19 +536,6 @@ const _technologies: Record<string, Omit<Technology, 'id'>> = {
     abbreviation: 'Favro',
     icon: favroIcon,
     tags: ['projectManagement', 'tool'],
-  },
-  // development environment
-  vsCode: {
-    name: 'VS Code',
-    abbreviation: 'VS Code',
-    icon: vsCodeIcon,
-    tags: ['developmentEnvironment', 'tool'],
-  },
-  visualstudio: {
-    name: 'Visual Studio',
-    abbreviation: 'Visual Studio',
-    icon: visualstudioIcon,
-    tags: ['developmentEnvironment', 'tool'],
   },
 }
 
