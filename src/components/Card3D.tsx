@@ -1,36 +1,16 @@
 import { useEffect, useRef } from 'react'
 import styled from 'styled-components'
-import { getCardMeasures } from '../utils/cardMeasures'
 
-// CARE: angle mustn't be smaller than 5 degrees or the visual breaks
-const maxTiltAngle = (8 * Math.PI) / 180
-const maxDepth = 40
+const maxTiltAngle = (20 * Math.PI) / 180
+const maxDepth = 50
 const perspective = 2000
-const cardWidth = 300
-const cardHeight = 400
-
-const { backLength: peekDistanceX, frontLength: frameWidthX } = getCardMeasures(
-  cardWidth,
-  maxDepth,
-  perspective,
-  maxTiltAngle
-)
-const { backLength: peekDistanceY, frontLength: frameWidthY } = getCardMeasures(
-  cardHeight,
-  maxDepth,
-  perspective,
-  maxTiltAngle
-)
-const imgWidth = cardWidth - peekDistanceX * 2
-const aspectRatio = 4 / 3
-const imgHeight = imgWidth / aspectRatio
-const frameInnerHeight = cardWidth / aspectRatio - frameWidthY * 2
+const cardSize = 600
 
 function easeInOutSine(x: number) {
   return -(Math.cos(Math.PI * x) - 1) / 2
 }
 
-function Card3D({ data }: {data: {name: string; image: string}}) {
+function Card3D({ data }: { data: { name: string; image: string[] } }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const frameRef = useRef<HTMLDivElement>(null)
 
@@ -48,23 +28,21 @@ function Card3D({ data }: {data: {name: string; image: string}}) {
         x: cardRect.left + cardRect.width / 2,
         y: cardRect.top + cardRect.height / 2,
       }
+      const radius = cardRect.width / 2
       const distance = {
         x: mouse.clientX - cardCenter.x,
         y: mouse.clientY - cardCenter.y,
       }
-      const rectDistance = {
-        x: Math.abs(distance.x) - cardRect.width / 2,
-        y: Math.abs(distance.y) - cardRect.height / 2,
-      }
+
+      const d = Math.sqrt(distance.x ** 2 + distance.y ** 2) - radius
 
       // ease tilt intensity outside of the card
-      const maxRectDistance = Math.max(rectDistance.x, rectDistance.y)
-      const easingDistance = cardWidth * 0.3
+      const easingDistance = cardSize * 0.3
       let intensity = 0
-      if (maxRectDistance < 0) {
+      if (d < 0) {
         intensity = 1
-      } else if (maxRectDistance < easingDistance) {
-        intensity = 1 - easeInOutSine(maxRectDistance / easingDistance)
+      } else if (d < easingDistance) {
+        intensity = 1 - easeInOutSine(d / easingDistance)
       }
 
       const maxAngle = maxTiltAngle
@@ -73,15 +51,15 @@ function Card3D({ data }: {data: {name: string; image: string}}) {
       const tiltY = intensity * -(distance.x / cardRect.width) * 2 * maxAngle
       card.style.transform = `rotateX(${-tiltX}rad) rotateY(${-tiltY}rad)`
 
+      // control the shine animation
       const frame = frameRef.current
       if (!frame) return
-      frame.style.background = ` #313131 radial-gradient(
-        circle at ${50 + (tiltY / maxAngle) * 40}% ${
-        20 + (-tiltX / maxAngle) * 40
-      }%,
-        rgba(255, 255, 255, 0.05) 0%,
-        rgba(255, 255, 255, 0) 70%
-      )`
+
+      const shineAngle = Math.PI / 2 - Math.atan2(distance.y, distance.x)
+      frame.style.setProperty('--shine-angle', `${-shineAngle}rad`)
+      frame.style.setProperty('--shine-intensity', `${intensity * 100}%`)
+      // const shineDistance = intensity * 100
+      // frame.style.setProperty('--shine-distance', `${shineDistance}%`)
     }
 
     window.addEventListener('mousemove', handleMouseMove)
@@ -94,9 +72,15 @@ function Card3D({ data }: {data: {name: string; image: string}}) {
   return (
     <Wrapper>
       <Card ref={cardRef}>
-        <ImageFrame>
-          <img src={data.image} alt="" />
-        </ImageFrame>
+        {data.image.map((image, index) => {
+          const distance = (index / data.image.length) ** 0.5 * maxDepth
+          return (
+            <ImageFrame key={image} distance={distance}>
+              <img src={image} alt="" />
+            </ImageFrame>
+          )
+        })}
+        <BottomSide />
         <Frame ref={frameRef}>
           <Title>{data.name}</Title>
         </Frame>
@@ -109,64 +93,30 @@ export default Card3D
 
 const Wrapper = styled.div`
   perspective: ${perspective}px;
+  pointer-events: painted;
 `
 
 const Card = styled.div`
   display: flex;
   flex-direction: column;
-  width: ${cardWidth}px;
-  height: ${cardHeight}px;
-
-  border-radius: 17px;
-  box-shadow: 0 0 16px rgba(0, 0, 0, 0.1);
+  width: ${cardSize}px;
+  height: ${cardSize}px;
 
   position: relative;
 
   transform-style: preserve-3d;
   -webkit-transform-style: preserve-3d;
-
-  cursor: pointer;
 `
-const ImageFrame = styled.div`
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  transform: translateZ(${-maxDepth}px);
 
-  img {
-    position: absolute;
-    left: calc(${peekDistanceX}px);
-    top: calc(${peekDistanceY}px);
-    width: ${imgWidth}px;
-    height: ${imgHeight}px;
-    border-radius: 8px;
+import frogCardImage from '../assets/images/chockolate-frog-card.png'
+import frameMask from '../assets/images/chockolate-frog-card-mask.png'
 
-    object-fit: cover;
-    object-position: 0 0;
-  }
-
-  /* dropshadow inset*/
-  &::after {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: ${frameInnerHeight + frameWidthY * 2}px;
-    border-radius: 16px;
-    box-shadow: inset 0 0 ${frameWidthX * 1}px rgba(0, 0, 0, 1);
-  }
-`
 const Frame = styled.div`
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  padding: ${frameWidthY + 200 + 8}px ${frameWidthX}px ${frameWidthY}px
-    ${frameWidthX}px;
   box-sizing: border-box;
 
   transform: translateZ(00px);
@@ -174,31 +124,85 @@ const Frame = styled.div`
   -webkit-backface-visibility: hidden;
   will-change: transform;
 
-  --frame-width-x: ${frameWidthX}px;
-  --frame-width-y: ${frameWidthY}px;
-  --frame-window-width: ${cardWidth - 2 * frameWidthX}px;
-  --frame-window-height: ${frameInnerHeight}px;
-  clip-path: polygon(
-    0% 0%,
-    0% 100%,
-    var(--frame-width-x) 100%,
-    var(--frame-width-x) var(--frame-width-y),
-    calc(100% - var(--frame-width-x)) var(--frame-width-y),
-    calc(100% - var(--frame-width-x))
-      calc(var(--frame-width-y) + var(--frame-window-height)),
-    var(--frame-width-x) calc(var(--frame-width-y) + var(--frame-window-height)),
-    var(--frame-width-x) 100%,
-    100% 100%,
-    100% 0%
-  );
-  background: #313131
-    radial-gradient(
-      circle,
-      rgba(255, 255, 255, 0.5) 0%,
-      rgba(255, 255, 255, 0) 70%
+  background: url(${frogCardImage});
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  cursor: pointer;
+
+  --shine-angle: 0deg;
+  --shine-distance: 0%;
+  --shine-intensity: 0;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+
+    background: linear-gradient(
+      var(--shine-angle),
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0.5),
+      rgba(255, 255, 255, 0),
+      rgba(255, 255, 255, 0)
     );
-  border-radius: 16px;
+    background-size: 100% 100%;
+    background-position: calc(var(--shine-distance) + 50%) 0;
+    opacity: var(--shine-intensity);
+
+    mask-image: url(${frameMask}); /* Mask to constrain the shiny effect */
+    mask-size: cover;
+    mask-position: center;
+    mask-repeat: no-repeat;
+  }
 `
 const Title = styled.h3`
-  color: white;
+  position: absolute;
+  bottom: 13.9%;
+  left: 0;
+  color: black;
+  width: 100%;
+
+  text-align: center;
+  font-size: 1.2rem;
+  font-weight: 500;
+`
+
+const ImageFrame = styled.div<{ distance: number }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transform: translateZ(${(props) => props.distance + -maxDepth}px);
+
+  img {
+    position: absolute;
+    left: ${25}%;
+    top: ${25}%;
+    width: ${50}%;
+    height: ${60}%;
+
+    object-fit: cover;
+    object-position: center;
+  }
+`
+
+const BottomSide = styled.div`
+  --edge-height: 16px;
+  width: ${cardSize * 0.572}px;
+  height: var(--edge-height);
+  box-sizing: border-box;
+  background-color: #15121d;
+
+  will-change: transform;
+  position: absolute;
+  bottom: ${cardSize * 0.055}px;
+  left: 50%;
+  transform: translate3d(-50%, 0, calc(var(--edge-height) * -0.5 + 1px))
+    rotateX(90deg);
 `

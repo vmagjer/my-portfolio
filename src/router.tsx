@@ -5,6 +5,7 @@ import ErrorView from './pages/ErrorView'
 import ProjectView from './pages/ProjectView'
 import { BrokenGlassProjectView } from './pages/projects/BrokenGlassProjectView'
 import { DigitalRainProjectView } from './pages/projects/DigitalRainProjectView'
+import { Card3DProjectView } from './pages/projects/Card3DProjectView'
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: '/projects/digitalRain',
     element: <DigitalRainProjectView />,
+  },
+  {
+    path: '/projects/card3D',
+    element: <Card3DProjectView />,
   }
 ])
 
