@@ -129,50 +129,55 @@ function orbit({ progressPercent, radius, offset, startAngle, selector }) {
 
 const buildings = generateBuildings(4)
 
-function generateBuildings(numLayers) {
-  const result = []
+function generateBuildings(numBuildingRows) {
+  const buildings = []
 
-  const maxW = 72
-  const stepW = Math.floor(maxW * 0.15)
-  const PADDING = 20
+  const maxBuildingWidth = 72
+  const rowBuildingWidthChange = Math.floor(maxBuildingWidth * 0.15)
 
-  const maxH = window.innerHeight * 0.6
-  const minH = maxH * 0.01
-  const stepH = Math.floor((maxH - minH) / numLayers)
+  const maxBuildingHeight = window.innerHeight * 0.6
+  const minBuildingHeight = maxBuildingHeight * 0.01
+  const rowBuildingHeightChange = Math.floor(
+    (maxBuildingHeight - minBuildingHeight) / numBuildingRows
+  )
 
-  let h = maxH
-  let w = maxW - numLayers * stepW
-  for (let i = 0; i < numLayers; i++) {
-    const layer = []
+  let buildingHeight = maxBuildingHeight
+  let buildingWidth =
+    maxBuildingWidth - numBuildingRows * rowBuildingWidthChange
 
-    const gapX = Math.floor(w * 0.1)
-    const stepX = w + gapX + PADDING
+  for (let i = 0; i < numBuildingRows; i++) {
+    const buildingRow = []
 
-    const amplitude = stepH * 0.6
+    const gapBetweenBuildings = Math.floor(buildingWidth * 0.1)
+    const xPositionStep = buildingWidth + gapBetweenBuildings
+
+    const amplitude = rowBuildingHeightChange * 0.6
     const frequency = (i * 0.064 + 0.14) * Math.PI
     const offset = 0.1 * i * Math.PI
 
-    const numBuildings = Math.ceil(window.innerWidth / stepX) + 1
+    const numBuildings = Math.ceil(window.innerWidth / xPositionStep) + 1
 
-    let position = -stepX * 0.5
+    let position = -xPositionStep * 0.5
     for (let i = 0; i < numBuildings; i++) {
-      const height = h + amplitude * Math.sin(frequency * position + offset)
+      const height =
+        buildingHeight + amplitude * Math.sin(frequency * position + offset)
 
-      layer.push({
+      const building = {
         height: Math.ceil(height),
         position,
-        width: w,
-      })
+        width: buildingWidth,
+      }
+      buildingRow.push(building)
 
-      position += stepX
+      position += xPositionStep
     }
-    result.push(layer)
+    buildings.push(buildingRow)
 
-    h -= stepH
-    w += stepW
+    buildingHeight -= rowBuildingHeightChange
+    buildingWidth += rowBuildingWidthChange
   }
-  console.log(result)
-  return result
+  console.log(buildings)
+  return buildings
 }
 
 export default ParallaxCity
