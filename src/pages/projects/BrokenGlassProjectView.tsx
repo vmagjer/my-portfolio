@@ -1,13 +1,34 @@
-import styled from "styled-components"
-import BrokenGlassMenu from "../../components/BrokenGlassMenu"
-import useWindowSize from "../../utils/useWindowResize"
+import styled from 'styled-components'
+import BrokenGlassMenu from '../../components/BrokenGlassMenu'
+import useWindowSize from '../../utils/useWindowResize'
+import { useEffect, useRef } from 'react'
+import { drawBrokenGlass } from '../../utils/brokenGlass/proceduralBrokenGlass'
 
 export const BrokenGlassProjectView = () => {
   const windowSize = useWindowSize()
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useEffect(() => {
+    const canvas = canvasRef.current
+    if (!canvas) {
+      console.log('canvas null')
+      return
+    }
+    const context = canvas.getContext('2d')
+    if (!context) return
+    drawBrokenGlass({
+      context,
+      radials: 7,
+      scaleMultiplier: 0.1,
+      jaggedness: 10,
+      curviness: Math.PI/90 * 20,
+    })
+  }, [canvasRef])
 
   return (
     <Container>
-      <BrokenGlassMenu width={windowSize.width} height={windowSize.height}/>
+      <BrokenGlassMenu width={windowSize.width} height={windowSize.height} />
+      <canvas ref={canvasRef} width={1600} height={900} />
     </Container>
   )
 }
@@ -15,5 +36,5 @@ export const BrokenGlassProjectView = () => {
 const Container = styled.div`
   height: 100vh;
   width: 100vw;
-  overflow: hidden;
+  overflow: auto;
 `
