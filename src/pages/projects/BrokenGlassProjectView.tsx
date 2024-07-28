@@ -18,16 +18,18 @@ export const BrokenGlassProjectView = () => {
     if (!context) return
     drawBrokenGlass({
       context,
-      radials: 7,
-      scaleMultiplier: 0.1,
-      jaggedness: 10,
-      curviness: Math.PI/90 * 20,
+      radials: 9,
+      scaleMultiplier: 0.07,
+      jaggedness: 20,
+      curviness: (Math.PI / 90) * 8,
+      branchPercentage: 0.7,
+      branchAngle: (Math.PI / 90) * 10,
     })
   }, [canvasRef])
 
   return (
     <Container>
-      <BrokenGlassMenu width={windowSize.width} height={windowSize.height} />
+      {/* <BrokenGlassMenu width={windowSize.width} height={windowSize.height} /> */}
       <canvas ref={canvasRef} width={1600} height={900} />
     </Container>
   )

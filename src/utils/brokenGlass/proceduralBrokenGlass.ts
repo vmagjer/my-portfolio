@@ -43,8 +43,8 @@ export function drawBrokenGlass({
   scaleMultiplier = 1,
   curviness = 0,
   jaggedness = 0,
-  // branchPercentage = 0,
-  // branchAngle = 0,
+  branchPercentage: branchChance = 0,
+  branchAngle = 0,
   // concentrics = 0,
 }: {
   context: CanvasRenderingContext2D,
@@ -65,31 +65,70 @@ export function drawBrokenGlass({
   // context.clearRect(0, 0, width, height)
   context.fillStyle = 'white'
   context.fillRect(0, 0, width, height)
-  context.strokeStyle = 'red'
+  context.strokeStyle = 'black'
   context.lineWidth = 2
 
   const distance = scaleMultiplier * width
-  for (let index = 0; index < radials; index++) {
-    let start = center
-    let end: Point = start
-    let angle = index * 2 * Math.PI / radials
 
+  const lineStack: { start: Point, angle: number }[] = []
+  for (let index = 0; index < radials; index++) {
+    lineStack.push({
+      start: center,
+      angle: index * 2 * Math.PI / radials,
+    })
+  }
+
+  let line = null
+  while ((line = lineStack.pop())) {
     context.beginPath()
-    context.moveTo(start.x, start.y)
+    context.moveTo(line.start.x, line.start.y)
+    let end = line.start
     while (end.x > 0 && end.x < width && end.y > 0 && end.y < height) {
-      angle += curviness * (Math.random() - 0.5)
+      const angle = line.angle + curviness * (Math.random() - 0.5)
       end = {
-        x: start.x + distance * Math.cos(angle),
-        y: start.y + distance * Math.sin(angle),
+        x: end.x + distance * Math.cos(angle),
+        y: end.y + distance * Math.sin(angle),
       }
       end.x += jaggedness * (Math.random() - 0.5);
       end.y += jaggedness * (Math.random() - 0.5);
-      console.log(`Drawing line from ${start.x}, ${start.y}`)
-
       context.lineTo(end.x, end.y)
 
-      start = end
+      if (Math.random() > branchChance) {
+        lineStack.push({
+          start: end,
+          angle: angle - branchAngle / 2
+        })
+        lineStack.push({
+          start: end,
+          angle: angle + branchAngle / 2
+        })
+        break
+      }
     }
     context.stroke()
   }
+
+  // for (let index = 0; index < radials; index++) {
+  //   let start = center
+  //   let end: Point = start
+  //   let angle = index * 2 * Math.PI / radials
+
+  //   context.beginPath()
+  //   context.moveTo(start.x, start.y)
+  //   while (end.x > 0 && end.x < width && end.y > 0 && end.y < height) {
+  //     angle += curviness * (Math.random() - 0.5)
+  //     end = {
+  //       x: start.x + distance * Math.cos(angle),
+  //       y: start.y + distance * Math.sin(angle),
+  //     }
+  //     end.x += jaggedness * (Math.random() - 0.5);
+  //     end.y += jaggedness * (Math.random() - 0.5);
+  //     console.log(`Drawing line from ${start.x}, ${start.y}`)
+
+  //     context.lineTo(end.x, end.y)
+
+  //     start = end
+  //   }
+  //   context.stroke()
+  // }
 }
