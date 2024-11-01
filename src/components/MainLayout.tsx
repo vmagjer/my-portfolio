@@ -1,16 +1,10 @@
-import styled from 'styled-components'
-import SideMenu from './SideMenu'
 import { Outlet } from 'react-router-dom'
-import SlideOut from './SlideOut'
+import styled from 'styled-components'
 
 export default function MainLayout() {
   return (
     <Container>
-      <LeftColumn>
-        <SlideOut>
-          <SideMenu />
-        </SlideOut>
-      </LeftColumn>
+      <LeftColumn></LeftColumn>
 
       <Content>
         <Outlet />
@@ -24,10 +18,7 @@ export default function MainLayout() {
         </Footer>
       </Content>
 
-      <RightColumn>
-        <div>
-        </div>
-      </RightColumn>
+      <RightColumn></RightColumn>
     </Container>
   )
 }
