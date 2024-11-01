@@ -1,6 +1,7 @@
 import { Bounds, ParticleRenderer } from "./DigitalRainController"
-import { generateRandomString } from "../random"
-import Particle, { Vector2D } from "../Particle/Particle"
+import Particle, { Vector2D } from "./Particle/Particle"
+
+import { generateRandomString } from "../../utils/random"
 
 const SYMBOLS = '012345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
 

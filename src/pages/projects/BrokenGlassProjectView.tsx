@@ -1,8 +1,9 @@
-import styled from 'styled-components'
-import BrokenGlassMenu from '../../components/BrokenGlassMenu'
-import useWindowSize from '../../utils/useWindowResize'
 import { useEffect, useRef } from 'react'
-import { drawBrokenGlass } from '../../utils/brokenGlass/proceduralBrokenGlass'
+
+import BrokenGlassMenu from '../../components/BrokenGlassMenu'
+import { drawBrokenGlass } from '../../features/brokenGlass/proceduralBrokenGlass'
+import styled from 'styled-components'
+import useWindowSize from '../../utils/useWindowResize'
 
 export const BrokenGlassProjectView = () => {
   const windowSize = useWindowSize()

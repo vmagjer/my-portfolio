@@ -1,4 +1,7 @@
 import { useEffect, useRef } from 'react'
+
+import frameMask from '../assets/images/chockolate-frog-card-mask.png'
+import frogCardImage from '../assets/images/chockolate-frog-card.png'
 import styled from 'styled-components'
 
 const maxTiltAngle = (20 * Math.PI) / 180
@@ -10,6 +13,7 @@ function easeInOutSine(x: number) {
   return -(Math.cos(Math.PI * x) - 1) / 2
 }
 
+// TODO: add animation flat <-> 3d
 function Card3D({ data }: { data: { name: string; image: string[] } }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const frameRef = useRef<HTMLDivElement>(null)
@@ -108,8 +112,8 @@ const Card = styled.div`
   -webkit-transform-style: preserve-3d;
 `
 
-import frogCardImage from '../assets/images/chockolate-frog-card.png'
-import frameMask from '../assets/images/chockolate-frog-card-mask.png'
+
+
 
 const Frame = styled.div`
   position: absolute;

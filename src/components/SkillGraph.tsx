@@ -1,12 +1,13 @@
-import styled from 'styled-components'
-import data from '../assets/data'
-import { useEffect, useRef } from 'react'
 import {
+  GraphTopologyStrategy,
   NetworkDrawingStrategy,
   NodeLinkDiagramRenderer,
-  GraphTopologyStrategy,
   UndirectedGraph,
-} from '../utils/drawNodeNetwork'
+} from '../features/nodeLinkDiagram/drawNodeNetwork'
+import { useEffect, useRef } from 'react'
+
+import data from '../assets/data'
+import styled from 'styled-components'
 
 const skillsGraph = new UndirectedGraph(
   Object.values(data.technologies),

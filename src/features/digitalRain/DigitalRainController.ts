@@ -1,9 +1,10 @@
-import MousePosition from '../MousePosition'
-import Particle, { Vector2D } from '../Particle/Particle'
-import PhysicalParticleMovement from './PhysicalParticleMovement'
-import { GravityForceField, InertiaForceField, RepellingForceField } from '../Particle/ForceFields'
+import { GravityForceField, InertiaForceField, RepellingForceField } from './Particle/ForceFields'
+import Particle, { Vector2D } from './Particle/Particle'
+
 import DigitalRainRenderer from './DigitalRainRenderer'
-import { randomInt } from '../random'
+import MousePosition from '../../utils/mousePosition'
+import PhysicalParticleMovement from './PhysicalParticleMovement'
+import { randomInt } from '../../utils/random'
 
 const CELL_SIZE = 20
 

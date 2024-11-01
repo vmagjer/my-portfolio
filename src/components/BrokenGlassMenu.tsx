@@ -1,6 +1,6 @@
-import styled from 'styled-components'
+import { BrokenGlass } from '../features/brokenGlass/BrokenGlass'
 import data from '../assets/data'
-import { BrokenGlass } from '../utils/brokenGlass/BrokenGlass'
+import styled from 'styled-components'
 
 const NUM_SMALL_PIECES = 7
 const TRANSITION_DURATION = 0.5

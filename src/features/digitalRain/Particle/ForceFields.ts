@@ -1,5 +1,6 @@
 import Particle, { Vector2D } from "./Particle"
-import { ForceField } from "../digitalRain/PhysicalParticleMovement"
+
+import { ForceField } from "../PhysicalParticleMovement"
 
 class InertiaForceField implements ForceField {
   inertia: number

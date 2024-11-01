@@ -1,5 +1,5 @@
 import { Bounds } from "./DigitalRainController"
-import Particle from "../Particle/Particle"
+import Particle from "./Particle/Particle"
 
 export interface ForceField {
   apply: (particle: Particle) => void
