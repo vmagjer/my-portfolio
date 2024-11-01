@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
+
+import throttle from './throttle'
 
 /**
  * Custom hook that determines the active section based on the scroll position.
@@ -11,7 +13,7 @@ const useActiveSection = (sectionIds: string[]) => {
 
   useEffect(() => {
     const updateActiveSection = () => {
-      const newActiveSection = getTopVisibleSection(sectionIds)
+      const newActiveSection = getTopVisibleElement(sectionIds)
 
       if (newActiveSection === null) {
         console.error('No section found')
@@ -21,83 +23,59 @@ const useActiveSection = (sectionIds: string[]) => {
       setActiveSection(newActiveSection)
     }
 
-    window.addEventListener('scroll', updateActiveSection)
+    const throttledUpdateActiveSection = throttle(updateActiveSection, 100)
+
+    window.addEventListener('scroll', throttledUpdateActiveSection)
 
     return () => {
-      window.removeEventListener('scroll', updateActiveSection)
+      window.removeEventListener('scroll', throttledUpdateActiveSection)
     }
   }, [sectionIds])
 
-  function scrollToSection(id: string) {
-    const section = document.getElementById(id)
-    if (!section) {
-      console.error(`Section with ID "${id}" not found`)
-      return
-    }
-    const offset = 40 + 32
-    const elementPosition = section.getBoundingClientRect().top
-    const offsetPosition = elementPosition + window.scrollY - offset
-
-    window.scrollTo({ top: offsetPosition, behavior: 'smooth' })
-  }
-
-  return { activeSection, scrollToSection }
+  return { activeSection, scrollToSection: scrollToId }
 }
 
 export default useActiveSection
 
-function getMostVisibleSection(sectionIds: string[]): string | null {
-  const scrollY = window.scrollY
-
-  let mostVisibleSection = null
-  let mostVisibleSectionPercentage = 0
-
-  sectionIds.forEach((sectionId) => {
-    const section = document.getElementById(sectionId)
-    if (!section) {
-      console.error(`Section with ID "${sectionId}" not found`)
-      return
-    }
-
-    // Calculate the percentage of the section that is visible
-    const sectionTop = section.offsetTop
-    const sectionBottom = sectionTop + section.offsetHeight
-    const upperVisiblePoint = Math.max(scrollY, sectionTop)
-    const lowerVisiblePoint = Math.min(
-      scrollY + window.innerHeight,
-      sectionBottom
-    )
-    const sectionVisibleHeight = lowerVisiblePoint - upperVisiblePoint
-    const sectionVisiblePercentage =
-      (sectionVisibleHeight / section.offsetHeight) * 100
-
-    if (sectionVisiblePercentage > mostVisibleSectionPercentage) {
-      mostVisibleSection = sectionId
-      mostVisibleSectionPercentage = sectionVisiblePercentage
-    }
-  })
-
-  return mostVisibleSection
-}
-
-function getTopVisibleSection(sectionIds: string[]): string | null {
+// assumes the ids are ordered by appearance on the page
+function getTopVisibleElement(ids: string[]): string | null {
   const offset = 40 + 32 + 16
-  const scrollY = window.scrollY + offset
+  const targetPosition = window.scrollY + offset
 
-  // sectionIds.forEach((sectionId) => {
-  for (const sectionId of sectionIds) {
-    const section = document.getElementById(sectionId)
-    if (section === null) {
-      throw new Error(`Section with ID "${sectionId}" not found`)
-    }
+  for (const id of ids) {
+    try {
+      const element = getElementByIdGuaranted(id)
+      const distanceFromTarget = targetPosition - element.offsetTop
+      if (distanceFromTarget < 0) continue
+      if (distanceFromTarget > element.offsetHeight) continue
 
-    const sectionTop = section.offsetTop
-    const sectionBottom = sectionTop + section.offsetHeight
-
-    if (scrollY >= sectionTop && scrollY <= sectionBottom) {
-      return sectionId
+      return id
+    } catch (error) {
+      console.warn(`Couldn't check Element with ID "${id}":\n${error}`)
     }
   }
 
   return null
+}
+
+function scrollToId(id: string) {
+  try {
+    const element = getElementByIdGuaranted(id)
+    const elementPositionInViewport = element.getBoundingClientRect().top
+    const elementPositionInDocument = window.scrollY + elementPositionInViewport
+    const offset = 40 + 32
+    const targetPosition = elementPositionInDocument - offset
+
+    window.scrollTo({ top: targetPosition, behavior: 'smooth' })
+  } catch (error) {
+    console.error(`Couldn't scroll to Element with ID "${id}":\n${error}`)
+  }
+}
+
+function getElementByIdGuaranted(id: string): HTMLElement {
+  const element = document.getElementById(id)
+  if (element === null) {
+    throw new Error(`Element with ID "${id}" not found`)
+  }
+  return element
 }
