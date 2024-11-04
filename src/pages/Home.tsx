@@ -1,41 +1,57 @@
-import styled from 'styled-components'
-import data from '../assets/data'
-// import Card3D from '../components/Card3D'
-import SkillGraph from '../components/SkillGraph'
+import Summary, { Section as SectionType } from '../components/Summary'
+
 import { ProjectItem } from '../components/ProjectItem'
+import data from '../assets/data'
+import heroImage from '../assets/images/hero.jpg'
+import styled from 'styled-components'
+
+// import Card3D from '../components/Card3D'
+
+const sections: SectionType[] = [
+  { id: 'hello', title: 'Hello' }, // hero section
+  { id: 'projects', title: 'Projects' }, // cool projects
+  { id: 'background', title: 'Background' }, // education and experience
+  { id: 'about', title: 'About' }, // personality
+  { id: 'contact', title: 'Contact' },
+]
 
 const HomePage = () => {
   return (
     <Container>
-      <Section>
-        <h2>Highlighted Projects</h2>
+      <Summary items={sections}></Summary>
+
+      <HeroSection id="hello">
+        <p>Hello there, I{"'"}m</p>
+        <h1>
+          Vlatko Magjer
+          <br />
+          Software Engineer
+        </h1>
+        <p>
+          A builder with a passion for creating elegant solutions to complex
+          problems.
+        </p>
+      </HeroSection>
+
+      <Section id="projects">
+        <h2>Cool Projects</h2>
         <Projects>
           {data.highlightedProjects.map((proj) => (
             <ProjectItem
               key={proj.id}
               title={proj.name}
-              image={proj. image}
+              image={proj.image}
               navLink={`/projects/${proj.id}`}
-            />
+            >
+              content missing
+            </ProjectItem>
           ))}
         </Projects>
       </Section>
 
-      <Section>
-        <h2>Skills</h2>
-        <Skills>
-          {Object.values(data.technologies).map((tech) => (
-            <Skill key={tech.name}>
-              <img src={tech.icon} alt="" width="24" height="24" />
-              {tech.name}
-            </Skill>
-          ))}
-        </Skills>
-        <SkillGraph />
-      </Section>
-
-      <Section>
-        <h2>Work Experience</h2>
+      <Section id="background">
+        <h2>My Background</h2>
+        <h3>Work Experience</h3>
         <WorkExperiences>
           {data.workExperience.map((workExp) => (
             <WorkExperience key={workExp.from}>
@@ -46,10 +62,7 @@ const HomePage = () => {
             </WorkExperience>
           ))}
         </WorkExperiences>
-      </Section>
-
-      <Section>
-        <h2>Education</h2>
+        <h3>Education</h3>
         <Education>
           {data.education.map((eduExp) => (
             <EducationItem key={eduExp.degree}>
@@ -61,6 +74,23 @@ const HomePage = () => {
             </EducationItem>
           ))}
         </Education>
+      </Section>
+
+      <Section id="about">
+        <h2>About Me</h2>
+        <p>
+          I{"'"}m a software engineer with a passion for creating elegant
+          solutions to complex problems. I love to learn new things and I{"'"}m
+          always looking for ways to improve my skills. I{"'"}m a team player
+          and I{"'"}m always willing to help others.
+        </p>
+      </Section>
+
+      <Section id="contact">
+        <h2>Contact</h2>
+        <p>
+          You can contact me at <a href="mailto:ASD">ASDASD</a>
+        </p>
       </Section>
     </Container>
   )
@@ -86,9 +116,8 @@ const Container = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 8px 0;
-  /* width: 100%; */
+  background-color: #f5f5f5;
+  color: #333;
 `
 
 const Section = styled.div`
@@ -97,76 +126,38 @@ const Section = styled.div`
   min-height: 360px;
   min-width: 360px;
   padding: 20px;
-
-  background-color: rgba(0, 0, 0, 0.1);
-
-  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 
   h2 {
     margin-bottom: 8px;
+    color: #0073e6;
+  }
+
+  p {
+    font-size: 1rem;
+    line-height: 1.6;
   }
 `
 
-const Skills = styled.div`
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-`
-
-const Skill = styled.div`
-  display: flex;
-  /* flex-direction: column; */
-  gap: 0.25rem;
-
-  align-items: center;
-  justify-content: center;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.1);
-  background-color: rgb(255, 255, 255);
-  color: rgba(0, 0, 0, 0.9);
+const HeroSection = styled(Section)`
+  height: 80vh;
+  background-image: url(${heroImage});
+  background-size: cover;
+  color: #000;
+  padding-top: 20vh;
 `
 
 const Projects = styled.div`
-  /* display: flex;
+  display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
-  max-height: 800px;
-
-  align-content: flex-start; */
-
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-
-  /* padding: 16px; */
-
-  /* perspective: 2000px; */
+  gap: 20px;
 `
 
-// const Project = styled.div`
-//   padding: 12px;
-//   border-radius: 4px;
-//   background-color: rgba(255, 255, 255, 0.1);
-
-//   h3 {
-//     margin-bottom: 4px;
-//   }
-
-//   img {
-//     width: 100%;
-//     height: 200px;
-//     object-fit: cover;
-//     border-radius: 4px;
-
-//     margin-bottom: 8px;
-//   }
-// `
 const WorkExperiences = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  /* padding: 16px; */
 `
 
 const WorkExperience = styled.div`
@@ -175,14 +166,14 @@ const WorkExperience = styled.div`
   gap: 8px;
   padding: 8px;
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #e6f7ff;
+  border-left: 4px solid #0073e6;
 `
 
 const Education = styled.div`
   display: flex;
   flex-direction: column;
   gap: 16px;
-  /* padding: 16px; */
 `
 
 const EducationItem = styled.div`
@@ -191,5 +182,6 @@ const EducationItem = styled.div`
   gap: 8px;
   padding: 8px;
   border-radius: 4px;
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: #e6f7ff;
+  border-left: 4px solid #0073e6;
 `

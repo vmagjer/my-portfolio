@@ -4,79 +4,68 @@ import styled from 'styled-components'
 type ProjectItemProps = {
   title: string
   image: string
+  children: React.ReactNode
   navLink: string
 }
 
-export const ProjectItem = ({ title, image, navLink }: ProjectItemProps) => {
+export const ProjectItem = ({ title, image, children, navLink }: ProjectItemProps) => {
   return (
     <Container to={navLink}>
-      <Text>
-        <h3>{title}</h3>
-        {/* <p>{description}</p> */}
-      </Text>
       <Image>
         <img src={image} alt={title} />
       </Image>
+      <Text>
+        <h3>{title}</h3>
+        {children}
+      </Text>
     </Container>
   )
 }
 
 const Container = styled(Link)`
-  position: relative;
+  display: flex;
+  flex-direction: column;
   width: 100%;
   height: 100%;
-  /* width: 420px; */
-
   transition: transform 0.3s;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
   &:hover {
     cursor: pointer;
     transform: scale(1.05);
     z-index: 1;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  }
-  &:hover h3 {
-    background-size: 0 var(--underline-height), 100% var(--underline-height);
-  }
-`
-
-const Text = styled.div`
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  background: linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.9) 0%,
-    rgba(0, 0, 0, 0) 100%
-  );
-  padding: 1rem;
-
-  h3 {
-    margin-top: 0;
-    display: inline-block;
-
-    /* animated underline */
-    --underline-height: 1px;
-    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0)),
-      linear-gradient(currentColor, currentColor);
-    background-repeat: no-repeat;
-    background-size: 100% var(--underline-height), 0 var(--underline-height);
-    background-position: 100% 100%, 0 100%;
-
-    transition: background-size 0.25s linear, background-position 0.25s linear;
-  }
-
-  p {
-    margin-top: 0.5rem;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   }
 `
 
 const Image = styled.div`
   width: 100%;
-  height: 100%;
-  
+  height: 200px;
+  overflow: hidden;
+
   img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+  }
+`
+
+const Text = styled.div`
+  padding: 1rem;
+  background-color: #fff;
+
+  h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+    color: #0073e6;
+  }
+
+  p {
+    margin: 0;
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.5;
   }
 `
