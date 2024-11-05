@@ -1,11 +1,11 @@
 import Summary, { Section as SectionType } from '../components/Summary'
+import { useLayoutEffect, useRef } from 'react'
 
+import { InteractiveBackground } from '../features/interactiveBackground/interactiveBg'
 import { ProjectItem } from '../components/ProjectItem'
+import Section from '../components/Section'
 import data from '../assets/data'
-import heroImage from '../assets/images/hero.jpg'
 import styled from 'styled-components'
-
-// import Card3D from '../components/Card3D'
 
 const sections: SectionType[] = [
   { id: 'hello', title: 'Hello' }, // hero section
@@ -15,26 +15,55 @@ const sections: SectionType[] = [
   { id: 'contact', title: 'Contact' },
 ]
 
-const HomePage = () => {
+export default function HomePage() {
+  const canvasRef = useRef<HTMLCanvasElement>(null)
+
+  useLayoutEffect(() => {
+    if (!canvasRef.current) return
+    const interactiveBg = new InteractiveBackground(canvasRef.current)
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            interactiveBg.start()
+          } else {
+            interactiveBg.stop()
+          }
+        })
+      },
+      { threshold: 0.1 }
+    )
+
+    observer.observe(canvasRef.current)
+
+    return () => {
+      observer.disconnect()
+      interactiveBg.stop()
+    }
+  }, [canvasRef])
+
   return (
     <Container>
       <Summary items={sections}></Summary>
-
       <HeroSection id="hello">
-        <p>Hello there, I{"'"}m</p>
-        <h1>
-          Vlatko Magjer
-          <br />
-          Software Engineer
-        </h1>
-        <p>
-          A builder with a passion for creating elegant solutions to complex
-          problems.
-        </p>
+        <canvas ref={canvasRef}></canvas>
+        <div>
+          <p>Hello there, I{"'"}m</p>
+          <h1>
+            Vlatko Magjer
+            <br />
+            Software Engineer
+          </h1>
+          <p>
+            A builder with a passion for creating elegant solutions to complex
+            problems.
+          </p>
+        </div>
       </HeroSection>
 
       <Section id="projects">
-        <h2>Cool Projects</h2>
+        <h2>What are some projects Im proud of?</h2>
         <Projects>
           {data.highlightedProjects.map((proj) => (
             <ProjectItem
@@ -50,7 +79,7 @@ const HomePage = () => {
       </Section>
 
       <Section id="background">
-        <h2>My Background</h2>
+        <h2>Tell you about myself</h2>
         <h3>Work Experience</h3>
         <WorkExperiences>
           {data.workExperience.map((workExp) => (
@@ -77,7 +106,7 @@ const HomePage = () => {
       </Section>
 
       <Section id="about">
-        <h2>About Me</h2>
+        <h2>What?</h2>
         <p>
           I{"'"}m a software engineer with a passion for creating elegant
           solutions to complex problems. I love to learn new things and I{"'"}m
@@ -95,8 +124,6 @@ const HomePage = () => {
     </Container>
   )
 }
-
-export default HomePage
 
 function getDurationMonths(from: string, to: string) {
   const fromDate = new Date(from)
@@ -120,32 +147,28 @@ const Container = styled.div`
   color: #333;
 `
 
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  min-height: 360px;
-  min-width: 360px;
-  padding: 20px;
-  background-color: #fff;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-
-  h2 {
-    margin-bottom: 8px;
-    color: #0073e6;
-  }
-
-  p {
-    font-size: 1rem;
-    line-height: 1.6;
-  }
-`
-
 const HeroSection = styled(Section)`
   height: 80vh;
-  background-image: url(${heroImage});
   background-size: cover;
   color: #000;
   padding-top: 20vh;
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  > div {
+    padding: 1rem;
+  }
 `
 
 const Projects = styled.div`
