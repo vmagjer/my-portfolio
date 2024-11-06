@@ -4,6 +4,7 @@ export class InteractiveBackground {
   private particles: Particle[] = [];
   private mousePos: { x: number; y: number } = { x: 0, y: 0 };
   private particleCount: number = 100;
+  private particleDensity: number = 0.0001; // particles per pixel
   private maxDistance: number;
   private animationFrameId: number | null = null;
 
@@ -25,6 +26,9 @@ export class InteractiveBackground {
     this.canvas.width = this.canvas.clientWidth;
     this.canvas.height = this.canvas.clientHeight;
     this.maxDistance = Math.min(this.canvas.width, this.canvas.height) * 0.2; // 20% of the smaller dimension
+    this.particleCount = Math.floor(this.canvas.width * this.canvas.height * this.particleDensity);
+    this.particles = [];
+    this.createParticles();
   }
 
   private createParticles() {
