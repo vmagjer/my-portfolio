@@ -1,3 +1,4 @@
+import Section from './Section'
 import styled from 'styled-components'
 import useActiveSection from '../utils/useActiveSection'
 import { useMemo } from 'react'
@@ -17,15 +18,17 @@ export default function Summary({ items }: Props) {
 
   return (
     <Container>
-      {items.map((item) => (
-        <SummaryItem
-          key={`summary-item-${item.id}`}
-          $active={activeSection === item.id}
-          onClick={() => scrollToSection(item.id)}
-        >
-          <span>{item.title}</span>
-        </SummaryItem>
-      ))}
+      <Section>
+        {items.map((item) => (
+          <SummaryItem
+            key={`summary-item-${item.id}`}
+            $active={activeSection === item.id}
+            onClick={() => scrollToSection(item.id)}
+          >
+            <span>{item.title}</span>
+          </SummaryItem>
+        ))}
+      </Section>
     </Container>
   )
 }
@@ -42,27 +45,25 @@ const Container = styled.div`
   overflow-x: auto;
 
   padding: 0.5rem 1rem;
-  gap: 0.5rem;
-
-  /* background: #000; */
 `
 
 const SummaryItem = styled.button<{ $active: boolean }>`
-  padding: 8px;
+  padding: 0.5rem;
+  margin-right: 0.25rem;
 
   font-size: 0.75rem;
-  color: ${({ $active }) => ($active ? '#0073e6' : '#333')};
+  color: ${({ $active }) => ($active ? '#fff' : '#fff')};
   background: ${({ $active }) =>
-    $active ? 'rgba(255, 255, 255, 0.7)' : 'rgba(255, 255, 255, 0.6)'};
+    $active ? 'rgba(14, 14, 17, 0.8)' : 'rgba(0, 0, 0, 0.6)'};
   backdrop-filter: blur(20px);
   transform: translateY(${({ $active }) => ($active ? '+4px' : '0')});
 
   border: none;
   border-radius: 4px;
 
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1),
-    inset 0px 8px 4px -8px rgba(255, 255, 255, 0.5),
-    inset 0px -6px 4px -8px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1),
+    inset 0px 8px 2px -8px rgba(255, 255, 255, 0.5),
+    inset 0px -6px 2px -5px rgba(0, 0, 0, 0.5);
 
   cursor: pointer;
 
