@@ -4,12 +4,18 @@ type ProjectItemProps = {
   title: string
   image: string
   children: React.ReactNode
+  reverse?: boolean
 }
 
-export const ProjectItem = ({ title, image, children }: ProjectItemProps) => {
+export const ProjectItem = ({
+  title,
+  image,
+  children,
+  reverse,
+}: ProjectItemProps) => {
   return (
-    <Container>
-      <Image>
+    <Container reverse={reverse}>
+      <Image reverse={reverse}>
         <img src={image} alt={title} />
       </Image>
       <Text>
@@ -20,28 +26,29 @@ export const ProjectItem = ({ title, image, children }: ProjectItemProps) => {
   )
 }
 
-const Container = styled.div`
+const Container = styled.div<{ reverse?: boolean }>`
   display: flex;
-  flex-direction: column;
+  flex-direction: ${({ reverse }) => (reverse ? 'row-reverse' : 'row')};
+  justify-content: space-between;
   width: 100%;
-  height: 100%;
-  transition: transform 0.3s;
-  border-radius: 41px;
-  overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
 
-  &:hover {
-    cursor: pointer;
-    transform: scale(1.05);
-    z-index: 1;
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  }
+  perspective: 2000px;
 `
 
-const Image = styled.div`
-  width: 100%;
-  height: 200px;
+const Image = styled.div<{ reverse?: boolean }>`
+  width: 1/3;
+  aspect-ratio: 4/3;
   overflow: hidden;
+
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border-radius: 4px;
+
+  /* transform-style: preserve-3d; */
+  ${({ reverse }) =>
+    reverse
+      ? `transform: scale(1.0) translateX(40px) translateY(-10px) rotateY(-30deg);`
+      : `transform: scale(1.0) translateX(-40px) translateY(-10px) rotateY(30deg);`}
 
   img {
     width: 100%;
@@ -52,12 +59,11 @@ const Image = styled.div`
 
 const Text = styled.div`
   padding: 1rem;
-  background-color: #fff;
+  flex: 1;
 
   h3 {
     margin-top: 0;
     margin-bottom: 0.5rem;
-    color: #0073e6;
   }
 
   p {

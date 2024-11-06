@@ -62,23 +62,35 @@ export default function HomePage() {
         </div>
       </HeroSection>
 
-      <Section id="projects">
-        <h2>What are some projects Im proud of?</h2>
+      <ProjectsSection id="projects">
+        <SubtleTitle>Projects I liked</SubtleTitle>
         <Projects>
-          {data.highlightedProjects.map((proj) => (
-            <ProjectItem
-              key={proj.id}
-              title={proj.name}
-              image={proj.image}
-            >
-              content missing
-            </ProjectItem>
-          ))}
+          <ProjectItem
+            title="Web shop and its delivery app"
+            image={data.highlightedProjects[0].image}
+            reverse={true}
+          >
+            content missing
+          </ProjectItem>
+          <ProjectItem
+            title="Exploring frontend technologies"
+            image={data.highlightedProjects[1].image}
+            reverse={false}
+          >
+            content missing
+          </ProjectItem>
+          <ProjectItem
+            title="Building an AR app"
+            image={data.highlightedProjects[2].image}
+            reverse={true}
+          >
+            content missing
+          </ProjectItem>
         </Projects>
-      </Section>
+      </ProjectsSection>
 
       <Section id="background">
-        <h2>Tell you about myself</h2>
+        <SubtleTitle>Tell you about myself</SubtleTitle>
         <h3>Work Experience</h3>
         <WorkExperiences>
           {data.workExperience.map((workExp) => (
@@ -105,7 +117,7 @@ export default function HomePage() {
       </Section>
 
       <Section id="about">
-        <h2>What?</h2>
+        <SubtleTitle>What?</SubtleTitle>
         <p>
           I{"'"}m a software engineer with a passion for creating elegant
           solutions to complex problems. I love to learn new things and I{"'"}m
@@ -115,7 +127,7 @@ export default function HomePage() {
       </Section>
 
       <Section id="contact">
-        <h2>Contact</h2>
+        <SubtleTitle>Contact</SubtleTitle>
         <p>
           You can contact me at <a href="mailto:ASD">ASDASD</a>
         </p>
@@ -169,11 +181,24 @@ const HeroSection = styled(Section)`
     padding: 1rem;
   }
 `
+const ProjectsSection = styled(Section)`
+  /* padding: 2rem; */
+  background-color: #e2e9f0;
+`
+
+const SubtleTitle = styled.h2`
+  color: #666;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  margin-top: 2rem;
+`
 
 const Projects = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 3rem;
 `
 
 const WorkExperiences = styled.div`
