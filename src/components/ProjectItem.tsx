@@ -1,16 +1,14 @@
-import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 type ProjectItemProps = {
   title: string
   image: string
   children: React.ReactNode
-  navLink: string
 }
 
-export const ProjectItem = ({ title, image, children, navLink }: ProjectItemProps) => {
+export const ProjectItem = ({ title, image, children }: ProjectItemProps) => {
   return (
-    <Container to={navLink}>
+    <Container>
       <Image>
         <img src={image} alt={title} />
       </Image>
@@ -22,13 +20,13 @@ export const ProjectItem = ({ title, image, children, navLink }: ProjectItemProp
   )
 }
 
-const Container = styled(Link)`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
   height: 100%;
   transition: transform 0.3s;
-  border-radius: 8px;
+  border-radius: 41px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 

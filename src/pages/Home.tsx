@@ -70,7 +70,6 @@ export default function HomePage() {
               key={proj.id}
               title={proj.name}
               image={proj.image}
-              navLink={`/projects/${proj.id}`}
             >
               content missing
             </ProjectItem>
