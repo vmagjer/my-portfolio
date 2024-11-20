@@ -14,8 +14,8 @@ export const ProjectItem = ({
   reverse,
 }: ProjectItemProps) => {
   return (
-    <Container reverse={reverse}>
-      <Image reverse={reverse}>
+    <Container $reverse={reverse}>
+      <Image $reverse={reverse}>
         <img src={image} alt={title} />
       </Image>
       <Text>
@@ -26,29 +26,31 @@ export const ProjectItem = ({
   )
 }
 
-const Container = styled.div<{ reverse?: boolean }>`
+const Container = styled.div<{ $reverse?: boolean }>`
   display: flex;
-  flex-direction: ${({ reverse }) => (reverse ? 'row-reverse' : 'row')};
+  flex-direction: column;
+  /* flex-direction: ${({ $reverse }) => ($reverse ? 'row-reverse' : 'row')}; */
   justify-content: space-between;
   width: 100%;
-  background-color: #fff;
+  /* background-color: #fff; */
 
   perspective: 2000px;
-`
 
-const Image = styled.div<{ reverse?: boolean }>`
-  width: 1/3;
-  aspect-ratio: 4/3;
+  border-radius: 0.25rem;
   overflow: hidden;
 
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  border-radius: 4px;
+  /* padding: 0.75rem; */
+`
 
+const Image = styled.div<{ $reverse?: boolean }>`
+  width: 1/3;
+  aspect-ratio: 4/3;
+  
   /* transform-style: preserve-3d; */
-  ${({ reverse }) =>
-    reverse
-      ? `transform: scale(1.0) translateX(40px) translateY(-10px) rotateY(-30deg);`
-      : `transform: scale(1.0) translateX(-40px) translateY(-10px) rotateY(30deg);`}
+  /* ${({ $reverse }) =>
+    $reverse
+      ? `transform: scale(1.0) translateX(2rem) translateY(-1rem) rotateY(-0deg);`
+      : `transform: scale(1.0) translateX(-2rem) translateY(-1rem) rotateY(0deg);`} */
 
   img {
     width: 100%;
@@ -58,7 +60,7 @@ const Image = styled.div<{ reverse?: boolean }>`
 `
 
 const Text = styled.div`
-  padding: 1rem;
+  padding: 1rem 0;
   flex: 1;
 
   h3 {

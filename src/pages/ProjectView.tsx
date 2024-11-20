@@ -1,6 +1,6 @@
-import styled from 'styled-components'
-import Summary, { Section as SectionType } from '../components/Summary'
+import Summary, { Section as SectionType } from '../components/layout/Summary'
 
+import styled from 'styled-components'
 
 const sections: SectionType[] = [
   { id: 'hero', title: 'Hero' },

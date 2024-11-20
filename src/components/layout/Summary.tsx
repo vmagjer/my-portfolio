@@ -1,6 +1,6 @@
 import Section from './Section'
 import styled from 'styled-components'
-import useActiveSection from '../utils/useActiveSection'
+import useActiveSection from '../../utils/useActiveSection'
 import { useMemo } from 'react'
 
 export type Section = {
@@ -45,6 +45,12 @@ const Container = styled.div`
   overflow-x: auto;
 
   padding: 0.5rem 1rem;
+
+  background: #00000056;
+  backdrop-filter: blur(20px);
+
+  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1),
+    inset 0px -6px 2px -5px rgba(0, 0, 0, 0.5);
 `
 
 const SummaryItem = styled.button<{ $active: boolean }>`
@@ -53,10 +59,7 @@ const SummaryItem = styled.button<{ $active: boolean }>`
 
   font-size: 0.75rem;
   color: ${({ $active }) => ($active ? '#fff' : '#fff')};
-  background: ${({ $active }) =>
-    $active ? 'rgba(14, 14, 17, 0.8)' : 'rgba(0, 0, 0, 0.6)'};
-  backdrop-filter: blur(20px);
-  transform: translateY(${({ $active }) => ($active ? '+4px' : '0')});
+  background: none;
 
   border: none;
   border-radius: 4px;
@@ -66,10 +69,4 @@ const SummaryItem = styled.button<{ $active: boolean }>`
     inset 0px -6px 2px -5px rgba(0, 0, 0, 0.5);
 
   cursor: pointer;
-
-  transition: background 0.3s, color 0.3s, transform 0.3s;
-  &:hover {
-    background: rgba(0, 115, 230, 0.1);
-    color: #0073e6;
-  }
 `

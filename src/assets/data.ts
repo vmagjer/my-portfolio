@@ -94,14 +94,36 @@ const education: Education[] = [
   },
 ]
 
+import blazorIcon from './tech-icons/blazor.png'
 import blokA3Landing from './projects/blok-a3/blok-a3-landing.png'
+import card3dBanner from './projects/card3d/placeholder.jpeg'
+import csharpIcon from './tech-icons/csharp.png'
+import cssIcon from './tech-icons/css.png'
+import digitalRainBanner from './projects/digital-rain/placeholder.gif'
+import favroIcon from './tech-icons/favro.png'
+import gitIcon from './tech-icons/git.png'
+import htmlIcon from './tech-icons/html.png'
+import ionicIcon from './tech-icons/ionic.png'
+import javaIcon from './tech-icons/java.png'
+import jiraIcon from './tech-icons/jira.png'
+import jsIcon from './tech-icons/javascript.png'
+import mojBankarLanding from './projects/moj-bankar/landing.png'
+import notionIcon from './tech-icons/notion.png'
+import pythonIcon from './tech-icons/python.png'
+import reactIcon from './tech-icons/react.png'
+import reduxIcon from './tech-icons/redux.png'
+import sassIcon from './tech-icons/sass.png'
+import tsIcon from './tech-icons/typescript.png'
+import vueIcon from './tech-icons/vue.png'
+import vuexIcon from './tech-icons/vuex.png'
+
 // import blokA3Portfolio from './projects/blok-a3/blok-a3-portfolio.png'
 // import blokA3Map from './projects/blok-a3/blok-a3-map.png'
-import mojBankarLanding from './projects/moj-bankar/landing.png'
+
 // import mojBankarProduct from './projects/moj-bankar/product.png'
 // import mojBankarDictionary from './projects/moj-bankar/dictionary.png'
-import card3dBanner from './projects/card3d/placeholder.jpeg'
-import digitalRainBanner from './projects/digital-rain/placeholder.gif'
+
+
 
 export type Project = {
   id: string
@@ -115,6 +137,15 @@ export type Project = {
 
 const projects: Record<string, Project> = {
   // PERSONAL PROJECTS
+  explorationOFrontEnd: {
+    id: 'explorationOFrontEnd',
+    name: 'Exploration of front-end technologies',
+    description:
+      'A collection of projects exploring front-end technologies and testing myself in different areas of web development.',
+    link: '/projects/exploration-of-front-end',
+    image: 'http://unsplash.it/400/300?random&gravity=center',
+    technologies: ['react', 'vue', 'javascript', 'html', 'css', 'git', 'vsCode'],
+  },
   digitalRain: {
     id: 'digitalRain',
     name: 'Digital rain',
@@ -180,9 +211,9 @@ const projects: Record<string, Project> = {
     technologies: ['react', 'redux', 'csharp', 'sql', 'git', 'vsCode'],
   },
   // COMMERCIAL PROJECTS
-  verdigo: {
-    id: 'verdigo',
-    name: 'Crowdsourced delivery app',
+  verdi: {
+    id: 'verdi',
+    name: 'Web shop & package delivery app',
     description:
       'Driver interface for a crowd-sourced delivery service. The mobile app features a map with real-time updates of the driver’s location, nearby orders, and the optimal routes to deliver them.',
     link: 'https://play.google.com/store/apps/details?id=verdi.go.development&pcampaignid=web_share',
@@ -288,7 +319,7 @@ const projects: Record<string, Project> = {
     ],
   },
 }
-const highlightedProjects: string[] = ['card3D', 'scrollBasedAnimation', 'digitalRain', 'nodeLinkDiagram', 'blokA3', 'mojBankar']
+const highlightedProjects: string[] = ['explorationOFrontEnd', 'verdi', 'augmentedReality']
 
 type WorkExperience = {
   role: string
@@ -396,24 +427,24 @@ const technologyCategories: Record<string, TechnologyCategory> = {
   },
 }
 
-import jsIcon from './tech-icons/javascript.png'
-import tsIcon from './tech-icons/typescript.png'
-import reactIcon from './tech-icons/react.png'
-import reduxIcon from './tech-icons/redux.png'
-import vueIcon from './tech-icons/vue.png'
-import vuexIcon from './tech-icons/vuex.png'
-import blazorIcon from './tech-icons/blazor.png'
-import ionicIcon from './tech-icons/ionic.png'
-import htmlIcon from './tech-icons/html.png'
-import cssIcon from './tech-icons/css.png'
-import sassIcon from './tech-icons/sass.png'
-import csharpIcon from './tech-icons/csharp.png'
-import pythonIcon from './tech-icons/python.png'
-import javaIcon from './tech-icons/java.png'
-import gitIcon from './tech-icons/git.png'
-import notionIcon from './tech-icons/notion.png'
-import jiraIcon from './tech-icons/jira.png'
-import favroIcon from './tech-icons/favro.png'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 type Technology = {
   id: string

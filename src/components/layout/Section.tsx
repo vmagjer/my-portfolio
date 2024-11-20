@@ -24,6 +24,7 @@ export default function Section({
 
 const Container = styled.div`
   width: 100%;
+  overflow: hidden
 `
 
 const Content = styled.div`

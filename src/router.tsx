@@ -1,11 +1,11 @@
-import { createBrowserRouter } from 'react-router-dom'
-import MainLayout from './components/MainLayout'
-import HomePage from './pages/Home'
-import ErrorView from './pages/ErrorView'
-import ProjectView from './pages/ProjectView'
 import { BrokenGlassProjectView } from './pages/projects/BrokenGlassProjectView'
-import { DigitalRainProjectView } from './pages/projects/DigitalRainProjectView'
 import { Card3DProjectView } from './pages/projects/Card3DProjectView'
+import { DigitalRainProjectView } from './pages/projects/DigitalRainProjectView'
+import ErrorView from './pages/ErrorView'
+import HomePage from './pages/Home'
+import MainLayout from './components/layout/MainLayout'
+import ProjectView from './pages/ProjectView'
+import { createBrowserRouter } from 'react-router-dom'
 
 const router = createBrowserRouter([
   {
@@ -37,3 +37,4 @@ const router = createBrowserRouter([
 ])
 
 export default router
+

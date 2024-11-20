@@ -1,17 +1,20 @@
+const DISTANCE_COEFFICIENT = 0.1;
+
+type Point2D = { x: number; y: number }
+
 export class InteractiveBackground {
   private canvas: HTMLCanvasElement;
   private ctx: CanvasRenderingContext2D;
   private particles: Particle[] = [];
-  private mousePos: { x: number; y: number } = { x: 0, y: 0 };
-  private particleCount: number = 100;
-  private particleDensity: number = 0.0001; // particles per pixel
-  private maxDistance: number;
+  private mousePos: Point2D = { x: 0, y: 0 };
+  private particleCount: number = 1;
+  private particleDensity: number = 0.00009;
+  private maxDistance: number = Infinity;
   private animationFrameId: number | null = null;
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, private scale: number = 1) {
     this.canvas = canvas;
     this.ctx = canvas.getContext('2d')!;
-    this.maxDistance = Math.min(canvas.width, canvas.height) * 0.2; // 20% of the smaller dimension
     this.init();
   }
 
@@ -23,15 +26,14 @@ export class InteractiveBackground {
   }
 
   private updateCanvasSize() {
-    this.canvas.width = this.canvas.clientWidth;
-    this.canvas.height = this.canvas.clientHeight;
-    this.maxDistance = Math.min(this.canvas.width, this.canvas.height) * 0.2; // 20% of the smaller dimension
-    this.particleCount = Math.floor(this.canvas.width * this.canvas.height * this.particleDensity);
-    this.particles = [];
-    this.createParticles();
+    this.canvas.width = this.canvas.clientWidth * this.scale;
+    this.canvas.height = this.canvas.clientHeight * this.scale;
+    this.maxDistance = Math.min(0.5 * this.canvas.width, 0.080 * this.canvas.height) / this.scale; // % of the diagonal
   }
 
   private createParticles() {
+    this.particleCount = Math.floor(this.canvas.width * this.canvas.height * this.particleDensity);
+    this.particles = [];
     for (let i = 0; i < this.particleCount; i++) {
       this.particles.push(new Particle(this.canvas.width, this.canvas.height));
     }
@@ -39,19 +41,18 @@ export class InteractiveBackground {
 
   private bindEvents() {
     window.addEventListener('resize', () => this.onResize());
-    this.canvas.addEventListener('mousemove', (e) => this.onMouseMove(e));
+    window.addEventListener('mousemove', (e) => this.onMouseMove(e));
   }
 
   private onResize() {
     this.updateCanvasSize();
+    this.createParticles();
   }
 
   private onMouseMove(event: MouseEvent) {
     const rect = this.canvas.getBoundingClientRect();
-    this.mousePos.x = event.clientX - rect.left;
-    this.mousePos.y = event.clientY - rect.top;
-
-    console.table(this.mousePos);
+    this.mousePos.x = (event.clientX - rect.left) * this.scale;
+    this.mousePos.y = (event.clientY - rect.top) * this.scale;
   }
 
   private animate() {
@@ -80,29 +81,88 @@ export class InteractiveBackground {
   }
 
   private drawParticles() {
-    this.particles.forEach(particle => particle.draw(this.ctx));
-  }
-
-  private drawLinks() {
-    const allParticles = [...this.particles, this.mousePos];
-
-    allParticles.forEach(particle => {
-      allParticles.forEach(otherParticle => {
-        const dist = this.getDistance(particle, otherParticle);
-        if (dist < this.maxDistance) {
-          const opacity = 1 - dist / this.maxDistance;
-          this.ctx.strokeStyle = `rgba(200, 200, 200, ${opacity})`;
-          this.ctx.lineWidth = 1;
-          this.ctx.beginPath();
-          this.ctx.moveTo(particle.x, particle.y);
-          this.ctx.lineTo(otherParticle.x, otherParticle.y);
-          this.ctx.stroke();
-        }
-      });
+    this.particles.forEach(particle => {
+      particle.draw(this.ctx);
     });
   }
 
-  private getDistance(p1: { x: number; y: number }, p2: { x: number; y: number }): number {
+  private drawLinks() {
+    const allParticles = [...this.particles];
+    allParticles.forEach(particle => particle.isHighlighted = false)
+
+    // highlight particles linked to the cursor
+    for (let j = 0; j < allParticles.length; j++) {
+      const otherParticle = allParticles[j];
+
+      const distanceBetweenParticles = this.getDistance(this.mousePos, otherParticle);
+      if (distanceBetweenParticles > this.maxDistance) continue
+
+      otherParticle.isHighlighted = true
+      const opacity = 1;
+      const hue = (Math.atan2(otherParticle.y - this.mousePos.y, otherParticle.x - this.mousePos.x) * 180 / Math.PI) % 360;
+      this.ctx.strokeStyle = `hsla(${hue}, 100%, 60%, ${opacity})`; // Color based on position around cursor
+
+      this.ctx.lineWidth = 1;
+      this.ctx.beginPath();
+      this.ctx.moveTo(this.mousePos.x, this.mousePos.y);
+      this.ctx.lineTo(otherParticle.x, otherParticle.y);
+      this.ctx.stroke();
+    }
+
+    // Draw links between close particles
+    for (let i = 0; i < allParticles.length - 1; i++) {
+      const particle = allParticles[i];
+      for (let j = i + 1; j < allParticles.length; j++) {
+        const otherParticle = allParticles[j];
+
+        const distanceBetweenParticles = this.getDistance(particle, otherParticle);
+        if (distanceBetweenParticles > this.maxDistance) continue
+
+        if (particle.isHighlighted || otherParticle.isHighlighted) {
+          particle.isHighlighted = true
+          otherParticle.isHighlighted = true
+        }
+        const hue = (Math.atan2(otherParticle.y - particle.y, otherParticle.x - particle.x) * 180 / Math.PI) % 360;
+        const opacity = 1 - distanceBetweenParticles / this.maxDistance;
+        this.ctx.strokeStyle = `hsla(${hue}, 100%, 60%, ${opacity})`; // Color based on position around cursor
+        this.ctx.strokeStyle = `rgba(200, 200, 200, ${opacity})`;
+
+        this.ctx.lineWidth = 1;
+        this.ctx.beginPath();
+        this.ctx.moveTo(particle.x, particle.y);
+        this.ctx.lineTo(otherParticle.x, otherParticle.y);
+        this.ctx.stroke();
+      }
+    }
+
+    // draw highlighted links
+    const highlightedParticles = allParticles.filter(p => p.isHighlighted)
+
+    for (let i = 0; i < highlightedParticles.length - 1; i++) {
+      const particle = highlightedParticles[i];
+      for (let j = i + 1; j < highlightedParticles.length; j++) {
+        const otherParticle = highlightedParticles[j];
+
+        const distanceBetweenParticles = this.getDistance(particle, otherParticle);
+        const opacity = 1 - distanceBetweenParticles / this.maxDistance;
+        const hue = (Math.atan2(otherParticle.y - this.mousePos.y, otherParticle.x - this.mousePos.x) * 180 / Math.PI) % 360;
+        this.ctx.strokeStyle = `hsla(${hue}, 100%, 60%, ${opacity})`; // Color based on position around cursor
+
+        this.ctx.lineWidth = 1;
+        this.ctx.beginPath();
+        this.ctx.moveTo(particle.x, particle.y);
+        this.ctx.lineTo(otherParticle.x, otherParticle.y);
+        this.ctx.stroke();
+      }
+    }
+
+  }
+
+  private isLinkedToCursor(particle: Point2D): boolean {
+    return this.getDistance(particle, this.mousePos) < this.maxDistance;
+  }
+
+  private getDistance(p1: Point2D, p2: Point2D): number {
     return Math.sqrt((p1.x - p2.x) ** 2 + (p1.y - p2.y) ** 2);
   }
 }
@@ -110,9 +170,11 @@ export class InteractiveBackground {
 class Particle {
   public x: number;
   public y: number;
+  public isHighlighted: boolean = false;
   private vx: number;
   private vy: number;
   private size: number = 2;
+
 
   constructor(canvasWidth: number, canvasHeight: number) {
     this.x = Math.random() * canvasWidth;
