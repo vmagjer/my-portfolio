@@ -1,7 +1,7 @@
-import styled from 'styled-components'
 import { NavLink } from 'react-router-dom'
-import data from '../assets/data'
+import data from '../../assets/data'
 import profilePicture from '../assets/images/profile-picture.jpg'
+import styled from 'styled-components'
 
 const links = [
   { id: 'home', title: 'Home', path: '/' },
@@ -11,7 +11,7 @@ const links = [
 
 export default function SideMenu() {
   return (
-    <Container>
+    <Root>
       <ProfileSection>
         <ProfileImage src={profilePicture} alt="profile" />
         <span>{`${data.personalInfo.fullName}`}</span>
@@ -44,7 +44,7 @@ export default function SideMenu() {
       </Navigation>
 
       <Footer>Made with ❤️ by {data.personalInfo.fullName} </Footer>
-    </Container>
+    </Root>
   )
 }
 
@@ -60,7 +60,7 @@ function linkClasses({
   return ''
 }
 
-const Container = styled.div`
+const Root = styled.div`
   height: calc(100vh - 16px);
   width: 100%;
   transition: transform 0.2s ease;

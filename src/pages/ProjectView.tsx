@@ -11,7 +11,7 @@ const sections: SectionType[] = [
 
 export default function ProjectView() {
   return (
-    <Container>
+    <Root>
       <Summary items={sections} />
 
       <Content>
@@ -20,11 +20,11 @@ export default function ProjectView() {
         <Section id="about">about</Section>
         <Section id="contact">contact</Section>
       </Content>
-    </Container>
+    </Root>
   )
 }
 
-const Container = styled.div`
+const Root = styled.div`
   min-height: 100vh;
   width: 100%;
 `

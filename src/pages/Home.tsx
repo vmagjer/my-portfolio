@@ -61,7 +61,7 @@ export default function HomePage() {
   }, [])
 
   return (
-    <Container>
+    <Root>
       <Summary items={Object.values(sections)}></Summary>
       {/* hero (~very short about) */}
       {/*   contact */}
@@ -261,6 +261,7 @@ export default function HomePage() {
         </p>
       </Section>
     </Container>
+    </Root>
   )
 }
 
@@ -277,7 +278,7 @@ const SwipeUpIndicator = styled(SwipeUp)`
   left: 50%;
   transform: translateX(-50%);
 `
-const TitleSection = styled(Section)`
+const TitleSection = styled(Container)`
   z-index: 1;
 `
 
@@ -287,14 +288,14 @@ const Title = styled.h2`
   text-align: center;
 `
 
-const Container = styled.div`
+const Root = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   color: #333;
 `
 
-const HeroSection = styled(Section)`
+const HeroSection = styled(Container)`
   height: 100vh;
   color: #fff;
   position: relative;
@@ -317,22 +318,14 @@ const HeroSection = styled(Section)`
   }
 `
 
-const SubtleTitle = styled.h2`
-  color: #666;
-  font-weight: normal;
-  text-transform: uppercase;
-  font-size: 1rem;
-  margin-bottom: 1rem;
-`
-
-const HelloSection = styled(Section)`
+const AboutSection = styled(Container)`
   z-index: 1;
   background-color: #e3e3e3;
   color: #000;
   padding: 2rem 1rem;
 `
 
-const ProjectsSection = styled(Section)`
+const ProjectsSection = styled(Container)`
   z-index: 1;
   padding: 2rem 1rem 3rem;
   background-color: #e3e3e3;
@@ -348,9 +341,7 @@ const MyBackgroundSection = styled(Section)`
 `
 
 const Projects = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
+const MyBackgroundSection = styled(Container)`
 `
 
 const MyTimelineItem = styled(TimelineItem)`

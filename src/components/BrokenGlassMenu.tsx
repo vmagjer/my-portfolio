@@ -26,7 +26,7 @@ export default function BrokenGlassMenu({
 
   const impactPoint = [viewWidth / 2, viewHeight / 2]
   return (
-    <Container $width={viewWidth} $height={viewHeight}>
+    <Root $width={viewWidth} $height={viewHeight}>
       {brokenGlass.pieces.map((shard, i) => (
         <BigPiece
           key={`shard-${i}`}
@@ -50,7 +50,7 @@ export default function BrokenGlassMenu({
           color="red"
         />
       ))} */}
-    </Container>
+    </Root>
   )
 }
 
@@ -97,7 +97,7 @@ const BigPiece = ({
   </>
 )
 
-const Container = styled.div<{
+const Root = styled.div<{
   $width: number
   $height: number
 }>`

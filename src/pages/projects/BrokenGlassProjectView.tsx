@@ -29,14 +29,14 @@ export const BrokenGlassProjectView = () => {
   }, [canvasRef])
 
   return (
-    <Container>
+    <Root>
       {/* <BrokenGlassMenu width={windowSize.width} height={windowSize.height} /> */}
       <canvas ref={canvasRef} width={1600} height={900} />
-    </Container>
+    </Root>
   )
 }
 
-const Container = styled.div`
+const Root = styled.div`
   height: 100vh;
   width: 100vw;
   overflow: auto;

@@ -1,6 +1,7 @@
-import styled from 'styled-components'
 import { ReactNode, useEffect, useState } from 'react'
+
 import { motion } from 'framer-motion'
+import styled from 'styled-components'
 
 const menuWidth = 300
 const menuPeekSpace = 100
@@ -74,7 +75,7 @@ export default function SlideOut({ children }: Props) {
         <span className="material-symbols-outlined">menu</span>
       </MenuButton>
 
-      <Container
+      <Root
         animate={menuState}
         variants={navVariants}
         initial={false}
@@ -84,7 +85,7 @@ export default function SlideOut({ children }: Props) {
         }}
       >
         {children}
-      </Container>
+      </Root>
     </>
   )
 }
@@ -149,7 +150,7 @@ const MenuButton = styled.div`
   justify-content: center;
 `
 
-const Container = styled(motion.div)`
+const Root = styled(motion.div)`
   position: fixed;
   left: 0;
   height: 100vh;

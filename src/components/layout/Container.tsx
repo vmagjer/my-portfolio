@@ -9,22 +9,22 @@ type SectionProps = {
   [key: string]: any
 }
 
-export default function Section({
+export default function Container({
   children,
   className,
   contentClassName,
   ...rest
 }: SectionProps) {
   return (
-    <Container className={className} {...rest}>
+    <Root className={className} {...rest}>
       <Content className={contentClassName}>{children}</Content>
-    </Container>
+    </Root>
   )
 }
 
-const Container = styled.div`
+const Root = styled.div`
   width: 100%;
-  overflow: hidden
+  /* overflow: hidden */
 `
 
 const Content = styled.div`

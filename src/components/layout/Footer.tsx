@@ -1,14 +1,14 @@
-import Section from './Section'
+import Container from './Container'
 
 export default function Footer() {
   return (
-    <Section>
+    <Container>
       footer
       <br />
       Icons by{' '}
       <a target="_blank" href="https://icons8.com" rel="noreferrer">
         Icons8
       </a>
-    </Section>
+    </Container>
   )
 }

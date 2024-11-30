@@ -2,16 +2,16 @@ import styled from 'styled-components'
 
 function ErrorView() {
   return (
-    <Container>
+    <Root>
       <h1>404</h1>
       <p>Page not found</p>
-    </Container>
+    </Root>
   )
 }
 
 export default ErrorView
 
-const Container = styled.div`
+const Root = styled.div`
   min-height: 100vh;
   width: 100%;
 

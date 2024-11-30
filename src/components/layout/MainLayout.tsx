@@ -4,14 +4,14 @@ import styled from 'styled-components'
 
 export default function MainLayout() {
   return (
-    <Container>
+    <Root>
       <Outlet />
       <Footer />
-    </Container>
+    </Root>
   )
 }
 
-const Container = styled.div`
+const Root = styled.div`
   min-height: 100vh;
   width: 100%;
 

@@ -17,8 +17,8 @@ export default function Summary({ items }: Props) {
   const { activeSection, scrollToSection } = useActiveSection(sectionIds)
 
   return (
+    <Root>
     <Container>
-      <Section>
         {items.map((item) => (
           <SummaryItem
             key={`summary-item-${item.id}`}
@@ -28,12 +28,12 @@ export default function Summary({ items }: Props) {
             <span>{item.title}</span>
           </SummaryItem>
         ))}
-      </Section>
     </Container>
+    </Root>
   )
 }
 
-const Container = styled.div`
+const Root = styled.div`
   position: fixed;
   top: 0;
   left: 0;

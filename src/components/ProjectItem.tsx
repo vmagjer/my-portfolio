@@ -14,7 +14,7 @@ export const ProjectItem = ({
   reverse,
 }: ProjectItemProps) => {
   return (
-    <Container $reverse={reverse}>
+    <Root $reverse={reverse}>
       <Image $reverse={reverse}>
         <img src={image} alt={title} />
       </Image>
@@ -22,11 +22,11 @@ export const ProjectItem = ({
         <h3>{title}</h3>
         {children}
       </Text>
-    </Container>
+    </Root>
   )
 }
 
-const Container = styled.div<{ $reverse?: boolean }>`
+const Root = styled.div<{ $reverse?: boolean }>`
   display: flex;
   flex-direction: column;
   /* flex-direction: ${({ $reverse }) => ($reverse ? 'row-reverse' : 'row')}; */

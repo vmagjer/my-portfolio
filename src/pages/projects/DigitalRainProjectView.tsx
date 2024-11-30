@@ -1,15 +1,15 @@
-import styled from "styled-components"
 import DigitalRain from "../../components/DigitalRain"
+import styled from "styled-components"
 
 export const DigitalRainProjectView = () => {
   return (
-    <Container>
+    <Root>
       <DigitalRain text="DIGITAL RAIN PARTICLES" layers={2} />
-    </Container>
+    </Root>
   )
 }
 
-const Container = styled.div`
+const Root = styled.div`
   height: 100vh;
   width: 100vw;
   overflow: hidden;
