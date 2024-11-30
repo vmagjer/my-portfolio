@@ -1,12 +1,9 @@
 import Summary, { Section as SectionType } from '../components/layout/Summary'
-import { useEffect, useRef, useState } from 'react'
 
-import AvatarImage from '../components/AvatarImage'
 import ChatBubble from '../components/ChatBubble'
 import Container from '../components/layout/Container'
-import InteractiveCanvasEffect from '../components/InteractiveCanvasEffect'
+import HeroSection from '../features/homeSections/HeroSection'
 import { ProjectItem } from '../components/ProjectItem'
-import SwipeUp from '../assets/SwipeUp'
 import Timeline from '../components/Timeline'
 import TimelineItem from '../components/TimelineItem'
 import data from '../assets/data'
@@ -29,75 +26,12 @@ const sections: Record<Section, SectionType> = {
   contact: { id: 'contact', title: 'Contact' }, // simplify work of user
 }
 
-// provide a background for the transparent canvas effect
-const InteractiveBgContainer = styled.div`
-  position: fixed;
-  inset: 0;
-  /* background: #080908; */
-  background: #000;
-  height: 120lvh;
-  z-index: -100000;
-`
-
 export default function HomePage() {
-  const foregroundCanvasRef = useRef<HTMLDivElement>(null)
-
-  const [showScrollIndicator, setShowScrollIndicator] = useState(false)
-
-  useEffect(() => {
-    let hasScrolled = false
-
-    const showScrollIndicatorOnTimeout = setTimeout(() => {
-      if (!hasScrolled) return
-
-      setShowScrollIndicator(true)
-    }, 3000)
-
-    function handleScroll() {
-      hasScrolled = true
-      setShowScrollIndicator(false)
-      paralaxEffectOnHeroBackground()
-    }
-
-    function paralaxEffectOnHeroBackground() {
-      if (!foregroundCanvasRef.current) return
-
-      const scrollY = window.scrollY
-      foregroundCanvasRef.current.style.transform = `translateY(${
-        scrollY * 0.6
-      }px)`
-    }
-
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-      clearTimeout(showScrollIndicatorOnTimeout)
-    }
-  }, [])
-
   return (
     <Root>
       <Summary items={Object.values(sections)}></Summary>
 
-      <InteractiveBgContainer></InteractiveBgContainer>
-      <div ref={foregroundCanvasRef}>
-        <InteractiveCanvasEffect />
-      </div>
-      {/* ---------------------------------- HERO */}
-      <HeroSection id={sections.hello.id}>
-        <div className="hero-content">
-          <AvatarImage src={profileImage} size="large" />
-          <h1 className="quicksand">Vlatko Magjer</h1>
-          <p>Data Scientist, Frontend Developer, and Software Engineer</p>
-          <p>mail linkedin github</p>
-        </div>
-        <SwipeUpIndicator
-          style={{
-            opacity: showScrollIndicator ? '1' : '0',
-            transition: 'all 1s',
-          }}
-        />
-      </HeroSection>
+      <HeroSection />
 
       {/* ---------------------------------- ABOUT */}
       <AboutSection>
@@ -294,19 +228,6 @@ export default function HomePage() {
   )
 }
 
-const SwipeUpIndicator = styled(SwipeUp)`
-  width: 80px;
-  height: 80px;
-
-  fill: black;
-  stroke: #fff;
-  stroke-width: 8;
-  opacity: 0.7;
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%);
-`
 const TitleSection = styled(Container)`
   z-index: 1;
 `
@@ -332,29 +253,6 @@ const SubtleTitle = styled.h2`
   text-transform: uppercase;
   font-size: 1rem;
   margin-bottom: 1rem;
-`
-// ###################### HERO
-const HeroSection = styled(Container)`
-  height: 100vh;
-  color: #fff;
-  position: relative;
-
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-
-  .hero-content {
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    text-align: center;
-  }
-  h1 {
-    font-size: 2.5rem;
-    margin: 1rem 0;
-  }
 `
 
 const AboutSection = styled(Container)`

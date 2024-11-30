@@ -1,21 +1,28 @@
-import { useLayoutEffect, useRef } from 'react'
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from 'react'
 
 import { InteractiveBackground } from '../features/interactiveBackground/interactiveBg'
 import styled from 'styled-components'
 
 type InteractiveCanvasEffectProps = {
-  scale?: number;
+  scale?: number
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   [x: string]: any
 }
 
-export default function InteractiveCanvasEffect({ scale = 1, ...rest }: InteractiveCanvasEffectProps) {
+const InteractiveCanvasEffect = ({
+  scale = 1,
+  ...rest
+}: InteractiveCanvasEffectProps) => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
   useLayoutEffect(() => {
     if (!canvasRef.current) return
-    console.log('effect recalculated');
-    
+    console.log('effect recalculated')
+
     const interactiveBg = new InteractiveBackground(canvasRef.current, scale)
 
     const observer = new IntersectionObserver(
@@ -40,8 +47,31 @@ export default function InteractiveCanvasEffect({ scale = 1, ...rest }: Interact
       interactiveBg.stop()
     }
   }, [canvasRef, scale])
+
+  useEffect(() => {
+    function handleScroll() {
+      paralaxEffectOnHeroBackground()
+    }
+
+    function paralaxEffectOnHeroBackground() {
+      if (!canvasRef.current) return
+
+      const scrollY = window.scrollY
+      canvasRef.current.style.transform = `translateY(${
+        scrollY * -0.4
+      }px)`
+    }
+
+    window.addEventListener('scroll', handleScroll)
+    return () => {
+      window.removeEventListener('scroll', handleScroll)
+    }
+  }, [])
+
+
   return <CanvasElement ref={canvasRef} {...rest}></CanvasElement>
 }
+export default InteractiveCanvasEffect
 
 const CanvasElement = styled.canvas`
   position: fixed;
