@@ -33,7 +33,8 @@ const Root = styled.div<{ $reverse: boolean }>`
 
   img {
     position: sticky;
-    top: 58px;
+    bottom: 4px;
+    align-self: flex-end;
   }
 `
 const BubbleGroup = styled.div<{ $reverse: boolean }>`
