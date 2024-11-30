@@ -1,5 +1,3 @@
-const DISTANCE_COEFFICIENT = 0.1;
-
 type Point2D = { x: number; y: number }
 
 export class InteractiveBackground {
@@ -40,11 +38,13 @@ export class InteractiveBackground {
   }
 
   private bindEvents() {
-    window.addEventListener('resize', () => this.onResize());
+    this.canvas.addEventListener('resize', () => this.onResize());
     window.addEventListener('mousemove', (e) => this.onMouseMove(e));
   }
 
   private onResize() {
+    console.log('resized');
+    
     this.updateCanvasSize();
     this.createParticles();
   }

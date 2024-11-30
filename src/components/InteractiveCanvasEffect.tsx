@@ -14,6 +14,8 @@ export default function InteractiveCanvasEffect({ scale = 1, ...rest }: Interact
 
   useLayoutEffect(() => {
     if (!canvasRef.current) return
+    console.log('effect recalculated');
+    
     const interactiveBg = new InteractiveBackground(canvasRef.current, scale)
 
     const observer = new IntersectionObserver(
@@ -46,6 +48,6 @@ const CanvasElement = styled.canvas`
   top: 0;
   left: 0;
   width: 100%;
-  height: 120vh;
+  height: 120lvh;
   z-index: -100;
 `

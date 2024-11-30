@@ -1,129 +1,143 @@
 import Summary, { Section as SectionType } from '../components/layout/Summary'
-import Timeline, { TimelineItem } from '../components/Timeline'
 import { useEffect, useRef, useState } from 'react'
 
 import AvatarImage from '../components/AvatarImage'
+import ChatBubble from '../components/ChatBubble'
+import Container from '../components/layout/Container'
 import InteractiveCanvasEffect from '../components/InteractiveCanvasEffect'
 import { ProjectItem } from '../components/ProjectItem'
-import Section from '../components/layout/Section'
 import SwipeUp from '../assets/SwipeUp'
+import Timeline from '../components/Timeline'
+import TimelineItem from '../components/TimelineItem'
 import data from '../assets/data'
-import frontendImage from '../assets/projects/digital-rain/placeholder.gif'
-import profileImage from '../assets/images/profile-picture-wacky.jpg'
+import ferLogo from '../assets/images/fer-logo.png'
+import mediatoriumLogo from '../assets/projects/mediatorium/mediatorium-logo.svg'
+import profileImage from '../assets/images/profile-picture-happy.jpg'
 import styled from 'styled-components'
+import verdiGoShowcase from '../assets/projects/verdi/verdi-go-showcase.png'
+import verdiLogo from '../assets/projects/verdi/verdi-go.png'
+import webShopShowcase from '../assets/projects/verdi/web-shop-showcase.png'
 
-type Section = 'hello' | 'projects' | 'background' | 'about' | 'contact'
+type Section = 'hello' | 'about' | 'projects' | 'background' | 'contact'
 
+// store the section ids here for navigation jumps
 const sections: Record<Section, SectionType> = {
-  hello: { id: 'hello', title: 'Hello' }, // hero section
-  projects: { id: 'projects', title: 'Projects' }, // cool projects
-  background: { id: 'background', title: 'Background' }, // education and experience
-  about: { id: 'about', title: 'About' }, // personality
-  contact: { id: 'contact', title: 'Contact' },
+  hello: { id: 'hello', title: 'Hello' }, // catch attention
+  about: { id: 'about', title: 'About' }, // convey approachability, passion, personality
+  projects: { id: 'projects', title: 'Projects' }, // impress with experience
+  background: { id: 'background', title: 'Background' }, // prove experience, knowledge
+  contact: { id: 'contact', title: 'Contact' }, // simplify work of user
 }
 
+// provide a background for the transparent canvas effect
 const InteractiveBgContainer = styled.div`
   position: fixed;
   inset: 0;
-  background: #080908;
+  /* background: #080908; */
+  background: #000;
+  height: 120lvh;
   z-index: -100000;
 `
 
 export default function HomePage() {
   const foregroundCanvasRef = useRef<HTMLDivElement>(null)
 
-  const [shouldIndicateScrollability, setShouldIndicateScrollability] =
-    useState(false)
+  const [showScrollIndicator, setShowScrollIndicator] = useState(false)
 
   useEffect(() => {
     let hasScrolled = false
-    const handleScroll = () => {
-      hasScrolled = true
-      setShouldIndicateScrollability(false)
-      if (foregroundCanvasRef.current) {
-        const scrollY = window.scrollY
-        foregroundCanvasRef.current.style.transform = `translateY(${
-          scrollY * 0.6
-        }px)`
-      }
-    }
-    const timeoutRef = setTimeout(() => {
-      if (!hasScrolled) {
-        setShouldIndicateScrollability(true)
-      }
+
+    const showScrollIndicatorOnTimeout = setTimeout(() => {
+      if (!hasScrolled) return
+
+      setShowScrollIndicator(true)
     }, 3000)
+
+    function handleScroll() {
+      hasScrolled = true
+      setShowScrollIndicator(false)
+      paralaxEffectOnHeroBackground()
+    }
+
+    function paralaxEffectOnHeroBackground() {
+      if (!foregroundCanvasRef.current) return
+
+      const scrollY = window.scrollY
+      foregroundCanvasRef.current.style.transform = `translateY(${
+        scrollY * 0.6
+      }px)`
+    }
 
     window.addEventListener('scroll', handleScroll)
     return () => {
       window.removeEventListener('scroll', handleScroll)
-      clearTimeout(timeoutRef)
+      clearTimeout(showScrollIndicatorOnTimeout)
     }
   }, [])
 
   return (
     <Root>
       <Summary items={Object.values(sections)}></Summary>
-      {/* hero (~very short about) */}
-      {/*   contact */}
-      {/* hello (~short about) */}
 
-      {/* portfolio */}
-      {/*   projects */}
-      {/*   timeline (education, experience) */}
-
-      {/* footer */}
-      {/*   contact */}
-      {/*   site map */}
-      
       <InteractiveBgContainer></InteractiveBgContainer>
       <div ref={foregroundCanvasRef}>
         <InteractiveCanvasEffect />
       </div>
-
+      {/* ---------------------------------- HERO */}
       <HeroSection id={sections.hello.id}>
         <div className="hero-content">
           <AvatarImage src={profileImage} size="large" />
-          <h1>Vlatko Magjer</h1>
+          <h1 className="quicksand">Vlatko Magjer</h1>
           <p>Data Scientist, Frontend Developer, and Software Engineer</p>
           <p>mail linkedin github</p>
         </div>
         <SwipeUpIndicator
           style={{
-            opacity: shouldIndicateScrollability ? '1' : '0',
+            opacity: showScrollIndicator ? '1' : '0',
             transition: 'all 1s',
           }}
         />
       </HeroSection>
 
-      <HelloSection>
-        <SubtleTitle>Hi there!</SubtleTitle>
-        <p>I{"'"}m Vlatko Magjer from Croatia.</p>
+      {/* ---------------------------------- ABOUT */}
+      <AboutSection>
+        <SubtleTitle className="hug">Hi there!</SubtleTitle>
+        <p className="hug">I{"'"}m Vlatko Magjer from Croatia.</p>
         <p>
           I love programming, playing board games, reading fantastic novels and
           learning new things!
         </p>
         <p>Feel free to get in touch with me or look at my past work below.</p>
-      </HelloSection>
+      </AboutSection>
 
+      {/* ---------------------------------- PORTFOLIO */}
       <TitleSection>
-        <Title>Portfolio</Title>
+        <Title className="quicksand">Portfolio</Title>
       </TitleSection>
 
+      {/* ---------------------------------- PROJECTS */}
       <ProjectsSection id={sections.projects.id}>
         <SubtleTitle>Top Projects</SubtleTitle>
         <Projects>
           <ProjectItem
-            title="Web shop and its delivery app"
-            image={data.highlightedProjects[0].image}
+            title="Web shop for fresh local produce"
+            image={webShopShowcase}
             reverse={false}
           >
             <p>
-              Worked in a team of 4 to redesign a web shop for local produce. We refactored the stinky old code and introduced new
-              features to improve the UX.
+              Worked in a team of 4 to redesign a web shop for local produce. We
+              refactored the stinky old code and introduced new features to
+              improve the UX.
             </p>
+          </ProjectItem>
+          <ProjectItem
+            title="Crowdsourced delivery solution"
+            image={verdiGoShowcase}
+            reverse={false}
+          >
             <p>
-              We also made a mobile app to serve the shop{"'"}s delivery needs
-              by crowdsourcing delivery drivers.
+              We made a mobile app to serve the shop{"'"}s delivery needs by
+              crowdsourcing delivery drivers.
             </p>
           </ProjectItem>
           <ProjectItem
@@ -144,29 +158,19 @@ export default function HomePage() {
               <li>full screen menu resembling a broken glass pane</li>
             </ul>
           </ProjectItem>
-          <ProjectItem
-            title="Augmented reality app"
-            image={data.highlightedProjects[2].image}
-            reverse={false}
-          >
-            <p>
-              A part of my Masters thesis I fully developed an AR mobile app in
-              Unity.
-            </p>
-            <p>
-              This involved researching AR technologies and methods as well as learning
-              Unity development. It was a valuable opportunity to
-              learn of the various unique UX challenges present in XR
-              development.
-            </p>
-          </ProjectItem>
         </Projects>
       </ProjectsSection>
 
+      {/* ---------------------------------- TIMELINE */}
       <MyBackgroundSection id={sections.background.id}>
         <SubtleTitle style={{ textAlign: 'center' }}>My background</SubtleTitle>
         <Timeline>
-          <MyTimelineItem image={frontendImage} date="2023">
+          <MyTimelineItem
+            image={verdiLogo}
+            color="#0e4539"
+            noPadding={true}
+            date="2023"
+          >
             <h3>Frontend Developer</h3>
             <p>at several companies before and after graduation</p>
             <p>
@@ -180,7 +184,7 @@ export default function HomePage() {
               Tested the knowledge from university in real-life applications.
             </p>
           </MyTimelineItem>
-          <MyTimelineItem  date="2023">
+          <MyTimelineItem date="2023" image={ferLogo}>
             <h3>Master of Science in Computing</h3>
             <p>
               10/2023 at University of Zagreb, Faculty of Electrical Engineering
@@ -215,7 +219,7 @@ export default function HomePage() {
               Interactive aplication in marker-less mobile augmented reality
             </p>
           </MyTimelineItem>
-          <MyTimelineItem image={frontendImage} date="2023">
+          <MyTimelineItem date="2023" image={mediatoriumLogo}>
             <h3>Frontend Developer</h3>
             <p>at several companies before and after graduation</p>
             <p>
@@ -229,7 +233,21 @@ export default function HomePage() {
               Tested the knowledge from university in real-life applications
             </p>
           </MyTimelineItem>
-          <MyTimelineItem  date="2023">
+          <MyTimelineItem date="2023" image={mediatoriumLogo}>
+            <h3>Frontend Developer</h3>
+            <p>at several companies before and after graduation</p>
+            <p>
+              Learned several frameworks (Vue, React, Blazor, Ionic) and widely
+              used tools (Tailwind, TypeScript, Material UI, Wordpress...)
+            </p>
+            <p>
+              Honed my skills in communication, programming and problem-solving
+            </p>
+            <p>
+              Tested the knowledge from university in real-life applications
+            </p>
+          </MyTimelineItem>
+          <MyTimelineItem date="2023" image={ferLogo}>
             <h3>Bachelor of Science in Computing</h3>
             <p>
               10/2020 at University of Zagreb, Faculty of Electrical Engineering
@@ -244,23 +262,34 @@ export default function HomePage() {
         </Timeline>
       </MyBackgroundSection>
 
-      <Section id={sections.about.id}>
-        <SubtleTitle>More about me</SubtleTitle>
-        <p>
-          I{"'"}m a software engineer with a passion for creating elegant
-          solutions to complex problems. I love to learn new things and I{"'"}m
-          always looking for ways to improve my skills. I{"'"}m a team player
-          and I{"'"}m always willing to help others.
-        </p>
-      </Section>
-
-      <Section id={sections.contact.id}>
-        <SubtleTitle>Contact</SubtleTitle>
-        <p>
-          You can contact me at <a href="mailto:ASD">ASDASD</a>
-        </p>
-      </Section>
-    </Container>
+      {/* ---------------------------------- CONTACT */}
+      <Container id={sections.contact.id}>
+        <ContactSection>
+          <ChatBubble avatarSrc={profileImage} avatarPosition="right">
+            <p>
+              Hey can we get in <h2>Contact</h2> about an opportunity for you?
+            </p>
+          </ChatBubble>
+          <ChatBubble avatarSrc={profileImage} avatarPosition="left">
+            <p>Sure! I&apos;d love to hear more about it.</p>
+          </ChatBubble>
+          <ChatBubble avatarSrc={profileImage} avatarPosition="right">
+            <p>It&apos;s cool, fresh, innovative and the team is passionate.</p>
+          </ChatBubble>
+          <ChatBubble avatarSrc={profileImage} avatarPosition="left">
+            <p>Sounds awesome! Let&apos;s get in touch.</p>
+            <p>
+              Send me a message at my:
+              <ul>
+                <li>Email</li>
+                <li>LinkedIn</li>
+                <li>Discord</li>
+                <li>Github</li>
+              </ul>
+            </p>
+          </ChatBubble>
+        </ContactSection>
+      </Container>
     </Root>
   )
 }
@@ -283,6 +312,7 @@ const TitleSection = styled(Container)`
 `
 
 const Title = styled.h2`
+  margin: 0;
   padding: 3rem 0;
   color: #fff;
   text-align: center;
@@ -295,6 +325,15 @@ const Root = styled.div`
   color: #333;
 `
 
+// ###################### COMMON
+const SubtleTitle = styled.h2`
+  color: #666;
+  font-weight: normal;
+  text-transform: uppercase;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+`
+// ###################### HERO
 const HeroSection = styled(Container)`
   height: 100vh;
   color: #fff;
@@ -325,23 +364,35 @@ const AboutSection = styled(Container)`
   padding: 2rem 1rem;
 `
 
+// ###################### PROJECTS
 const ProjectsSection = styled(Container)`
   z-index: 1;
   padding: 2rem 1rem 3rem;
   background-color: #e3e3e3;
+  container-name: projects-section;
+
   ul {
     padding-left: 1rem;
   }
 `
 
-const MyBackgroundSection = styled(Section)`
-  z-index: 1;
-  padding: 2rem 0;
-  background-color: #b0bfbf;
+const Projects = styled.div`
+  display: grid;
+  grid-template-columns: 1fr;
+  flex-direction: row;
+  gap: 1rem;
+  flex-wrap: wrap;
+
+  @media (min-width: 600px) {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 `
 
-const Projects = styled.div`
+// ###################### BACKGROUND
 const MyBackgroundSection = styled(Container)`
+  z-index: 1;
+  padding: 2rem 1rem;
+  background-color: #b7b7b7;
 `
 
 const MyTimelineItem = styled(TimelineItem)`
@@ -350,5 +401,17 @@ const MyTimelineItem = styled(TimelineItem)`
     li {
       list-style-type: square;
     }
+  }
+`
+// ###################### CONTACT
+
+const ContactSection = styled.section`
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 2rem 1rem 2rem 0.75rem;
+
+  h2 {
+    margin: 0;
   }
 `

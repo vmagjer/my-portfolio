@@ -1,4 +1,4 @@
-import Section from './Section'
+import Container from './Container'
 import styled from 'styled-components'
 import useActiveSection from '../../utils/useActiveSection'
 import { useMemo } from 'react'
@@ -18,7 +18,7 @@ export default function Summary({ items }: Props) {
 
   return (
     <Root>
-    <Container>
+      <Container>
         {items.map((item) => (
           <SummaryItem
             key={`summary-item-${item.id}`}
@@ -28,7 +28,7 @@ export default function Summary({ items }: Props) {
             <span>{item.title}</span>
           </SummaryItem>
         ))}
-    </Container>
+      </Container>
     </Root>
   )
 }
@@ -46,11 +46,12 @@ const Root = styled.div`
 
   padding: 0.5rem 1rem;
 
-  background: #00000056;
-  backdrop-filter: blur(20px);
+  background: rgb(0, 0, 0);
+  /* backdrop-filter:  saturate(1.5) brightness(1.5) blur(20px); */
+  border-bottom: 1px solid #ffffff65;
 
-  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1),
-    inset 0px -6px 2px -5px rgba(0, 0, 0, 0.5);
+  /* box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1),
+    inset 0px -6px 2px -5px rgba(0, 0, 0, 0.5); */
 `
 
 const SummaryItem = styled.button<{ $active: boolean }>`
@@ -59,14 +60,14 @@ const SummaryItem = styled.button<{ $active: boolean }>`
 
   font-size: 0.75rem;
   color: ${({ $active }) => ($active ? '#fff' : '#fff')};
-  background: none;
+  background: ${({ $active }) => ($active ? '#476ed14f' : 'transparent')};
 
   border: none;
   border-radius: 4px;
 
-  box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1),
+  /* box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1),
     inset 0px 8px 2px -8px rgba(255, 255, 255, 0.5),
-    inset 0px -6px 2px -5px rgba(0, 0, 0, 0.5);
+    inset 0px -6px 2px -5px rgba(0, 0, 0, 0.5); */
 
   cursor: pointer;
 `

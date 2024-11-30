@@ -15,9 +15,9 @@ export const ProjectItem = ({
 }: ProjectItemProps) => {
   return (
     <Root $reverse={reverse}>
-      <Image $reverse={reverse}>
+      <ImageContainer $reverse={reverse}>
         <img src={image} alt={title} />
-      </Image>
+      </ImageContainer>
       <Text>
         <h3>{title}</h3>
         {children}
@@ -30,22 +30,22 @@ const Root = styled.div<{ $reverse?: boolean }>`
   display: flex;
   flex-direction: column;
   /* flex-direction: ${({ $reverse }) => ($reverse ? 'row-reverse' : 'row')}; */
-  justify-content: space-between;
-  width: 100%;
-  /* background-color: #fff; */
+  /* justify-content: space-between; */
+  background-color: #fff;
 
-  perspective: 2000px;
-
-  border-radius: 0.25rem;
+  border-radius: 6px;
   overflow: hidden;
 
-  /* padding: 0.75rem; */
+  padding: 0.75rem;
 `
 
-const Image = styled.div<{ $reverse?: boolean }>`
+const ImageContainer = styled.div<{ $reverse?: boolean }>`
   width: 1/3;
   aspect-ratio: 4/3;
-  
+
+  border-radius: 4px;
+  overflow: hidden;
+
   /* transform-style: preserve-3d; */
   /* ${({ $reverse }) =>
     $reverse
@@ -60,18 +60,21 @@ const Image = styled.div<{ $reverse?: boolean }>`
 `
 
 const Text = styled.div`
-  padding: 1rem 0;
-  flex: 1;
+  padding-left: 1px;
+  margin-top: 0.5rem;
 
   h3 {
     margin-top: 0;
-    margin-bottom: 0.5rem;
+    /* margin-bottom:0.25rem; */
   }
 
   p {
-    margin: 0;
     color: #333;
-    font-size: 1rem;
-    line-height: 1.5;
+    /* margin-bottom: 0.5rem;
+    line-height: 1.25rem; */
+
+    &:first-of-type {
+      margin-top: 0;
+    }
   }
 `
