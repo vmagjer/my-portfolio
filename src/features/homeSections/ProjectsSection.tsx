@@ -2,8 +2,8 @@ import Container from '../../components/layout/Container'
 import { ProjectItem } from '../../components/ProjectItem'
 import data from '../../assets/data'
 import styled from 'styled-components'
-import verdiGoShowcase from '../../assets/projects/verdi/verdi-go-showcase.png'
-import webShopShowcase from '../../assets/projects/verdi/web-shop-showcase.png'
+import verdiGoShowcase from '../../assets/projects/verdi/mockup-verdi-go.png'
+import webShopShowcase from '../../assets/projects/verdi/mockup-verdi.jpeg'
 
 type ProjectsSectionProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

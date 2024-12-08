@@ -56,6 +56,7 @@ const ImageContainer = styled.div<{ $reverse?: boolean }>`
     width: 100%;
     height: 100%;
     object-fit: cover;
+    background-color: #3c90b9;
   }
 `
 
