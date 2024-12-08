@@ -6,18 +6,26 @@ type ChatBubbleProps = {
   children?: ReactNode
   avatarSrc: string
   avatarPosition?: 'left' | 'right'
+  name: string
 }
 export default function ChatBubble({
   children,
   avatarSrc,
   avatarPosition = 'left',
+  name,
 }: ChatBubbleProps) {
   const isReversedOrientation = avatarPosition === 'right'
   return (
     <Root $reverse={isReversedOrientation}>
       <AvatarImage src={avatarSrc} size="medium" />
 
-      <BubbleGroup $reverse={isReversedOrientation}>{children}</BubbleGroup>
+      <BubbleGroup $reverse={isReversedOrientation}>
+        <Info $reverse={isReversedOrientation}>
+          <Identificator>{name}</Identificator>
+          <TimeTag>A minute ago</TimeTag>
+        </Info>
+        {children}
+        </BubbleGroup>
     </Root>
   )
 }
@@ -80,4 +88,19 @@ const BubbleGroup = styled.div<{ $reverse: boolean }>`
       }
     }
   }
+`
+const Info = styled.div<{ $reverse: boolean }>`
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  align-self: ${(props) => (props.$reverse ? 'flex-end' : 'flex-start')};
+
+  color: rgb(131, 131, 131);
+`
+
+const Identificator = styled.div`
+  
+`
+const TimeTag = styled.div`
+  
 `
