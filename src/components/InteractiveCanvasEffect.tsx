@@ -80,4 +80,6 @@ const CanvasElement = styled.canvas`
   width: 100%;
   height: 120lvh;
   z-index: -100;
+
+  background-color: #221f23;
 `
