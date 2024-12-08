@@ -7,10 +7,9 @@ import HeroSection from '../features/homeSections/HeroSection'
 import ProjectsSection from '../features/homeSections/ProjectsSection'
 import styled from 'styled-components'
 
-type Section = 'hello' | 'about' | 'projects' | 'background' | 'contact'
-
+type SectionID = 'hello' | 'about' | 'projects' | 'background' | 'contact'
 // store the section ids here for navigation jumps
-const sections: Record<Section, SectionType> = {
+const sections: Record<SectionID, SectionType> = {
   hello: { id: 'hello', title: 'Hello' }, // catch attention
   about: { id: 'about', title: 'About' }, // convey approachability, passion, personality
   projects: { id: 'projects', title: 'Projects' }, // impress with experience
@@ -23,10 +22,9 @@ export default function HomePage() {
     <Root>
       <Summary items={Object.values(sections)}></Summary>
 
-      <HeroSection />
+      <HeroSection id={sections.hello.id} />
 
-      {/* ---------------------------------- ABOUT */}
-      <AboutSection>
+      <AboutSection id={sections.about.id}>
         <SubtleTitle className="hug">Hi there!</SubtleTitle>
         <p className="hug">I{"'"}m Vlatko Magjer from Croatia.</p>
         <p>
@@ -36,7 +34,6 @@ export default function HomePage() {
         <p>Feel free to get in touch with me or look at my past work below.</p>
       </AboutSection>
 
-      {/* ---------------------------------- PORTFOLIO */}
       <TitleSection>
         <Title className="quicksand">Portfolio</Title>
       </TitleSection>
@@ -44,8 +41,7 @@ export default function HomePage() {
       <ProjectsSection id={sections.projects.id} />
       <BackgroundSection id={sections.background.id} />
 
-      {/* ---------------------------------- CONTACT */}
-      <ContactSection />
+      <ContactSection id={sections.contact.id} />
     </Root>
   )
 }
