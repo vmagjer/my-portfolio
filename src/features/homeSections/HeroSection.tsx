@@ -52,13 +52,23 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
         <Content>
           <AvatarImage src={profileImage} size="large" />
           <Title className="quicksand">Vlatko Magjer</Title>
-          <SubTitle>Data Scientist, Frontend Developer, and Software Engineer</SubTitle>
-          
+          <SubTitle>
+            Data Scientist, Frontend Developer, and Software Engineer
+          </SubTitle>
+
           <SocialList>
-            <SocialItem src={emailIcon} />
-            <SocialItem src={linkedInIcon} />
-            <SocialItem src={discordIcon} />
-            <SocialItem src={githubIcon} />
+            <SocialItem>
+              <img src={emailIcon} alt="" />
+            </SocialItem>
+            <SocialItem>
+              <img src={linkedInIcon} alt="" />
+            </SocialItem>
+            <SocialItem>
+              <img src={discordIcon} alt="" />
+            </SocialItem>
+            <SocialItem>
+              <img src={githubIcon} alt="" />
+            </SocialItem>
           </SocialList>
         </Content>
       </Container>
@@ -76,7 +86,7 @@ const Root = styled.div`
 `
 
 const Content = styled.div`
-  padding: 1rem;
+  padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -85,29 +95,42 @@ const Content = styled.div`
 `
 
 const Title = styled.h1`
-    font-size: 2.5rem;
-    line-height: 3rem;
-    margin-top: .5rem;  
+  font-size: 2.5rem;
+  line-height: 3rem;
+  margin-top: 0.5rem;
 `
 const SubTitle = styled.p`
-    font-size: 1rem;
-    line-height: 1.5rem;
-    margin-top: .5rem; 
-    `
+  font-size: 1rem;
+  line-height: 1.5rem;
+  margin-top: 0.5rem;
+  opacity: 80%;
+`
 const SocialList = styled.div`
   display: flex;
   gap: 16px;
-  margin-top: 2rem; 
+  margin-top: 2rem;
 `
 
-const SocialItem = styled.img`
+const SocialItem = styled.a`
   width: 40px;
   height: 40px;
-  object-fit: contain;
 
-  background: #555555;
+  background-color: #555555;
   border-radius: 50%;
   padding: 6px;
+
+  transition: background-color  200ms ease-in-out, transform  200ms ease;
+
+  img {
+    width:100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  &:hover {
+    background-color: #476ed1;
+    transform: scale(1.1);
+  }
 `
 
 const SwipeUpIndicator = styled(SwipeUp)`
