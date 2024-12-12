@@ -5,6 +5,8 @@ type ProjectItemProps = {
   image: string
   children: React.ReactNode
   reverse?: boolean
+  link?: string
+  linkText?: string
 }
 
 export const ProjectItem = ({
@@ -12,45 +14,46 @@ export const ProjectItem = ({
   image,
   children,
   reverse,
+  link,
+  linkText,
 }: ProjectItemProps) => {
   return (
     <Root $reverse={reverse}>
       <ImageContainer $reverse={reverse}>
         <img src={image} alt={title} />
       </ImageContainer>
-      <Text>
-        <h3>{title}</h3>
-        {children}
-      </Text>
+      <Body>
+        <Text>
+          <h3>{title}</h3>
+          {children}
+        </Text>
+        <ExternalLink href={link}>
+          {linkText}
+
+          <span className="material-symbols-outlined">open_in_new</span>
+        </ExternalLink>
+      </Body>
     </Root>
   )
 }
 
 const Root = styled.div<{ $reverse?: boolean }>`
-  display: flex;
-  flex-direction: column;
-  /* flex-direction: ${({ $reverse }) => ($reverse ? 'row-reverse' : 'row')}; */
-  /* justify-content: space-between; */
   background-color: #fff;
 
   border-radius: 6px;
   overflow: hidden;
+`
+const Body = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 
-  padding: 0.75rem;
+  padding: 12px;
 `
 
 const ImageContainer = styled.div<{ $reverse?: boolean }>`
   width: 1/3;
   aspect-ratio: 4/3;
-
-  border-radius: 4px;
-  overflow: hidden;
-
-  /* transform-style: preserve-3d; */
-  /* ${({ $reverse }) =>
-    $reverse
-      ? `transform: scale(1.0) translateX(2rem) translateY(-1rem) rotateY(-0deg);`
-      : `transform: scale(1.0) translateX(-2rem) translateY(-1rem) rotateY(0deg);`} */
 
   img {
     width: 100%;
@@ -59,23 +62,29 @@ const ImageContainer = styled.div<{ $reverse?: boolean }>`
     background-color: #3c90b9;
   }
 `
-
 const Text = styled.div`
-  padding-left: 1px;
-  margin-top: 0.5rem;
-
   h3 {
     margin-top: 0;
-    /* margin-bottom:0.25rem; */
   }
 
   p {
     color: #333;
-    /* margin-bottom: 0.5rem;
-    line-height: 1.25rem; */
 
     &:first-of-type {
-      margin-top: 0;
+      margin-top: 0.4rem;
     }
   }
+`
+
+const ExternalLink = styled.a`
+  margin-top: 16px;
+
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+  gap: 6px;
+
+  text-decoration: none;
+  text-align: right;
 `
