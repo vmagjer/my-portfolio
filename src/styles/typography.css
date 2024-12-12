@@ -12,6 +12,8 @@ p {
   line-height: 1.5rem;
   margin-top: 0.75rem;
   margin-bottom: 0;
+
+  text-wrap: pretty;
 }
 
 ul,
@@ -48,25 +50,29 @@ h5,
 h6 {
   /* Change heading typefaces here */
   font-family: sans-serif;
-  margin-top: 0.75rem;
+  margin-top: 0rem;
   margin-bottom: 0;
   line-height: 1.5rem;
+  line-height: calc(1em + 0.5rem);
+
+  overflow-wrap: break-word;
+  text-wrap: balance;
 }
 
 h1 {
   font-size: 4.242rem;
   line-height: 4.5rem;
-  margin-top: 3rem;
+  margin-top: 0;
 }
 
 h2 {
-  font-size: 2.828rem;
-  line-height: 3rem;
-  margin-top: 3rem;
+  font-size: 1.8rem;
+  margin-top: 0;
 }
 
 h3 {
   font-size: 1.414rem;
+  line-height: calc(1em + 0.2rem);
 }
 
 h4 {
@@ -115,4 +121,12 @@ code {
   font-optical-sizing: auto;
   font-weight: 500;
   font-style: normal;
+}
+
+
+input,
+button,
+textarea,
+select {
+  font: inherit;
 }
