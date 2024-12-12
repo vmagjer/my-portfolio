@@ -1,84 +1,122 @@
+import AvatarImage from './AvatarImage'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 
 type TimelineItemProps = {
-  image?: string
+  title: string
+  image: string
+  color: string
   date: string
-  color?: string
+  children: ReactNode
   noPadding?: boolean
   className?: string
-  children: ReactNode
+  reverse?: boolean
 }
 
 const TimelineItem = ({
+  title,
   image,
-  date,
   color,
-  noPadding,
+  date,
   children,
+  noPadding,
   className,
+  reverse,
 }: TimelineItemProps) => {
   return (
-    <TimelineItemContainer
-      className={className}
-      color={color}
-      noPadding={noPadding}
-    >
-      <div className="image-container">
-        <img src={image} alt="" />
-      </div>
-      <div className="date">{date}</div>
-      <div className="content">{children}</div>
-    </TimelineItemContainer>
+    <Root className={className} noPadding={noPadding} $reverse={reverse}>
+      <Line $reverse={reverse}>
+        <TimelineMarker $color={color} $reverse={reverse}>
+          <AvatarImage size="semi" src={image} />
+          <div className="date">{date}</div>
+        </TimelineMarker>
+      </Line>
+
+      <Content>
+        <h3>{title}</h3>
+        {children}
+      </Content>
+    </Root>
   )
 }
 export default TimelineItem
 
-const TimelineItemContainer = styled.div<{
-  color?: string
+const Root = styled.div<{
   noPadding?: boolean
+  $reverse?: boolean
 }>`
   position: relative;
 
-  .date {
-    padding: 0.75rem 0.75rem;
+  padding: 0 0 3rem 1rem;
+
+  @media (min-width: 1100px) {
+    ${({ $reverse }) => ($reverse ? 'padding: 0 0.75rem 2rem 0;' : '')}
+    padding-bottom: 3rem;
   }
-  .content {
-    max-width: 60ch;
-    padding: 0.75rem;
-    background-color: white;
-    border-radius: 0.25rem;
-    > * {
-      margin-bottom: 0.5rem;
+`
+
+const Line = styled.div<{ $reverse?: boolean }>`
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+
+  width: 4px;
+  border-radius: 10000px;
+  background: #75777d;
+
+  @media (min-width: 1100px) {
+    ${({ $reverse }) => ($reverse ? 'right:-2px; left: unset;' : 'left:0;')}
+  }
+`
+
+const TimelineMarker = styled.div<{ $color: string; $reverse?: boolean }>`
+  position: absolute;
+  top: calc((-16px - 0.75rem * tan(45deg)));
+  left: 0;
+  transform: translateX(-23px);
+
+  display: flex;
+  gap: 0rem;
+
+  align-items: center;
+  /* justify-items: center; */
+
+  img {
+    flex: 1;
+    border: 6px solid #b5b2b7;
+    background-color: ${(props) => props.$color ?? '#000'};
+    padding: 0px;
+    object-fit: contain;
+  }
+
+  .date {
+    white-space: nowrap;
+    transform: translateY(-0.55rem);
+  }
+
+  @media (min-width: 1100px) {
+    /* gap: 0.25rem; */
+
+    ${({ $reverse }) =>
+      $reverse
+        ? ''
+        : 'flex-direction: row-reverse; transform: translateX(calc(-100% + 25px));'}
+
+    .date {
+      transform: translateY(0);
     }
   }
+`
 
-  .image-container {
-    width: 40px;
-    height: 40px;
-
-    border-radius: 100%;
-    /* overflow: hidden; */
-    display: flex;
-    align-items: center;
-    justify-items: center;
-
-    background-color: ${(props) => props.color ?? '#000'};
-
-    padding: 8px;
-    padding: ${(props) => (props.noPadding ? '4px' : '8px')};
-
-    border: 4px solid #b7b7b7;
-
-    position: absolute;
-    top: 0px;
-    left: calc(-0.75rem + -1px);
-
-    transform: translateX(-50%);
-
-    img {
-      width: 100%;
-      object-fit: contain;
+const Content = styled.div`
+  max-width: 60ch;
+  padding: 16px 12px;
+  background-color: white;
+  border-radius: 0.25rem;
+  > p {
+    &:first-of-type {
+      margin-top: 0.4rem;
     }
   }
 `

@@ -1,13 +1,57 @@
+import TimelineItem from './TimelineItem'
 import styled from 'styled-components'
 
-type TimelineProps = {
-  children: React.ReactNode
+export type TimelineItemInfo = {
+  title: string
+  image: string
+  color: string
+  date: string
+  content: React.ReactNode
 }
-export default function Timeline({ children }: TimelineProps) {
+type TimelineProps = {
+  // children: React.ReactNode
+  items: TimelineItemInfo[]
+}
+export default function Timeline({ items }: TimelineProps) {
   return (
     <TimeLineRoot>
-      <Line />
-      <List>{children}</List>
+      <List>
+        {items.map((ti, i) => {
+          if (i % 2 == 0) {
+            return (
+              <>
+                <TimelineItem
+                  key={ti.title}
+                  title={ti.title}
+                  image={ti.image}
+                  color={ti.color}
+                  date={ti.date}
+                  reverse={true}
+                >
+                  {ti.content}
+                </TimelineItem>
+                <div></div>
+              </>
+            )
+          } else {
+            return (
+              <>
+                <div></div>
+                <TimelineItem
+                  key={ti.title}
+                  title={ti.title}
+                  image={ti.image}
+                  color={ti.color}
+                  date={ti.date}
+                  reverse={false}
+                >
+                  {ti.content}
+                </TimelineItem>
+              </>
+            )
+          }
+        })}
+      </List>
     </TimeLineRoot>
   )
 }
@@ -16,15 +60,13 @@ const TimeLineRoot = styled.div`
   align-content: stretch;
   gap: 0.75rem;
 `
-const Line = styled.div`
-  width: 2px;
-  border-radius: 10000px;
-  background: #646464;
-`
-
-const List = styled.div`
+const List = styled.div<{ isLeft?: boolean }>`
+  padding-top: 25px;
   flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  @media (max-width: 1100px) {
+    grid-template-columns: 1fr;
+  }
 `

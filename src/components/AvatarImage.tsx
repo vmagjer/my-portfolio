@@ -5,11 +5,12 @@ type AvatarImageProps = {
   size: Size
 }
 
-type Size = 'small' | 'medium' | 'large' 
+type Size = 'small' | 'medium'| 'semi' | 'large' 
 
 const sizeOptions: Record<Size, number> = {
   small: 20,
   medium: 40,
+  semi: 50,
   large: 100
 }
 
@@ -20,6 +21,6 @@ export default function AvatarImage({ src, size }: AvatarImageProps) {
 const Root = styled.img<{size: number}>`
   width: ${({size})=> size}px;
   height: ${({size})=> size}px;
-  border-radius: 50%;
+  border-radius: 10000px;
   margin: 0 auto;
 `
