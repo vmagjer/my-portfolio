@@ -19,6 +19,4 @@ const Root = styled.div`
   flex-direction: column;
   align-items: stretch;
   justify-content: center;
-
-  gap: 20px;
 `
