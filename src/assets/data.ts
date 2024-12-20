@@ -7,20 +7,61 @@ const personalInfo = {
   country: 'Croatia',
 }
 
-const contactInfo = {
-  // NO TELEPHONE NUMBER - SPAM PROTECTION
-  email: 'vlatko.magjer@gmail.com',
-  socialMedia: [
-    {
-      name: 'linkedin',
-      link: 'https://www.linkedin.com/in/vlatko-magjer/',
-    },
-    {
-      name: 'github',
-      link: 'https://github.com/vmagjer',
-    },
-  ],
-}
+import blazorIcon from './tech-icons/blazor.png'
+import blokA3Landing from './projects/blok-a3/blok-a3-landing.png'
+import card3dBanner from './projects/card3d/placeholder.jpeg'
+import csharpIcon from './tech-icons/csharp.png'
+import cssIcon from './tech-icons/css.png'
+import digitalRainBanner from './projects/digital-rain/placeholder.gif'
+import discordIcon from '../assets/socials/discord.svg'
+import emailIcon from '../assets/socials/envelope.svg'
+import favroIcon from './tech-icons/favro.png'
+import gitIcon from './tech-icons/git.png'
+import githubIcon from '../assets/socials/github.svg'
+import htmlIcon from './tech-icons/html.png'
+import ionicIcon from './tech-icons/ionic.png'
+import javaIcon from './tech-icons/java.png'
+import jiraIcon from './tech-icons/jira.png'
+import jsIcon from './tech-icons/javascript.png'
+import linkedInIcon from '../assets/socials/linkedin.svg'
+import mojBankarLanding from './projects/moj-bankar/landing.png'
+import notionIcon from './tech-icons/notion.png'
+import pythonIcon from './tech-icons/python.png'
+import reactIcon from './tech-icons/react.png'
+import reduxIcon from './tech-icons/redux.png'
+import sassIcon from './tech-icons/sass.png'
+import tsIcon from './tech-icons/typescript.png'
+import vueIcon from './tech-icons/vue.png'
+import vuexIcon from './tech-icons/vuex.png'
+
+// NO TELEPHONE NUMBER - SPAM PROTECTION
+const contactInfo: { name: string, link: string, text: string, image: string }[] = [
+  {
+    name: 'email',
+    link: "mailto:vlatko.magjer@gmail.com",
+    text: "vlatko.magjer@gmail.com",
+    image: emailIcon,
+  },
+  {
+    name: 'linkedIn',
+    link: "https://www.linkedin.com/in/vlatko-magjer",
+    text: "linkedin.com/in/vlatko-magjer",
+    image: linkedInIcon,
+  },
+  {
+    name: 'discord',
+    link: "https://www.discordapp.com/users/473558727350419458",
+    text: "discordapp.com/users/vmagjer",
+    image: discordIcon,
+  },
+  {
+    name: 'github',
+    link: "https://github.com/vmagjer",
+    text: "github.com/vmagjer",
+    image: githubIcon,
+  }
+]
+
 
 type Education = {
   degree: string
@@ -104,28 +145,28 @@ const education: Education[] = [
   },
 ]
 
-import blazorIcon from './tech-icons/blazor.png'
-import blokA3Landing from './projects/blok-a3/blok-a3-landing.png'
-import card3dBanner from './projects/card3d/placeholder.jpeg'
-import csharpIcon from './tech-icons/csharp.png'
-import cssIcon from './tech-icons/css.png'
-import digitalRainBanner from './projects/digital-rain/placeholder.gif'
-import favroIcon from './tech-icons/favro.png'
-import gitIcon from './tech-icons/git.png'
-import htmlIcon from './tech-icons/html.png'
-import ionicIcon from './tech-icons/ionic.png'
-import javaIcon from './tech-icons/java.png'
-import jiraIcon from './tech-icons/jira.png'
-import jsIcon from './tech-icons/javascript.png'
-import mojBankarLanding from './projects/moj-bankar/landing.png'
-import notionIcon from './tech-icons/notion.png'
-import pythonIcon from './tech-icons/python.png'
-import reactIcon from './tech-icons/react.png'
-import reduxIcon from './tech-icons/redux.png'
-import sassIcon from './tech-icons/sass.png'
-import tsIcon from './tech-icons/typescript.png'
-import vueIcon from './tech-icons/vue.png'
-import vuexIcon from './tech-icons/vuex.png'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // import blokA3Portfolio from './projects/blok-a3/blok-a3-portfolio.png'
 // import blokA3Map from './projects/blok-a3/blok-a3-map.png'
@@ -587,7 +628,7 @@ Object.keys(_technologies).forEach((key) => { technologies[key] = { ..._technolo
 
 export default {
   personalInfo,
-  conntactInfo: contactInfo,
+  contactInfo,
   education,
   projects,
   highlightedProjects: highlightedProjects.map((projectId) => projects[projectId]),

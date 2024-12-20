@@ -3,8 +3,11 @@
 html {
   /* Change default typefaces here */
   font-family: serif;
-  /* font-size: 137.5%; */
   -webkit-font-smoothing: antialiased;
+
+  @media (min-width: 1400px) {
+    /* font-size: 137.5%; */
+  }
 }
 
 /* Copy & Lists */
@@ -19,7 +22,8 @@ p {
 ul,
 ol {
   margin-top: 0.75rem;
-  margin-bottom: 1.5rem;
+  /* margin-bottom: 1.5rem; */
+  margin-bottom: 0;
 }
 
 ul li,

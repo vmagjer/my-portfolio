@@ -4,10 +4,7 @@ import AvatarImage from '../../components/AvatarImage'
 import Container from '../../components/layout/Container'
 import InteractiveCanvasEffect from '../../components/InteractiveCanvasEffect'
 import SwipeUp from '../../assets/SwipeUp'
-import discordIcon from '../../assets/socials/discord.svg'
-import emailIcon from '../../assets/socials/envelope.svg'
-import githubIcon from '../../assets/socials/github.svg'
-import linkedInIcon from '../../assets/socials/linkedin.svg'
+import data from '../../assets/data'
 import profileImage from '../../assets/images/profile-picture-happy.jpg'
 import styled from 'styled-components'
 
@@ -57,18 +54,11 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
           </SubTitle>
 
           <SocialList>
-            <SocialItem>
-              <img src={emailIcon} alt="" />
-            </SocialItem>
-            <SocialItem>
-              <img src={linkedInIcon} alt="" />
-            </SocialItem>
-            <SocialItem>
-              <img src={discordIcon} alt="" />
-            </SocialItem>
-            <SocialItem>
-              <img src={githubIcon} alt="" />
-            </SocialItem>
+            {data.contactInfo.map((ci) => (
+              <SocialItem key={'hero-social-' + ci.name} href={ci.link}>
+                <img src={ci.image} alt="" />
+              </SocialItem>
+            ))}
           </SocialList>
         </Content>
       </Container>
@@ -78,7 +68,6 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
 
 const Root = styled.div`
   height: 90vh;
-  color: #fff;
   position: relative;
 
   display: flex;
@@ -95,15 +84,19 @@ const Content = styled.div`
 `
 
 const Title = styled.h1`
+  margin-top: 0.5rem;
+
   font-size: 2.5rem;
   line-height: 3rem;
-  margin-top: 0.5rem;
+
+  color: var(--color-dark-title);
 `
 const SubTitle = styled.p`
   font-size: 1rem;
   line-height: 1.5rem;
   margin-top: 0.5rem;
-  opacity: 80%;
+  
+  color: var(--color-dark-subtitle);
 `
 const SocialList = styled.div`
   display: flex;
@@ -115,20 +108,20 @@ const SocialItem = styled.a`
   width: 40px;
   height: 40px;
 
-  background-color: #555555;
+  background-color: var(--color-button-default-bg);
   border-radius: 50%;
   padding: 6px;
 
-  transition: background-color  200ms ease-in-out, transform  200ms ease;
+  transition: background-color 200ms ease-in-out, transform 200ms ease;
 
   img {
-    width:100%;
+    width: 100%;
     height: 100%;
     object-fit: contain;
   }
 
   &:hover {
-    background-color: #476ed1;
+    background-color: var(--color-link);
     transform: scale(1.1);
   }
 `

@@ -1,4 +1,3 @@
-import AvatarImage from './AvatarImage'
 import { ReactNode } from 'react'
 import styled from 'styled-components'
 
@@ -26,13 +25,15 @@ const TimelineItem = ({
   return (
     <Root className={className} noPadding={noPadding} $reverse={reverse}>
       <Line $reverse={reverse}>
-        <TimelineMarker $color={color} $reverse={reverse}>
-          <AvatarImage size="semi" src={image} />
-          <div className="date">{date}</div>
-        </TimelineMarker>
+        <MarkerContainer>
+          <Marker $reverse={reverse} $color={color}>
+            <img src={image} alt="" />
+          </Marker>
+        </MarkerContainer>
       </Line>
 
-      <Content>
+      <Content $reverse={reverse}>
+        <DateStamp className="date">{date}</DateStamp>
         <h3>{title}</h3>
         {children}
       </Content>
@@ -47,76 +48,117 @@ const Root = styled.div<{
 }>`
   position: relative;
 
-  padding: 0 0 3rem 1rem;
+  display: flex;
+  gap: 12px;
+  padding: 0 0 36px 32px;
 
   @media (min-width: 1100px) {
-    ${({ $reverse }) => ($reverse ? 'padding: 0 0.75rem 2rem 0;' : '')}
-    padding-bottom: 3rem;
+    ${({ $reverse }) => ($reverse ? 'padding: 0 32px 16px 0;' : '')}
+    padding-bottom: 16px;
   }
 `
 
+const extraLineLength = 20
 const Line = styled.div<{ $reverse?: boolean }>`
   position: absolute;
-  top: 0;
   left: 0;
-  height: 100%;
+  top: -${extraLineLength}px;
+  transform: translateX(-50%);
 
   width: 4px;
-  border-radius: 10000px;
-  background: #75777d;
+  height: calc(100% + ${extraLineLength}px);
+  background: #676a72;
 
   @media (min-width: 1100px) {
-    ${({ $reverse }) => ($reverse ? 'right:-2px; left: unset;' : 'left:0;')}
+    ${({ $reverse }) =>
+      $reverse ? 'left: 100%; transform: translateX(-50%);' : ''}
   }
 `
 
-const TimelineMarker = styled.div<{ $color: string; $reverse?: boolean }>`
-  position: absolute;
-  top: calc((-16px - 0.75rem * tan(45deg)));
-  left: 0;
-  transform: translateX(-23px);
+const MarkerContainer = styled.div`
+  position: relative;
+  top: ${extraLineLength}px;
+  transform: translateX(calc(-25px + 2px));
+  height: calc(100% - 36px);
+`
 
-  display: flex;
-  gap: 0rem;
-
-  align-items: center;
-  /* justify-items: center; */
+const Marker = styled.div<{ $color: string; $reverse?: boolean }>`
+  position: sticky;
+  top: 56px;
+  transform: translateY(-6px);
 
   img {
-    flex: 1;
-    border: 6px solid #b5b2b7;
+    position: relative;
+    top: 0px;
+
+    width: 50px;
+    height: 50px;
+    border: 6px solid #bfbfd5;
+    border-radius: 50%;
+
     background-color: ${(props) => props.$color ?? '#000'};
     padding: 0px;
     object-fit: contain;
   }
 
-  .date {
-    white-space: nowrap;
-    transform: translateY(-0.55rem);
-  }
+  &::before {
+    box-sizing: border-box;
+    content: '';
+    z-index: 2;
 
-  @media (min-width: 1100px) {
-    /* gap: 0.25rem; */
+    position: absolute;
+    left: calc(50px - 1px);
+    top: 50%;
 
-    ${({ $reverse }) =>
-      $reverse
-        ? ''
-        : 'flex-direction: row-reverse; transform: translateX(calc(-100% + 25px));'}
+    transform: translateY(-50%);
 
-    .date {
-      transform: translateY(0);
+    width: 8px;
+    height: 16px;
+    clip-path: polygon(0 50%, 100% 0%, 100% 100%);
+
+    background: white;
+
+    @media (min-width: 1100px) {
+      ${({ $reverse }) =>
+        $reverse ? 'left: -7px; transform: translateY(-50%) scaleX(-1);' : ''}
     }
   }
 `
 
-const Content = styled.div`
-  max-width: 60ch;
-  padding: 16px 12px;
-  background-color: white;
+const Content = styled.div<{ $reverse?: boolean }>`
+  max-width: 50ch;
+  padding: 14px 12px;
   border-radius: 0.25rem;
+  position: relative;
+  
+  background-color: white;
+  color: var(--color-body);
+  
   > p {
     &:first-of-type {
       margin-top: 0.4rem;
     }
   }
+  h3 {
+    margin-top: 0.25rem;
+    color: var(--color-title);
+  }
+
+  ul {
+    padding-left: 16px;
+  }
+  details {
+    margin-top: 0.75rem;
+
+    summary {
+      cursor: pointer;
+      &:hover {
+        background-color: #476ed11b;
+      }
+    }
+  }
+`
+
+const DateStamp = styled.div`
+  color: var(--color-subtitle);
 `

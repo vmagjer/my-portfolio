@@ -3,7 +3,8 @@ import Particle, { Vector2D } from "./Particle/Particle"
 
 import { generateRandomString } from "../../utils/random"
 
-const SYMBOLS = '012345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
+// const SYMBOLS = '012345789Z:."=*+-¦|ｦｱｳｴｵｶｷｹｺｻｼｽｾｿﾀﾂﾃﾅﾆﾇﾈﾊﾋﾎﾏﾐﾑﾒﾓﾔﾕﾗﾘﾜ'
+const SYMBOLS = 'ZA'
 
 type DigitalRainRendererProps = {
   numParticles: number

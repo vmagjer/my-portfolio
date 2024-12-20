@@ -62,11 +62,13 @@ const TimeLineRoot = styled.div`
 `
 const List = styled.div<{ isLeft?: boolean }>`
   padding-top: 25px;
+  padding-left: 16px;
   flex: 1;
   display: grid;
-  grid-template-columns: 1fr 1fr;
-
-  @media (max-width: 1100px) {
-    grid-template-columns: 1fr;
+  grid-template-columns: 1fr;
+  
+  @media (min-width: 1100px) {
+    padding-left: 0px;
+    grid-template-columns: 1fr 1fr;
   }
 `

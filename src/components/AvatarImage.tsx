@@ -22,5 +22,4 @@ const Root = styled.img<{size: number}>`
   width: ${({size})=> size}px;
   height: ${({size})=> size}px;
   border-radius: 10000px;
-  margin: 0 auto;
 `

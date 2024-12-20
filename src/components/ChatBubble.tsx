@@ -7,12 +7,14 @@ type ChatBubbleProps = {
   avatarSrc: string
   avatarPosition?: 'left' | 'right'
   name: string
+  time: string
 }
 export default function ChatBubble({
   children,
   avatarSrc,
   avatarPosition = 'left',
   name,
+  time,
 }: ChatBubbleProps) {
   const isReversedOrientation = avatarPosition === 'right'
   return (
@@ -22,10 +24,10 @@ export default function ChatBubble({
       <BubbleGroup $reverse={isReversedOrientation}>
         <Info $reverse={isReversedOrientation}>
           <Identificator>{name}</Identificator>
-          <TimeTag>A minute ago</TimeTag>
+          <TimeTag>{time}</TimeTag>
         </Info>
         {children}
-        </BubbleGroup>
+      </BubbleGroup>
     </Root>
   )
 }
@@ -77,12 +79,16 @@ const BubbleGroup = styled.div<{ $reverse: boolean }>`
 
         left: ${(props) => (props.$reverse ? '100%' : '0')};
         transform: ${(props) =>
-          props.$reverse ? 'translateX(-58%) scaleX(-1);' : 'translateX(-42%) '};
+          props.$reverse
+            ? 'translateX(-58%) scaleX(-1);'
+            : 'translateX(-42%) '};
 
         width: 24px;
         height: 20px;
         clip-path: polygon(0 100%, 100% 100%, 50% 20%);
-        clip-path: path('M 1 19 C 5 18 9.467 14.396 10 10 H 16 V 20 H 1 C 0 20 0.012 19.283 1 19 Z');
+        clip-path: path(
+          'M 1 19 C 5 18 9.467 14.396 10 10 H 16 V 20 H 1 C 0 20 0.012 19.283 1 19 Z'
+        );
         mask-size: contain;
         background-color: inherit;
       }
@@ -91,16 +97,12 @@ const BubbleGroup = styled.div<{ $reverse: boolean }>`
 `
 const Info = styled.div<{ $reverse: boolean }>`
   display: flex;
-  gap: 0.5rem;
+  gap: 0.25rem;
   font-size: 0.75rem;
   align-self: ${(props) => (props.$reverse ? 'flex-end' : 'flex-start')};
 
   color: rgb(131, 131, 131);
 `
 
-const Identificator = styled.div`
-  
-`
-const TimeTag = styled.div`
-  
-`
+const Identificator = styled.div``
+const TimeTag = styled.div``
