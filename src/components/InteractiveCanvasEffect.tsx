@@ -1,8 +1,4 @@
-import {
-  useEffect,
-  useLayoutEffect,
-  useRef,
-} from 'react'
+import { useLayoutEffect, useRef } from 'react'
 
 import { InteractiveBackground } from '../features/interactiveBackground/interactiveBg'
 import styled from 'styled-components'
@@ -48,26 +44,26 @@ const InteractiveCanvasEffect = ({
     }
   }, [canvasRef, scale])
 
-  useEffect(() => {
-    function handleScroll() {
-      paralaxEffectOnHeroBackground()
-    }
+  // useEffect(() => {
+  //   function handleScroll() {
+  //     paralaxEffectOnHeroBackground()
+  //   }
 
-    function paralaxEffectOnHeroBackground() {
-      if (!canvasRef.current) return
+  //   function paralaxEffectOnHeroBackground() {
+  //     if (!canvasRef.current) return
 
-      const scrollY = window.scrollY
-      canvasRef.current.style.transform = `translateY(${
-        scrollY * -0.4
-      }px)`
-    }
+  //     const scrollY = window.scrollY
+  //     canvasRef.current.style.transform = `translateY(${
+  //       scrollY * -0.4
+  //       // scrollY * -0
+  //     }px)`
+  //   }
 
-    window.addEventListener('scroll', handleScroll)
-    return () => {
-      window.removeEventListener('scroll', handleScroll)
-    }
-  }, [])
-
+  //   window.addEventListener('scroll', handleScroll)
+  //   return () => {
+  //     window.removeEventListener('scroll', handleScroll)
+  //   }
+  // }, [])
 
   return <CanvasElement ref={canvasRef} {...rest}></CanvasElement>
 }
@@ -78,8 +74,8 @@ const CanvasElement = styled.canvas`
   top: 0;
   left: 0;
   width: 100%;
-  height: 120lvh;
+  height: 100lvh;
   z-index: -100;
 
-  background-color: #221f23;
+  background-color: var(--color-dark-bg);
 `
