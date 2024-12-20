@@ -13,10 +13,12 @@ function ProjectsSection({ ...rest }: ProjectsSectionProps) {
   return (
     <Root {...rest}>
       <SectionTitle>Top Projects</SectionTitle>
-      <Subtitle>Work I&apos;m proud of and that presented intersting challenges.</Subtitle>
+      <Subtitle>
+        Work I&apos;m proud of and that presented interesting challenges.
+      </Subtitle>
       <ProjectsList>
         <ProjectItem
-          title="E-commerce platform for fresh local produce"
+          title="E-commerce platform for produce"
           image={webShopShowcase}
           reverse={false}
           link="#"
@@ -24,7 +26,7 @@ function ProjectsSection({ ...rest }: ProjectsSectionProps) {
         >
           <p>
             Worked on a progressive web app that connects consumers and their
-            nearest local produce farmers.
+            local produce farmers.
           </p>
           <p>
             The platform handles payment and delivery logistics, greatly
@@ -59,8 +61,7 @@ function ProjectsSection({ ...rest }: ProjectsSectionProps) {
           linkText="Comparison tool"
         >
           <p>
-            Worked on a web app offering tools to compare insurance, loans,
-            credit cards, and savings products.
+            Worked on a web app offering tools to compare financial products and services.
           </p>
           <p>
             Includes a financial glossary, expert consultation forms, and
@@ -101,7 +102,7 @@ const Root = styled(Container)`
 
 const SectionTitle = styled.h2`
   color: var(--color-title);
-` 
+`
 const Subtitle = styled.p`
   margin: 0;
   margin-bottom: 40px;
