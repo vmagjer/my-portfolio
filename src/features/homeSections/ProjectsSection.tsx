@@ -96,20 +96,16 @@ export default ProjectsSection
 const Root = styled(Container)`
   z-index: 1;
   padding: 32px 16px 48px;
-  background-color: #e3e3e3;
-
-  ul {
-    padding-left: 1rem;
-  }
+  background-color: var(--neutral-900);
 `
 
 const SectionTitle = styled.h2`
-  /* margin-bottom: 8px; */
+  color: var(--color-title);
 ` 
 const Subtitle = styled.p`
   margin: 0;
-  margin-bottom: 16px;
-  opacity: 80%;
+  margin-bottom: 40px;
+  color: var(--color-subtitle);
 `
 
 const ProjectsList = styled.div`
