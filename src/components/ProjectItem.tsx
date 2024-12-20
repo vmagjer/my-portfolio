@@ -27,10 +27,11 @@ export const ProjectItem = ({
           <h3>{title}</h3>
           {children}
         </Text>
-        <ExternalLink href={link}>
-          {linkText}
-
-          <span className="material-symbols-outlined">open_in_new</span>
+        <ExternalLink href={link} target="_blank" rel="noopener noreferrer">
+          <div className="text">{linkText}</div>
+          <div className="icon">
+            <span className="material-symbols-outlined">open_in_new</span>
+          </div>
         </ExternalLink>
       </Body>
     </Root>
@@ -38,21 +39,28 @@ export const ProjectItem = ({
 }
 
 const Root = styled.div<{ $reverse?: boolean }>`
-  background-color: #fff;
+  display: flex;
+  flex-direction: column;
 
   border-radius: 6px;
   overflow: hidden;
+
+  background-color: #fff;
+  /* border: 1px solid var(--neutral-900); */
 `
 const Body = styled.div`
+  flex: 1;
+
+
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   padding: 12px;
+  
 `
 
 const ImageContainer = styled.div<{ $reverse?: boolean }>`
-  width: 1/3;
   aspect-ratio: 4/3;
 
   img {
@@ -65,10 +73,11 @@ const ImageContainer = styled.div<{ $reverse?: boolean }>`
 const Text = styled.div`
   h3 {
     margin-top: 0;
+    color: var(--color-title);
   }
 
   p {
-    color: #333;
+    color: var(--color-body);
 
     &:first-of-type {
       margin-top: 0.4rem;
@@ -87,4 +96,9 @@ const ExternalLink = styled.a`
 
   text-decoration: none;
   text-align: right;
+  color: var(--color-link);
+
+  &:hover {
+    text-decoration: underline;
+  }
 `
