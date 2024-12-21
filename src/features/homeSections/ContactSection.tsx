@@ -12,11 +12,17 @@ function ContactSection({ ...rest }: ContactSectionProps) {
   return (
     <Root {...rest}>
       <Wrapper>
+        <AvatarWithBuble>
+          <Bubble>
+            <p>Send me a massage!</p>
+          </Bubble>
+          <img  src={profileImage} />
+        </AvatarWithBuble>
         <div>
           <ul>
             {data.contactInfo.map((ci) => (
               <li key={ci.name}>
-                <ContactItem link={ci.link} isExternal onDark>
+                <ContactItem link={ci.link} external onDark>
                   <img src={ci.image} alt="" />
                   {ci.text}
                 </ContactItem>
@@ -24,12 +30,6 @@ function ContactSection({ ...rest }: ContactSectionProps) {
             ))}
           </ul>
         </div>
-        <AvatarWithBuble>
-          <Bubble>
-            <p>Give me a holler!</p>
-          </Bubble>
-          <img  src={profileImage} />
-        </AvatarWithBuble>
       </Wrapper>
     </Root>
   )
@@ -38,10 +38,12 @@ function ContactSection({ ...rest }: ContactSectionProps) {
 export default ContactSection
 
 const Root = styled(Container)`
-  background-color: #27272e;
+  background-color: #09090d;
+  /* background-color: var(--neutral-100); */
   color: white;
   
   padding: 0 16px;
+
 `
 
 const Wrapper = styled.section`
@@ -84,6 +86,8 @@ const AvatarWithBuble = styled.div`
   display: flex;
   align-items: start;
   gap: 8px;
+  
+  pointer-events: none;
 
   img {
     width: 100px;

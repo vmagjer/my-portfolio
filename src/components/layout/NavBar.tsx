@@ -17,7 +17,7 @@ export default function NavBar({ items }: NavBarProps) {
 
   return (
     <Root>
-      <LeftContainer className='quicksand'>Vlatko Magjer</LeftContainer>
+      <LeftContainer className="quicksand">Vlatko Magjer</LeftContainer>
       <CenterContainer>
         <NavList>
           {items.map((item) => (
@@ -32,10 +32,10 @@ export default function NavBar({ items }: NavBarProps) {
         </NavList>
       </CenterContainer>
       <RightContainer>
-        <LanguageSelect name="language" id="">
+        {/* <LanguageSelect name="language" id="">
           <option value="HR">HR</option>
           <option value="EN">EN</option>
-        </LanguageSelect>
+        </LanguageSelect> */}
       </RightContainer>
     </Root>
   )
@@ -51,6 +51,8 @@ const Root = styled.div`
   background: var(--primary-100);
   color: #fff;
 
+  /* box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1); */
+
   padding: 8px 16px;
   display: flex;
   justify-content: space-between;
@@ -59,55 +61,58 @@ const Root = styled.div`
 const CenterContainer = styled.div`
   flex-basis: 800px;
   max-width: 800px;
+  /* @media (min-width: 1100px) {
+
+  } */
 `
 
 const NavList = styled.div`
-  display: inline-grid;
-  grid-template-columns: repeat(5, 1fr);
+  display: flex;
   gap: 8px;
 
+  @media (min-width: 1100px) {
+    display: inline-grid;
+    grid-template-columns: repeat(5, 1fr);
+  }
 `
 
 const NavItem = styled.button<{ $active: boolean }>`
-  padding: 8px 16px;
+padding: 8px 12px;
 
-  border: none;
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+border: none;
+border-radius: 4px;
 
-  ${({ $active }) =>
+${({ $active }) =>
     $active
-      ? 'color: #fff; background:#476ed1'
-      : 'color: #fff; background: #555'};
+      ? 'color: #fff; background: var(--primary-300);'
+      : 'color: #fff; background: transparent;'};
 
-  font-size: 0.75rem;
-  cursor: pointer;
+font-size: 0.75rem;
+cursor: pointer;
 
-  /* box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1),
-    inset 0px 8px 2px -8px rgba(255, 255, 255, 0.5),
-    inset 0px -6px 2px -5px rgba(0, 0, 0, 0.5); */
+transition: all 0.2s ease-in-out;
 
-  transition: all 0.2s ease-in-out;
-
-  /* ${({ $active }) =>
-    $active ? 'transform: translateY(8px);' : 'transform: translateY(0px);'} */
+&:hover {
+  ${({ $active }) =>
+      $active ? '' : 'color: #fff; background: var(--primary-200);'};
+  }
+  
+  @media (min-width: 1100px) {
+    padding: 8px 16px;
+  }
 `
 const LeftContainer = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
+
+  @media (max-width: 1100px) {
+    display: none;
+  }
 `
 const RightContainer = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
   justify-content: end;
-`
-const LanguageSelect = styled.select`
-  border: none;
-  background: #151517;
-
-  option {
-    background: none;
-  }
 `

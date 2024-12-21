@@ -35,7 +35,7 @@ export default function Footer() {
           <FooterItem>Made by Vlatko Magjer</FooterItem>
           <FooterItem>
             Icons by &nbsp;
-            <Hyperlink link="https://icons8.com" isExternal onDark>
+            <Hyperlink link="https://icons8.com" external onDark>
               Icons8
             </Hyperlink>
           </FooterItem>
@@ -45,7 +45,7 @@ export default function Footer() {
   )
 }
 const Root = styled(Container)`
-  background-color: #151517;
+  background-color: #030306;
   color: rgba(255, 255, 255, 0.5);
   padding: 0 16px;
 `

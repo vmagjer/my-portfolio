@@ -7,12 +7,12 @@ import HeroSection from '../features/homeSections/HeroSection'
 import ProjectsSection from '../features/homeSections/ProjectsSection'
 import styled from 'styled-components'
 
-type SectionID = 'hello' | 'about' | 'projects' | 'background' | 'contact'
+type SectionID =  'about' | 'projects' | 'background' | 'contact'
 // store the section ids here for navigation jumps
 const sections: Record<SectionID, SectionType> = {
-  hello: { id: 'hello', title: 'Start' }, // catch attention
+  // hello: { id: 'hello', title: 'Vlatko' }, // catch attention
   about: { id: 'about', title: 'About' }, // convey approachability, passion, personality
-  projects: { id: 'projects', title: 'Projects' }, // impress with experience
+  projects: { id: 'projects', title: 'Top Projects' }, // impress with experience
   background: { id: 'background', title: 'Background' }, // prove experience, knowledge
   contact: { id: 'contact', title: 'Contact' }, // simplify work of user
 }
@@ -22,9 +22,9 @@ export default function HomePage() {
     <Root>
       <NavBar items={Object.values(sections)}></NavBar>
 
-      <HeroSection id={sections.hello.id} />
+      <HeroSection id={sections.about.id} />
 
-      <AboutSection id={sections.about.id}>
+      <AboutSection >
         <Title>About me</Title>
         <Subtitle>Hi, I&apos;m Vlatko Magjer from Croatia!</Subtitle>
         <p>

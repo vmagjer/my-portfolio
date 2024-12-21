@@ -37,6 +37,18 @@
   --neutral-800: #c4bdc3;
   --neutral-900: #e2dde0;
 
+  --neutral-100: #1a171a;
+  --neutral-200: #1d1d21;
+  --neutral-300: #28282f;
+  --neutral-400: #444248;
+  --neutral-500: #615e63;
+  --neutral-600: #7f7b80;
+  --neutral-700: #9e9a9d;
+  --neutral-800: #bbbbbe;
+  --neutral-900: #dedcdd;
+
+  --neutral2-900: #bdbdce;
+
   --white: white;
   --black: black;
 }
@@ -45,9 +57,9 @@
 :root {
   --color-dark-bg: var(--primary-100);
 
-  --color-title: var(--primary-100);
-  --color-subtitle: rgba(from var(--color-title) r g b / 50%);
-  --color-body: rgba(from var(--color-title) r g b / 80%);
+  --color-title: var(--neutral-100);
+  --color-subtitle: rgba(from var(--color-title) r g b / 60%);
+  --color-body: rgba(from var(--color-title) r g b / 87%);
   --color-link: var(--primary-500);
 
   --color-dark-title: var(--white);
@@ -59,14 +71,4 @@
   --color-button-default-text: #000;
   --color-button-active-bg: #000;
   --color-button-active-text: #000;
-
-  --color-section-1-bg: #000;
-  --color-section-2-bg: #000;
-  --color-section-3-bg: #000;
-  --color-section-1-title: #000;
-  --color-section-2-title: #000;
-  --color-section-3-title: #000;
-  --color-section-1-body: #000;
-  --color-section-2-body: #000;
-  --color-section-3-body: #000;
 }

@@ -93,7 +93,7 @@ const Marker = styled.div<{ $color: string; $reverse?: boolean }>`
 
     width: 50px;
     height: 50px;
-    border: 6px solid #bfbfd5;
+    border: 6px solid  var(--neutral2-900);
     border-radius: 50%;
 
     background-color: ${(props) => props.$color ?? '#000'};
@@ -127,7 +127,7 @@ const Marker = styled.div<{ $color: string; $reverse?: boolean }>`
 
 const Content = styled.div<{ $reverse?: boolean }>`
   max-width: 50ch;
-  padding: 14px 12px;
+  padding: 14px 14px;
   border-radius: 0.25rem;
   position: relative;
   

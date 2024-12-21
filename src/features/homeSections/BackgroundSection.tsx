@@ -28,18 +28,24 @@ const timelineItems: {
     content: (
       <>
         <p>
-          For the sake of my curiosity and fun, I sought to challenge myself by
-          building small but interesting projects using web features.{' '}
+          Out of curiosity and a love for experimenting, I’ve built a few small
+          projects that explore fun and interesting web features. These have
+          been a great way to learn and try out new ideas.
         </p>
         <p>
-          I&apos;ve compiled some on <Hyperlink link="">my CodePen</Hyperlink>:
+          You can check out some of my creations on{' '}
+          <Hyperlink link="https://codepen.io/Vlatko-Magjer" external>my CodePen</Hyperlink>:
         </p>
         <ul>
-          <li>Digital Rain (Matrix)</li>
-          <li>3D Card (Harry Potter)</li>
+          <li>
+            Digital Rain (<i>The Matrix</i>)
+          </li>
+          <li>
+            3D Card (<i>Harry Potter</i>)
+          </li>
           <li>Interactive Broken Glass Pane</li>
-          <li>Scroll-bound animation</li>
-          <li>Parallax effect</li>
+          <li>Scroll-bound Animation</li>
+          <li>Parallax Effect</li>
         </ul>
       </>
     ),
@@ -67,7 +73,8 @@ const timelineItems: {
         </p>
         <p>
           This experience was valuable to me because I was the sole frontend
-          developer and thus carried all the corresponding responsibilities.
+          developer and so carried the responsibility for organization,
+          communication and decision-making.
         </p>
       </>
     ),
@@ -105,7 +112,7 @@ const timelineItems: {
           at{' '}
           <Hyperlink link="https://www.fer.unizg.hr/en">
             University of Zagreb, Faculty of Electrical Engineering and
-            Computing (FER)
+            Computing (FER).
           </Hyperlink>
         </p>
         <p>Majored software engineering and information systems.</p>
@@ -157,11 +164,22 @@ const timelineItems: {
           Smart City Solutions.
         </p>
         <p>
-          The CMS was built in Blazor (C# and HTML) with SASS aiding in styling.
+          The CMS was built in{' '}
+          <Hyperlink
+            link="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor"
+            external
+          >
+            Blazor
+          </Hyperlink>{' '}
+          with{' '}
+          <Hyperlink link="https://sass-lang.com/" external>
+            Sass
+          </Hyperlink>{' '}
+          aiding in styling.
         </p>
         <p>
           Here I gained practical experience building a big project requiring
-          structure and systematic design.
+          systematic and scalable design.
         </p>
       </>
     ),
@@ -179,8 +197,11 @@ const timelineItems: {
           financial choices.
         </p>
         <p>
-          We built it with React.js on which I coached a colleague during
-          development.
+          We built{' '}
+          <Hyperlink external link="https://www.moj-bankar.hr/">
+            the financing tool
+          </Hyperlink>{' '}
+          with React.js on which I coached a colleague during development.
         </p>
       </>
     ),
@@ -193,9 +214,12 @@ const timelineItems: {
     content: (
       <>
         <p>
-          Built a web portfolio featuring a gallery and map-based library of
-          architecture projects, along with an image editor integrated into the
-          contact form.
+          Built a{' '}
+          <Hyperlink external link="https://www.blok-a3.hr/">
+            web portfolio
+          </Hyperlink>{' '}
+          featuring a gallery and map-based library of architecture projects,
+          along with an image editor integrated into the contact form.
         </p>
         <p>
           Developed using React.js, this project marked my first role as a
@@ -215,7 +239,7 @@ const timelineItems: {
           at{' '}
           <Hyperlink link="https://www.fer.unizg.hr/en">
             University of Zagreb, Faculty of Electrical Engineering and
-            Computing (FER)
+            Computing (FER).
           </Hyperlink>
         </p>
         <p>Majored software engineering and information systems.</p>
@@ -271,11 +295,12 @@ const timelineItems: {
     ),
   },
 ]
+
 function BackgroundSection({ ...rest }: BackgroundSectionProps) {
   return (
     <Root {...rest}>
-      <SectionTitle>My background</SectionTitle>
-      <Subtitle>Projects and accomplishments I can show off.</Subtitle>
+      <SectionTitle>Background</SectionTitle>
+      <Subtitle>My proffessional and personal growth.</Subtitle>
       <Timeline items={timelineItems} />
     </Root>
   )
@@ -287,7 +312,7 @@ export default BackgroundSection
 const Root = styled(Container)`
   z-index: 1;
   padding: 32px 16px 48px;
-  background-color: #bfbfd5;
+  background-color: var(--neutral2-900);
 `
 
 const SectionTitle = styled.h2`
@@ -300,7 +325,7 @@ const SectionTitle = styled.h2`
 const Subtitle = styled.p`
   text-align: center;
   color: var(--color-subtitle);
-  
+
   margin: 0;
   margin-bottom: 16px;
 `

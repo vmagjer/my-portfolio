@@ -56,7 +56,7 @@ const Body = styled.div`
   flex-direction: column;
   justify-content: space-between;
 
-  padding: 12px;
+  padding: 14px;
   
 `
 
