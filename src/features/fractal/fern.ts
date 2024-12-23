@@ -1,16 +1,23 @@
+
 export function drawFern({
-  ctx,
+  coefficients,
   maxIter,
+
+  ctx,
   color,
+
   scaleX,
   scaleY,
   translateX = 0,
   translateY = 0,
   rotate = 0,
 }: {
-  ctx: CanvasRenderingContext2D
+  coefficients: number[][]
   maxIter: number
+
+  ctx: CanvasRenderingContext2D
   color: string
+
   scaleX: number
   scaleY: number
   translateX: number
@@ -25,7 +32,12 @@ export function drawFern({
 
   const zoomedWidth = ctx.canvas.width * scaleX
   const zoomedHeight = ctx.canvas.height * scaleY
-  
+
+  const stem = coefficients[0]
+  const successiveLeaflets = coefficients[1]
+  const leftLeaflet = coefficients[2]
+  const rightLeaflet = coefficients[3]
+
   let x = 0
   let y = 0
   let t = 0
@@ -36,25 +48,26 @@ export function drawFern({
   while (t < maxIter) {
     // r = random() between 0 and 1
     const r = Math.random()
-    if (r < 0.01) {
-      xn = 0
-      yn = 0.16 * y
-    } else if (r < 0.86) {
-      xn = 0.85 * x + 0.04 * y
-      yn = -0.04 * x + 0.85 * y + 1.6
-    } else if (r < 0.93) {
-      xn = 0.2 * x - 0.26 * y
-      yn = 0.23 * x + 0.22 * y + 1.6
-    } else {
-      xn = -0.15 * x + 0.28 * y
-      yn = 0.26 * x + 0.24 * y + 0.44
+
+    let prob = stem[6]
+    if (r < prob) {
+      xn = stem[0] * x + stem[1] * y + stem[4]
+      yn = stem[2] * x + stem[3] * y + stem[5]
+    } else if (r < (prob += successiveLeaflets[6])) {
+      xn = successiveLeaflets[0] * x + successiveLeaflets[1] * y + successiveLeaflets[4]
+      yn = successiveLeaflets[2] * x + successiveLeaflets[3] * y + successiveLeaflets[5]
+    } else if (r < (prob += leftLeaflet[6])) {
+      xn = leftLeaflet[0] * x + leftLeaflet[1] * y + leftLeaflet[4]
+      yn = leftLeaflet[2] * x + leftLeaflet[3] * y + leftLeaflet[5]
+    } else { // assumes coef[n][6] add up to 100%
+      xn = rightLeaflet[0] * x + rightLeaflet[1] * y + rightLeaflet[4]
+      yn = rightLeaflet[2] * x + rightLeaflet[3] * y + leftLeaflet[5]
     }
+
     // draw pixel on screen at (xn, yn)
-      ctx.fillStyle = color
+    ctx.fillStyle = color
+    ctx.fillRect(xn * zoomedWidth, yn * zoomedHeight, 1, 1)
 
-
-    ctx.fillRect(xn * zoomedWidth, yn * zoomedHeight , 1, 1)
-    
     // increment
     x = xn
     y = yn

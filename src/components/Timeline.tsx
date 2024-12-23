@@ -20,16 +20,31 @@ function drawFerns(element: HTMLElement) {
   console.log('Drawing ferns')
   const canvases = element.querySelectorAll('canvas')
 
+  const barnsleyFern = [
+    [0, 0, 0, 0.16, 0, 0, 0.01], // stem
+    [0.85, 0.04, -0.04, 0.85, 0, 1.6, 0.85], // successiveLeaflets
+    [0.2, -0.26, 0.23, 0.22, 0, 1.6, 0.07], // leftLeaflet
+    [-0.15, 0.28, 0.26, 0.24, 0, 0.44, 0.07], // rightLeaflet
+  ]
+
+  // const leptosporangiateFern = [
+  //   [0, 0, 0, 0.25, 0, -0.4, 0.02],
+  //   [0.95, 0.005, -0.005, 0.93, -0.002, 0.5, 0.84],
+  //   [0.035, -0.2, 0.16, 0.04, -0.09, 0.02, 0.07],
+  //   [-0.04, 0.2, 0.16, 0.04, 0.083, 0.12, 0.07],
+  // ]
+
   canvases.forEach((c) => {
     const ctx = c.getContext('2d')
     if (ctx) {
       console.log('Drawing fern')
       drawFern({
         ctx: ctx,
-        maxIter: 10000,
-        color: '#808595',
-        scaleX: 0.1,
-        scaleY: 0.2,
+        coefficients: barnsleyFern,
+        maxIter: 500000,
+        color: '#676a7209',
+        scaleX: 0.09,
+        scaleY: 0.198,
         translateX: 0,
         translateY: ctx.canvas.height / 2,
         rotate: -90,
@@ -78,8 +93,16 @@ const drawItems = (items: TimelineItemInfo[]) => {
     index++
     // index++
     // index++
-    result.push(<CanvasContainer key={'timeline-deco-' + index++} ><canvas/></CanvasContainer>)
-    result.push(<CanvasContainer key={'timeline-deco-' + index++} $reverse><canvas/></CanvasContainer>)
+    result.push(
+      <CanvasContainer key={'timeline-deco-' + index++}>
+        <canvas />
+      </CanvasContainer>
+    )
+    result.push(
+      <CanvasContainer key={'timeline-deco-' + index++} $reverse>
+        <canvas />
+      </CanvasContainer>
+    )
     const item2 = items[itemIndex++]
     result.push(
       <TimelineItem
