@@ -35,18 +35,19 @@ export default function HomePage() {
         <p>Feel free to reach out or look at my past work below!</p>
       </AboutSection>
 
-      <TitleSection>
+      <GapContainer>
         <SuperTitle className="quicksand">Portfolio</SuperTitle>
-      </TitleSection>
+      </GapContainer>
 
       <ProjectsSection id={sections.projects.id} />
       <BackgroundSection id={sections.background.id} />
 
-      <TitleSection>
+      <GapContainer>
         <SuperTitle className="quicksand">Contact</SuperTitle>
-      </TitleSection>
-
+      </GapContainer>
       <ContactSection id={sections.contact.id} />
+
+      <GapContainer />
     </Root>
   )
 }
@@ -64,7 +65,7 @@ const AboutSection = styled(Container)`
   padding: 32px 16px;
 `
 
-const TitleSection = styled(Container)`
+const GapContainer = styled(Container)`
   z-index: 1;
   height: 128px;
   display: flex;

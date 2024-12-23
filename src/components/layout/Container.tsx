@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 
 type SectionProps = {
-  children: React.ReactNode
+  children?: React.ReactNode
   className?: string
   contentClassName?: string
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
