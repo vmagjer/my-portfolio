@@ -11,7 +11,7 @@ type ProjectsSectionProps = {
 }
 function ProjectsSection({ ...rest }: ProjectsSectionProps) {
   return (
-    <Root {...rest}>
+    <Root {...rest} maxWidth="1000px">
       <SectionTitle>Top Projects</SectionTitle>
       <Subtitle>
         Work I&apos;m proud of and that presented interesting challenges.
@@ -61,7 +61,8 @@ function ProjectsSection({ ...rest }: ProjectsSectionProps) {
           linkText="Comparison tool"
         >
           <p>
-            Worked on a web app offering tools to compare financial products and services.
+            Worked on a web app offering tools to compare financial products and
+            services.
           </p>
           <p>
             Includes a financial glossary, expert consultation forms, and
@@ -102,11 +103,17 @@ const Root = styled(Container)`
 
 const SectionTitle = styled.h2`
   color: var(--color-title);
+  @media (min-width: 600px) {
+    text-align: center;
+  }
 `
 const Subtitle = styled.p`
   margin: 0;
   margin-bottom: 40px;
   color: var(--color-subtitle);
+  @media (min-width: 600px) {
+    text-align: center;
+  }
 `
 
 const ProjectsList = styled.div`
@@ -116,7 +123,7 @@ const ProjectsList = styled.div`
   gap: 24px;
   flex-wrap: wrap;
 
-  @media (min-width: 600px) {
+  @media (min-width: 800px) {
     grid-template-columns: 1fr 1fr 1fr;
   }
 `
