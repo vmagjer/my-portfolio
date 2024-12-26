@@ -34,21 +34,33 @@ function drawFerns(element: HTMLElement) {
   //   [-0.04, 0.2, 0.16, 0.04, 0.083, 0.12, 0.07],
   // ]
 
+  const offscreenCanvas = new OffscreenCanvas(
+    canvases[0].width,
+    canvases[0].height
+  )
+  const offscreenCanvasCtx = offscreenCanvas.getContext('2d')
+  if (!offscreenCanvasCtx)
+    throw new Error('offscreen canvas doesnt have 2d context')
+
+  drawFern({
+    ctx: offscreenCanvasCtx,
+    coefficients: barnsleyFern,
+    maxIter: 500000,
+    color: 'hsla(223.63636363636363, 5.069124423963134%, 50.54901960784314%, 0.08)',
+    scaleX: 0.09,
+    scaleY: 0.198,
+    translateX: 0,
+    translateY: offscreenCanvasCtx.canvas.height / 2,
+    rotate: -90,
+  })
+
   canvases.forEach((c) => {
     const ctx = c.getContext('2d')
+
     if (ctx) {
       console.log('Drawing fern')
-      drawFern({
-        ctx: ctx,
-        coefficients: barnsleyFern,
-        maxIter: 500000,
-        color: '#676a7209',
-        scaleX: 0.09,
-        scaleY: 0.198,
-        translateX: 0,
-        translateY: ctx.canvas.height / 2,
-        rotate: -90,
-      })
+      ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height)
+      ctx.drawImage(offscreenCanvas, 0, 0)
     }
   })
   console.log('END Drawing ferns')
@@ -61,7 +73,6 @@ export default function Timeline({ items }: TimelineProps) {
 
     if (element) {
       drawFerns(element)
-      // window.addEventListener('resize', () => drawFerns(element))
     }
   }, [rootRef])
 

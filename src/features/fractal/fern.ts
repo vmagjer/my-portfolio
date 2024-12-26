@@ -15,7 +15,7 @@ export function drawFern({
   coefficients: number[][]
   maxIter: number
 
-  ctx: CanvasRenderingContext2D
+  ctx: OffscreenCanvasRenderingContext2D | CanvasRenderingContext2D
   color: string
 
   scaleX: number
