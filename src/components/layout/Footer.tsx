@@ -8,26 +8,26 @@ export default function Footer() {
       <Wrapper>
         <SiteMap>
           <ul>
-            <li>
+            {/* <li>
               <Hyperlink link="" onDark>Start</Hyperlink>
-            </li>
+            </li> */}
             <li>
-              <Hyperlink link="" onDark>About</Hyperlink>
+              <Hyperlink link='#about' onDark>About</Hyperlink>
             </li>
             {/* <li> */}
             <li>Portfolio</li>
               <ul>
                 <li>
-                  <Hyperlink link="" onDark>Projects</Hyperlink>
+                  <Hyperlink link="#projects" onDark>Projects</Hyperlink>
                 </li>
                 <li>
-                  <Hyperlink link="" onDark>Background</Hyperlink>
+                  <Hyperlink link="#background" onDark>Background</Hyperlink>
                 </li>
               </ul>
             {/* </li> */}
 
             <li>
-              <Hyperlink link="" onDark>Contact</Hyperlink>
+              <Hyperlink link="#contact" onDark>Contact</Hyperlink>
             </li>
           </ul>
         </SiteMap>
@@ -50,12 +50,12 @@ const Root = styled(Container)`
   padding: 0 16px;
 `
 
-const Wrapper = styled.div`
+const Wrapper = styled.footer`
   padding-top: 32px;
   padding-bottom: 8px;
 `
 const SiteMap = styled.div`
-margin-bottom: 16px;
+margin-bottom: 40px;
 
 ul {
   padding: 0;
