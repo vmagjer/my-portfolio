@@ -119,7 +119,7 @@ const timelineItems: {
 
         <details>
           <summary>
-            <b>Coursework</b> focused on data science and software design.
+            <b>Coursework</b> focused on data science and development of information systems.
           </summary>
           <ul>
             <li>Machine Learning</li>

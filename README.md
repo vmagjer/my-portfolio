@@ -1,15 +1,12 @@
 # Portfolio of Vlatko Magjer
 
-Here I present projects I've worked on and the interesting challenges I've faced developing them.
-
-I also try to showcase my skill in developing a UI through this very project by using fancy, flashy and/or subtle front-end techniques.
+Website to present projects I've worked on and the challenges I've faced developing them.
 
 You can [get in touch with me via LinkedIn](https://www.linkedin.com/in/vlatko-magjer/).
 
 ## TODO
 
-- [ ] Project list
-- [ ] Project details
-- [ ] Scroll animation
-- [x] 3D thing
-- [ ] Cursor interaction
+- [ x ] Project list
+- [ - ] Scroll animation
+- [ x ] 3D thing
+- [ x ] Cursor interaction
