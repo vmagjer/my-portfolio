@@ -58,7 +58,7 @@ function getTopVisibleElement(ids: string[]): string | null {
   return null
 }
 
-function scrollToId(id: string) {
+export function scrollToId(id: string) {
   try {
     const element = getElementByIdGuaranted(id)
     const elementPositionInViewport = element.getBoundingClientRect().top

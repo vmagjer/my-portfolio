@@ -12,7 +12,7 @@ type Props = {
   items: Section[]
 }
 
-export default function Summary({ items }: Props) {
+export default function PageNavigation({ items }: Props) {
   const sectionIds = useMemo(() => items.map((item) => item.id), [items])
   const { activeSection, scrollToSection } = useActiveSection(sectionIds)
 
@@ -41,8 +41,6 @@ const Root = styled.div`
   left: 0;
   right: 0;
   z-index: 1000;
-  /* background: rgb(0, 0, 0);
-  border-bottom: 1px solid #ffffff65; */
 
   @media (min-width: 1100px) {
     background: none;
@@ -81,10 +79,6 @@ const NavItem = styled.button<{ $active: boolean }>`
 
   font-size: 0.75rem;
   cursor: pointer;
-
-  /* box-shadow: 0 0px 0px rgba(0, 0, 0, 0.1),
-    inset 0px 8px 2px -8px rgba(255, 255, 255, 0.5),
-    inset 0px -6px 2px -5px rgba(0, 0, 0, 0.5); */
 
   transition: all 0.2s ease-in-out;
 
