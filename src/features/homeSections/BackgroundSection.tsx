@@ -34,7 +34,10 @@ const timelineItems: {
         </p>
         <p>
           You can check out some of my creations on{' '}
-          <Hyperlink link="https://codepen.io/Vlatko-Magjer" external>my CodePen</Hyperlink>:
+          <Hyperlink link="https://codepen.io/Vlatko-Magjer" external>
+            my CodePen
+          </Hyperlink>
+          :
         </p>
         <ul>
           <li>
@@ -63,12 +66,8 @@ const timelineItems: {
         </p>
         <p>
           We built it with{' '}
-          <Hyperlink link="https://ionicframework.com">Ionic</Hyperlink> and{' '}
-          <Hyperlink link="https://vuejs.org/">Vue.js</Hyperlink> and written in{' '}
-          <Hyperlink link="https://www.typescriptlang.org/">
-            Typescript
-          </Hyperlink>{' '}
-          . We user tested and finally published{' '}
+          <Hyperlink link="https://ionicframework.com">Ionic</Hyperlink> and
+          Vue.js and written in Typescript. We user tested and finally published{' '}
           <Hyperlink link="">the app on Google Play</Hyperlink>.
         </p>
         <p>
@@ -87,16 +86,21 @@ const timelineItems: {
     content: (
       <>
         <p>
-          Implemented a redesign of a{' '}
-          <Hyperlink link="https://vuejs.org/">Vue.js</Hyperlink> web app
-          connecting consumers with local farmers, replacing a large monolithic
-          CSS file with{' '}
-          <Hyperlink link="https://tailwindcss.com">Tailwind</Hyperlink> for
-          better maintainability.
+          Implemented a redesign of a Vue.js web app connecting consumers with
+          local farmers.
         </p>
         <p>
-          Gained experience tackling challenges in older codebases, balancing
-          refactoring with existing system constraints.
+          While restyling, we replaced a large monolithic CSS file with Tailwind
+          for better maintainability. Later we maintained and added new features
+          to{' '}
+          <Hyperlink link="https://tailwindcss.com">
+            the app in production
+          </Hyperlink>
+          .
+        </p>
+        <p>
+          I gained experience tackling challenges in older codebases, evaluating the value of 
+          refactoring and working around the existing constraints.
         </p>
       </>
     ),
@@ -119,7 +123,8 @@ const timelineItems: {
 
         <details>
           <summary>
-            <b>Coursework</b> focused on data science and development of information systems.
+            <b>Coursework</b> focused on data science and development of
+            information systems.
           </summary>
           <ul>
             <li>Machine Learning</li>
