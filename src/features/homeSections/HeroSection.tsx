@@ -56,7 +56,7 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
           <SocialList>
             {data.contactInfo.map((ci) => (
               <SocialItem key={'hero-social-' + ci.name} href={ci.link}>
-                <img src={ci.image} alt="" />
+                {ci.icon}
               </SocialItem>
             ))}
           </SocialList>
@@ -114,10 +114,11 @@ const SocialItem = styled.a`
 
   transition: background-color 200ms ease-in-out, transform 200ms ease;
 
-  img {
+  svg {
     width: 100%;
     height: 100%;
     object-fit: contain;
+    fill: white;
   }
 
   &:hover {
