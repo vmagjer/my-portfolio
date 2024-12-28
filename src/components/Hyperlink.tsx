@@ -47,6 +47,7 @@ const Root = styled.a<{ $onDark: boolean }>`
   text-decoration: none;
   text-decoration-color: transparent;
   transition: --offset 300ms, text-decoration-color 300ms;
+  font-weight: 600;
 
   &:hover,
   &:focus {

@@ -1,3 +1,4 @@
+import Hyperlink from './Hyperlink'
 import styled from 'styled-components'
 
 type ProjectItemProps = {
@@ -27,12 +28,14 @@ export const ProjectItem = ({
           <h3>{title}</h3>
           {children}
         </Text>
-        <ExternalLink href={link} target="_blank" rel="noopener noreferrer">
-          <div className="text">{linkText}</div>
-          <div className="icon">
-            <span className="material-symbols-outlined">open_in_new</span>
-          </div>
-        </ExternalLink>
+        {link && (
+          <ExternalLink link={link} target="_blank" rel="noopener noreferrer">
+            <div className="text">{linkText}</div>
+            <div className="icon">
+              <span className="material-symbols-outlined">open_in_new</span>
+            </div>
+          </ExternalLink>
+        )}
       </Body>
     </Root>
   )
@@ -51,13 +54,11 @@ const Root = styled.div<{ $reverse?: boolean }>`
 const Body = styled.div`
   flex: 1;
 
-
   display: flex;
   flex-direction: column;
   justify-content: space-between;
 
   padding: 14px;
-  
 `
 
 const ImageContainer = styled.div<{ $reverse?: boolean }>`
@@ -85,20 +86,15 @@ const Text = styled.div`
   }
 `
 
-const ExternalLink = styled.a`
+const ExternalLink = styled(Hyperlink)`
   margin-top: 16px;
+  align-self: end;
 
   display: flex;
   align-items: center;
   justify-content: end;
 
   gap: 6px;
-
-  text-decoration: none;
+  
   text-align: right;
-  color: var(--color-link);
-
-  &:hover {
-    text-decoration: underline;
-  }
 `

@@ -60,7 +60,7 @@
   --color-title: var(--neutral-100);
   --color-subtitle: rgba(from var(--color-title) r g b / 60%);
   --color-body: rgba(from var(--color-title) r g b / 87%);
-  --color-link: var(--primary-500);
+  --color-link: var(--primary-400);
 
   --color-dark-title: var(--white);
   --color-dark-subtitle: rgba(from var(--color-dark-title) r g b / 60%);
