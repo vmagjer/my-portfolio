@@ -46,7 +46,8 @@ function drawFerns(element: HTMLElement) {
     ctx: offscreenCanvasCtx,
     coefficients: barnsleyFern,
     maxIter: 500000,
-    color: 'hsla(223.63636363636363, 5.069124423963134%, 50.54901960784314%, 0.08)',
+    color:
+      'hsla(223.63636363636363, 5.069124423963134%, 50.54901960784314%, 0.08)',
     scaleX: 0.09,
     scaleY: 0.198,
     translateX: 0,
@@ -71,7 +72,7 @@ export default function Timeline({ items }: TimelineProps) {
   useEffect(() => {
     const element = rootRef.current
 
-    if (element) {
+    if (element && (element as HTMLElement).clientWidth > 1100) {
       drawFerns(element)
     }
   }, [rootRef])
