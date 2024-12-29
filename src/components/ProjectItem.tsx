@@ -29,11 +29,8 @@ export const ProjectItem = ({
           {children}
         </Text>
         {link && (
-          <ExternalLink link={link} target="_blank" rel="noopener noreferrer">
-            <div className="text">{linkText}</div>
-            <div className="icon">
-              <span className="material-symbols-outlined">open_in_new</span>
-            </div>
+          <ExternalLink external link={link}>
+            {linkText}
           </ExternalLink>
         )}
       </Body>
@@ -90,11 +87,11 @@ const ExternalLink = styled(Hyperlink)`
   margin-top: 16px;
   align-self: end;
 
-  display: flex;
+  /* display: flex;
   align-items: center;
   justify-content: end;
 
   gap: 6px;
   
-  text-align: right;
+  text-align: right; */
 `

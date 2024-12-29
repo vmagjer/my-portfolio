@@ -21,7 +21,7 @@ function ProjectsSection({ ...rest }: ProjectsSectionProps) {
           title="E-commerce platform for produce"
           image={webShopShowcase}
           reverse={false}
-          link="#"
+          link="https://www.verdi-farm.com/"
           linkText="E-commerce platform"
         >
           <p>
@@ -37,7 +37,7 @@ function ProjectsSection({ ...rest }: ProjectsSectionProps) {
           title="Crowdsourced delivery app"
           image={verdiGoShowcase}
           reverse={false}
-          link="#"
+          link="https://play.google.com/store/apps/details?id=verdi.go.development&hl=en"
           linkText="Delivery app"
         >
           <p>
@@ -57,7 +57,7 @@ function ProjectsSection({ ...rest }: ProjectsSectionProps) {
           title="Financial Comparison Tool"
           image={mojBankarShowcase}
           reverse={false}
-          link="#"
+          link="https://www.moj-bankar.hr/"
           linkText="Comparison tool"
         >
           <p>

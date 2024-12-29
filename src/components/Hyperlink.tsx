@@ -26,6 +26,11 @@ function Hyperlink({
       {...rest}
     >
       {children}
+      {isExternal && (
+        <sup>
+          <span className="material-symbols-outlined icon">open_in_new</span>
+        </sup>
+      )}
     </Root>
   )
 }
@@ -48,6 +53,12 @@ const Root = styled.a<{ $onDark: boolean }>`
   text-decoration-color: transparent;
   transition: --offset 300ms, text-decoration-color 300ms;
   font-weight: 600;
+
+  .icon {
+    font-size: 1em;
+
+    font-variation-settings: 'FILL' 0, 'wght' 700, 'GRAD' 0, 'opsz' 20;
+  }
 
   &:hover,
   &:focus {

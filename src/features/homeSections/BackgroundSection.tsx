@@ -55,7 +55,7 @@ const timelineItems: {
         </p>
         <p>
           You can check out some of my creations on{' '}
-          <Hyperlink link="https://codepen.io/Vlatko-Magjer" external>
+          <Hyperlink external link="https://codepen.io/Vlatko-Magjer">
             my CodePen
           </Hyperlink>
           :
@@ -84,7 +84,7 @@ const timelineItems: {
       <>
         <p>
           at{' '}
-          <Hyperlink link="https://www.fer.unizg.hr/en">
+          <Hyperlink external link="https://www.fer.unizg.hr/en">
             University of Zagreb, Faculty of Electrical Engineering and
             Computing (FER).
           </Hyperlink>
@@ -140,9 +140,18 @@ const timelineItems: {
         </p>
         <p>
           We built it with{' '}
-          <Hyperlink link="https://ionicframework.com">Ionic</Hyperlink> and
-          Vue.js and written in Typescript. We user tested and finally published{' '}
-          <Hyperlink link="">the app on Google Play</Hyperlink>.
+          <Hyperlink external link="https://ionicframework.com">
+            Ionic
+          </Hyperlink>{' '}
+          and Vue.js and written in Typescript. We user tested and finally
+          published{' '}
+          <Hyperlink
+            external
+            link="https://play.google.com/store/apps/details?id=verdi.go.development&hl=en"
+          >
+            the app on Google Play
+          </Hyperlink>
+          .
         </p>
         <p>
           This experience was valuable to me because I was the sole frontend
@@ -167,7 +176,7 @@ const timelineItems: {
           While restyling, we replaced a large monolithic CSS file with Tailwind
           for better maintainability. Later we maintained and added new features
           to{' '}
-          <Hyperlink link="https://tailwindcss.com">
+          <Hyperlink external link="https://tailwindcss.com">
             the app in production
           </Hyperlink>
           .
@@ -193,13 +202,13 @@ const timelineItems: {
         <p>
           The CMS was built in{' '}
           <Hyperlink
-            link="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor"
             external
+            link="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor"
           >
             Blazor
           </Hyperlink>{' '}
           with{' '}
-          <Hyperlink link="https://sass-lang.com/" external>
+          <Hyperlink external link="https://sass-lang.com/">
             Sass
           </Hyperlink>{' '}
           aiding in styling.
@@ -220,7 +229,7 @@ const timelineItems: {
       <>
         <p>
           at{' '}
-          <Hyperlink link="https://www.fer.unizg.hr/en">
+          <Hyperlink external link="https://www.fer.unizg.hr/en">
             University of Zagreb, Faculty of Electrical Engineering and
             Computing (FER).
           </Hyperlink>

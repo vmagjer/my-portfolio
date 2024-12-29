@@ -22,7 +22,7 @@ function ContactSection({ ...rest }: ContactSectionProps) {
           <ul>
             {data.contactInfo.map((ci) => (
               <li key={ci.name}>
-                <ContactItem link={ci.link} external>
+                <ContactItem link={ci.link}>
                   {ci.icon}
                   {ci.text}
                 </ContactItem>
@@ -72,12 +72,13 @@ const Wrapper = styled.section`
 const ContactItem = styled(Hyperlink)`
   display: flex;
   align-items: center;
-  gap: 12px;
 
   svg {
     width: 2rem;
     height: 2rem;
     fill: var(--neutral-400);
+
+    margin-right: 12px;
   }
 `
 
