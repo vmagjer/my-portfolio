@@ -16,13 +16,13 @@ function ContactSection({ ...rest }: ContactSectionProps) {
           <Bubble>
             <p>Send me a message!</p>
           </Bubble>
-          <img  src={profileImage} />
+          <img src={profileImage} />
         </AvatarWithBuble>
         <div>
           <ul>
             {data.contactInfo.map((ci) => (
               <li key={ci.name}>
-                <ContactItem link={ci.link} external >
+                <ContactItem link={ci.link} external>
                   {ci.icon}
                   {ci.text}
                 </ContactItem>
@@ -41,15 +41,14 @@ const Root = styled(Container)`
   background-color: #cacad2;
   background-color: var(--neutral-900);
   color: white;
-  
-  padding: 0 16px;
 
+  padding: 0 16px;
 `
 
 const Wrapper = styled.section`
   position: relative;
 
-  padding: 32px 0px 48px;
+  padding: 64px 0px 48px;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -65,6 +64,9 @@ const Wrapper = styled.section`
   li {
     margin-bottom: 12px;
   }
+  @media (min-width: 600px) {
+    padding: 32px 0px 48px;
+  }
 `
 
 const ContactItem = styled(Hyperlink)`
@@ -75,7 +77,7 @@ const ContactItem = styled(Hyperlink)`
   svg {
     width: 2rem;
     height: 2rem;
-    fill: var(--neutral-400);;
+    fill: var(--neutral-400);
   }
 `
 
@@ -87,19 +89,17 @@ const AvatarWithBuble = styled.div`
   display: flex;
   align-items: start;
   gap: 8px;
-  
+
   pointer-events: none;
 
   img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
-    
-    
+
     @media (min-width: 1100px) {
       width: 200px;
       height: 200px;
-      
     }
   }
 `
