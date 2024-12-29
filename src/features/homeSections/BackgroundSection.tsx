@@ -21,16 +21,36 @@ const timelineItems: {
   content: React.ReactNode
 }[] = [
   {
-    title: 'Explored frontend technologies',
+    title: 'Wordpress promo site for handyman service',
     image: exploringLogo,
     color: '#000000',
-    date: 'October 2023 ',
+    date: 'September 2024',
     content: (
       <>
         <p>
-          Out of curiosity and a love for experimenting, I’ve built a few small
-          projects that explore fun and interesting web features. These have
-          been a great way to learn and try out new ideas.
+          Tried my hand at Wordpress for the first time by building a website
+          for a handyman business. It was a straightforward project with contact
+          info and form, and a design that aligned well with the brand.
+        </p>
+        <p>
+          In the process, I explored the Wordpress tooling and ecosystem,
+          gaining insight into how web-building platforms make it easier to
+          create and manage content online.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'Explored frontend technologies',
+    image: exploringLogo,
+    color: '#000000',
+    date: 'January 2024',
+    content: (
+      <>
+        <p>
+          Out of curiosity and a love for experimenting, I&apos;ve built a few
+          small projects that explore fun and interesting web features. These
+          have been a great way to learn and try out new ideas.
         </p>
         <p>
           You can check out some of my creations on{' '}
@@ -53,63 +73,12 @@ const timelineItems: {
       </>
     ),
   },
-  {
-    title: 'Crowdsourced delivery app',
-    image: verdiGoLogo,
-    color: '#0e4539',
-    date: 'October 2023 ',
-    content: (
-      <>
-        <p>
-          Worked in a team of four to build a mobile app that enables delivery
-          of parcels via gig workers.
-        </p>
-        <p>
-          We built it with{' '}
-          <Hyperlink link="https://ionicframework.com">Ionic</Hyperlink> and
-          Vue.js and written in Typescript. We user tested and finally published{' '}
-          <Hyperlink link="">the app on Google Play</Hyperlink>.
-        </p>
-        <p>
-          This experience was valuable to me because I was the sole frontend
-          developer and so carried the responsibility for organization,
-          communication and decision-making.
-        </p>
-      </>
-    ),
-  },
-  {
-    title: 'E-commerce platform for fresh local produce',
-    image: verdiFarmLogo,
-    color: '#fff',
-    date: 'October 2023 ',
-    content: (
-      <>
-        <p>
-          Implemented a redesign of a Vue.js web app connecting consumers with
-          local farmers.
-        </p>
-        <p>
-          While restyling, we replaced a large monolithic CSS file with Tailwind
-          for better maintainability. Later we maintained and added new features
-          to{' '}
-          <Hyperlink link="https://tailwindcss.com">
-            the app in production
-          </Hyperlink>
-          .
-        </p>
-        <p>
-          I gained experience tackling challenges in older codebases, evaluating the value of 
-          refactoring and working around the existing constraints.
-        </p>
-      </>
-    ),
-  },
+
   {
     title: 'Graduated as Master of Science in Computing',
     image: ferLogo,
     color: '#000',
-    date: 'October 2023',
+    date: 'September 2023',
     content: (
       <>
         <p>
@@ -158,10 +127,62 @@ const timelineItems: {
     ),
   },
   {
+    title: 'Crowdsourced delivery app',
+    image: verdiGoLogo,
+    color: '#0e4539',
+    date: 'February 2023',
+    content: (
+      <>
+        <p>
+          Worked in a team of four to build a mobile app that enables delivery
+          of parcels via gig workers.
+        </p>
+        <p>
+          We built it with{' '}
+          <Hyperlink link="https://ionicframework.com">Ionic</Hyperlink> and
+          Vue.js and written in Typescript. We user tested and finally published{' '}
+          <Hyperlink link="">the app on Google Play</Hyperlink>.
+        </p>
+        <p>
+          This experience was valuable to me because I was the sole frontend
+          developer and so carried the responsibility for organization,
+          communication and decision-making.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'E-commerce platform for fresh local produce',
+    image: verdiFarmLogo,
+    color: '#fff',
+    date: 'October 2022',
+    content: (
+      <>
+        <p>
+          Implemented a redesign of a Vue.js web app connecting consumers with
+          local farmers.
+        </p>
+        <p>
+          While restyling, we replaced a large monolithic CSS file with Tailwind
+          for better maintainability. Later we maintained and added new features
+          to{' '}
+          <Hyperlink link="https://tailwindcss.com">
+            the app in production
+          </Hyperlink>
+          .
+        </p>
+        <p>
+          I gained experience tackling challenges in older codebases, evaluating
+          the value of refactoring and working around the existing constraints.
+        </p>
+      </>
+    ),
+  },
+  {
     title: "CMS for A1's Smart City Solutions",
     image: mediatoriumLogo,
     color: '#000',
-    date: 'October 2023',
+    date: 'March 2022',
     content: (
       <>
         <p>
@@ -190,54 +211,10 @@ const timelineItems: {
     ),
   },
   {
-    title: 'Financial Comparison Tool',
-    image: mediatoriumLogo,
-    color: '#000',
-    date: 'October 2023',
-    content: (
-      <>
-        <p>
-          Worked on a web app offering a financial glossary, expert consultation
-          forms, and service comparison tables to guide users toward smarter
-          financial choices.
-        </p>
-        <p>
-          We built{' '}
-          <Hyperlink external link="https://www.moj-bankar.hr/">
-            the financing tool
-          </Hyperlink>{' '}
-          with React.js on which I coached a colleague during development.
-        </p>
-      </>
-    ),
-  },
-  {
-    title: 'Web portfolio for an architecture company',
-    image: mediatoriumLogo,
-    color: '#000',
-    date: 'October 2023',
-    content: (
-      <>
-        <p>
-          Built a{' '}
-          <Hyperlink external link="https://www.blok-a3.hr/">
-            web portfolio
-          </Hyperlink>{' '}
-          featuring a gallery and map-based library of architecture projects,
-          along with an image editor integrated into the contact form.
-        </p>
-        <p>
-          Developed using React.js, this project marked my first role as a
-          software developer.
-        </p>
-      </>
-    ),
-  },
-  {
     title: 'Graduated as Bachelor of Science in Computing',
     image: ferLogo,
     color: '#000',
-    date: 'October 2023',
+    date: 'September 2020',
     content: (
       <>
         <p>
@@ -295,6 +272,50 @@ const timelineItems: {
         <p>
           <b>Thesis:</b> Application of dynamic web pages and 2D graphics in
           cognitive testing
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'Financial Comparison Tool',
+    image: mediatoriumLogo,
+    color: '#000',
+    date: 'May 2020',
+    content: (
+      <>
+        <p>
+          Worked on a web app offering a financial glossary, expert consultation
+          forms, and service comparison tables to guide users toward smarter
+          financial choices.
+        </p>
+        <p>
+          We built{' '}
+          <Hyperlink external link="https://www.moj-bankar.hr/">
+            the financing tool
+          </Hyperlink>{' '}
+          with React.js on which I coached a colleague during development.
+        </p>
+      </>
+    ),
+  },
+  {
+    title: 'Web portfolio for an architecture company',
+    image: mediatoriumLogo,
+    color: '#000',
+    date: 'March 2020',
+    content: (
+      <>
+        <p>
+          Built a{' '}
+          <Hyperlink external link="https://www.blok-a3.hr/">
+            web portfolio
+          </Hyperlink>{' '}
+          featuring a gallery and map-based library of architecture projects,
+          along with an image editor integrated into the contact form.
+        </p>
+        <p>
+          Developed using React.js, this project marked my first role as a
+          software developer.
         </p>
       </>
     ),
