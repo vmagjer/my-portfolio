@@ -72,10 +72,10 @@ export default function Timeline({ items }: TimelineProps) {
   useEffect(() => {
     const element = rootRef.current
 
-    if (element && (element as HTMLElement).clientWidth > 1100) {
+    if (element && window.innerWidth > 1100) {
       drawFerns(element)
     }
-  }, [rootRef])
+  }, [rootRef, items.length])
 
   return (
     <Root ref={rootRef}>
@@ -110,24 +110,26 @@ const drawItems = (items: TimelineItemInfo[]) => {
         <canvas />
       </CanvasContainer>
     )
-    result.push(
-      <CanvasContainer key={'timeline-deco-' + index++} $reverse>
-        <canvas />
-      </CanvasContainer>
-    )
-    const item2 = items[itemIndex++]
-    result.push(
-      <TimelineItem
-        key={item2.title}
-        title={item2.title}
-        image={item2.image}
-        color={item2.color}
-        date={item2.date}
-        reverse={false}
-      >
-        {item2.content}
-      </TimelineItem>
-    )
+    if (itemIndex < items.length) {
+      result.push(
+        <CanvasContainer key={'timeline-deco-' + index++} $reverse>
+          <canvas />
+        </CanvasContainer>
+      )
+      const item2 = items[itemIndex++]
+      result.push(
+        <TimelineItem
+          key={item2.title}
+          title={item2.title}
+          image={item2.image}
+          color={item2.color}
+          date={item2.date}
+          reverse={false}
+        >
+          {item2.content}
+        </TimelineItem>
+      )
+    }
     index++
   }
   return result
