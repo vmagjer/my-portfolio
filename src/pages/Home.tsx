@@ -7,7 +7,7 @@ import HeroSection from '../features/homeSections/HeroSection'
 import ProjectsSection from '../features/homeSections/ProjectsSection'
 import styled from 'styled-components'
 
-type SectionID =  'about' | 'projects' | 'background' | 'contact'
+type SectionID = 'about' | 'projects' | 'background' | 'contact'
 // store the section ids here for navigation jumps
 const sections: Record<SectionID, SectionType> = {
   // hello: { id: 'hello', title: 'Vlatko' }, // catch attention
@@ -24,13 +24,13 @@ export default function HomePage() {
 
       <HeroSection id={sections.about.id} />
 
-      <AboutSection >
+      <AboutSection>
         <Title>About me</Title>
         <Subtitle>Hi, I&apos;m Vlatko Magjer from Croatia!</Subtitle>
         <p>
-          I love <b>programming</b>, exploring new ideas, and feeding my <b>curiosity</b> —
-          whether through video games, fantasy novels, or <b>learning</b> something
-          new.
+          I love <b>programming</b>, exploring new ideas, and feeding my{' '}
+          <b>curiosity</b> — whether through video games, fantasy novels, or{' '}
+          <b>learning</b> something new.
         </p>
         <p>Feel free to reach out or look at my past work below!</p>
       </AboutSection>
@@ -42,10 +42,11 @@ export default function HomePage() {
       <ProjectsSection id={sections.projects.id} />
       <BackgroundSection id={sections.background.id} />
 
-      <GapContainer>
+      <GapContainer id={sections.contact.id}>
         <SuperTitle className="quicksand">Contact</SuperTitle>
       </GapContainer>
-      <ContactSection id={sections.contact.id} />
+
+      <ContactSection />
 
       <GapContainer />
     </Root>
