@@ -1,11 +1,14 @@
 import Footer from './Footer'
-import { Outlet } from 'react-router-dom'
 import styled from 'styled-components'
 
-export default function MainLayout() {
+export default function MainLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
   return (
     <Root>
-      <Outlet />
+      {children}
       <Footer />
     </Root>
   )
