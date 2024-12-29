@@ -7,6 +7,7 @@ import mediatoriumLogo from '../../assets/projects/mediatorium/mediatorium-logo.
 import styled from 'styled-components'
 import verdiFarmLogo from '../../assets/projects/verdi/verdi-farm-logo.png'
 import verdiGoLogo from '../../assets/projects/verdi/verdi-go.png'
+import wordpressLogo from '../../assets/tech-icons/icons8-wordpress.svg'
 
 type BackgroundSectionProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -22,8 +23,8 @@ const timelineItems: {
 }[] = [
   {
     title: 'Wordpress promo site for handyman service',
-    image: exploringLogo,
-    color: '#000000',
+    image: wordpressLogo,
+    color: '#3858e9',
     date: 'September 2024',
     content: (
       <>
