@@ -12,4 +12,5 @@ export default defineConfig({
       },
     }),
   ],
+  base: "https://vmagjer.github.io/my-portfolio"
 })
