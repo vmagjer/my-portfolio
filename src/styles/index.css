@@ -3,9 +3,6 @@
 @import "colors.css";
 
 :root {
-  font-family: Roboto, Arial;
-
-
   color-scheme: light dark;
   font-synthesis: none;
 

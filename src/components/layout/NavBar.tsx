@@ -17,7 +17,7 @@ export default function NavBar({ items }: NavBarProps) {
 
   return (
     <Root>
-      <LeftContainer className="quicksand">Vlatko Magjer</LeftContainer>
+      <LeftContainer>Vlatko Magjer</LeftContainer>
       <CenterContainer>
         <NavList>
           {items.map((item) => (

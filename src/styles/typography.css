@@ -3,6 +3,9 @@
 html {
   /* Change default typefaces here */
   font-family: serif;
+  font-family: "Source Code Pro", serif;
+  font-optical-sizing: auto;
+  font-style: normal;
   -webkit-font-smoothing: antialiased;
 
   @media (min-width: 1400px) {
@@ -53,7 +56,7 @@ h4,
 h5,
 h6 {
   /* Change heading typefaces here */
-  font-family: sans-serif;
+  /* font-family: sans-serif; */
   margin-top: 0rem;
   margin-bottom: 0;
   line-height: 1.5rem;
@@ -118,15 +121,6 @@ code {
 .hug {
   margin-top: 0;
 }
-
-/* apply the quicksand font */
-.quicksand {
-  font-family: "Quicksand", sans-serif;
-  font-optical-sizing: auto;
-  font-weight: 500;
-  font-style: normal;
-}
-
 
 input,
 button,

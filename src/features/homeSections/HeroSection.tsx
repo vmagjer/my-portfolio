@@ -48,7 +48,7 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
       <Container>
         <Content>
           <AvatarImage src={profileImage} size="large" />
-          <Title className="quicksand">Vlatko Magjer</Title>
+          <Title>Vlatko Magjer</Title>
           <SubTitle>
             Data Scientist, Frontend Developer, and Software Engineer
           </SubTitle>
@@ -95,7 +95,7 @@ const SubTitle = styled.p`
   font-size: 1rem;
   line-height: 1.5rem;
   margin-top: 0.5rem;
-  
+
   color: var(--color-dark-subtitle);
 `
 const SocialList = styled.div`

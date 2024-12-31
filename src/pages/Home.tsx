@@ -36,14 +36,14 @@ export default function HomePage() {
       </AboutSection>
 
       <GapContainer>
-        <SuperTitle className="quicksand">Portfolio</SuperTitle>
+        {/* <SuperTitle>Portfolio</SuperTitle> */}
       </GapContainer>
 
       <ProjectsSection id={sections.projects.id} />
       <BackgroundSection id={sections.background.id} />
 
       <GapContainer id={sections.contact.id}>
-        <SuperTitle className="quicksand">Contact</SuperTitle>
+        <SuperTitle>Contact</SuperTitle>
       </GapContainer>
 
       <ContactSection />
