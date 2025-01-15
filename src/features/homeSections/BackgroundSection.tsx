@@ -353,14 +353,14 @@ const Root = styled(Container)`
 
 const SectionTitle = styled.h2`
   text-align: center;
-  color: var(--color-dark-title);
+  color: var(--color-title);
 
   margin: 0;
 `
 
 const Subtitle = styled.p`
   text-align: center;
-  color: var(--color-dark-subtitle);
+  color: var(--color-subtitle);
 
   margin: 0;
   margin-bottom: 16px;

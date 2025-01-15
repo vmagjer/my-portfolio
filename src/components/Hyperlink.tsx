@@ -45,7 +45,7 @@ const Root = styled.a<{ $onDark: boolean }>`
   }
 
   color: ${(props) =>
-    props.$onDark ? 'var(--color-dark-link)' : 'var(--color-link)'};
+    props.$onDark ? 'var(--color-link)' : 'var(--color-link)'};
 
   --offset: 0.15em;
   text-underline-offset: var(--offset, 0.2em);
@@ -65,6 +65,6 @@ const Root = styled.a<{ $onDark: boolean }>`
     --offset: 0.3em;
     text-decoration: underline;
     text-decoration-color: ${(props) =>
-      props.$onDark ? 'var(--color-dark-link)' : 'var(--color-link)'};
+      props.$onDark ? 'var(--color-link)' : 'var(--color-link)'};
   }
 `

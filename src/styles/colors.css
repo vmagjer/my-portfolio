@@ -63,10 +63,26 @@
   --color-body: rgba(from var(--color-title) r g b / 87%);
   --color-link: var(--primary-400);
 
-  --color-dark-title: var(--white);
-  --color-dark-subtitle: rgba(from var(--color-dark-title) r g b / 60%);
-  --color-dark-body: rgba(from var(--color-dark-title) r g b / 80%);
-  --color-dark-link: var(--primary-600);
+  --color-button-default-bg: var(--neutral-500);
+  --color-button-default-text: #000;
+  --color-button-active-bg: #000;
+  --color-button-active-text: #000;
+
+  --shell-surface: var(--primary-100);
+  --effect-surface: var(--primary-100);
+  --section-surface: var(--neutral-100);
+  --alt-section-surface: var(--neutral-200);
+  --card-surface: var(--neutral-400);
+}
+
+[data-theme="dark"] {
+  --color-dark-bg: var(--primary-100);
+
+  /* UI tokens */
+  --color-title: var(--white);
+  --color-subtitle: rgba(from var(--color-dark-title) r g b / 60%);
+  --color-body: rgba(from var(--color-dark-title) r g b / 80%);
+  --color-link: var(--primary-600);
 
   --color-button-default-bg: var(--neutral-500);
   --color-button-default-text: #000;
@@ -78,4 +94,5 @@
   --section-surface: var(--neutral-100);
   --alt-section-surface: var(--neutral-200);
   --card-surface: var(--neutral-400);
+
 }

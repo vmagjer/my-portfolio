@@ -135,7 +135,7 @@ const Content = styled.div<{ $reverse?: boolean }>`
 
   background-color:  hsl(from var(--neutral-100) h s 6);
   /* background-color:  var(--black); */
-  color: var(--color-dark-body);
+  color: var(--color-body);
 
   > p {
     &:first-of-type {
@@ -144,7 +144,7 @@ const Content = styled.div<{ $reverse?: boolean }>`
   }
   h3 {
     margin-top: 0.25rem;
-    color: var(--color-dark-title);
+    color: var(--color-title);
   }
 
   ul {
@@ -163,5 +163,5 @@ const Content = styled.div<{ $reverse?: boolean }>`
 `
 
 const DateStamp = styled.div`
-  color: var(--color-dark-subtitle);
+  color: var(--color-subtitle);
 `

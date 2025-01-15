@@ -89,14 +89,14 @@ const Title = styled.h1`
   font-size: 2.5rem;
   line-height: 3rem;
 
-  color: var(--color-dark-title);
+  color: var(--color-title);
 `
 const SubTitle = styled.p`
   font-size: 1rem;
   line-height: 1.5rem;
   margin-top: 0.5rem;
 
-  color: var(--color-dark-subtitle);
+  color: var(--color-subtitle);
 `
 const SocialList = styled.div`
   display: flex;

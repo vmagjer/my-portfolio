@@ -1,3 +1,4 @@
+import ThemeSwitch from '../../features/theme/ThemeSwitch'
 import styled from 'styled-components'
 import useActiveSection from '../../utils/useActiveSection'
 import { useMemo } from 'react'
@@ -36,6 +37,7 @@ export default function NavBar({ items }: NavBarProps) {
           <option value="HR">HR</option>
           <option value="EN">EN</option>
         </LanguageSelect> */}
+        <ThemeSwitch />
       </RightContainer>
     </Root>
   )

@@ -73,12 +73,12 @@ const Text = styled.div`
   h3 {
     margin-top: 0;
     color: var(--color-title);
-    color: var(--color-dark-title);
+    color: var(--color-title);
   }
 
   p {
     color: var(--color-body);
-    color: var(--color-dark-body);
+    color: var(--color-body);
 
     &:first-of-type {
       margin-top: 0.4rem;

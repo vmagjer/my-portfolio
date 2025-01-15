@@ -103,7 +103,7 @@ const Root = styled(Container)`
 
 const SectionTitle = styled.h2`
   color: var(--color-title);
-  color: var(--color-dark-title);
+  color: var(--color-title);
   @media (min-width: 600px) {
     text-align: center;
   }
@@ -112,7 +112,7 @@ const Subtitle = styled.p`
   margin: 0;
   margin-bottom: 40px;
   color: var(--color-subtitle);
-  color: var(--color-dark-subtitle);
+  color: var(--color-subtitle);
   @media (min-width: 600px) {
     text-align: center;
   }

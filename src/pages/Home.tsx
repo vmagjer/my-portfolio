@@ -62,7 +62,7 @@ const Root = styled.div`
 const AboutSection = styled(Container)`
   z-index: 1;
   background-color: var(--neutral-100);
-  color: var(--color-dark-body);
+  color: var(--color-body);
   padding: 32px 16px;
 `
 
@@ -77,17 +77,17 @@ const SuperTitle = styled.p`
   margin: 0;
   text-align: center;
   font-size: 2.5rem;
-  color: var(--color-dark-title);
+  color: var(--color-title);
   `
 
 const Title = styled.h2`
   color: var(--color-title);
-  color: var(--color-dark-title);
+  color: var(--color-title);
 `
 
 const Subtitle = styled.p`
   color: var(--color-subtitle);
-  color: var(--color-dark-subtitle);
+  color: var(--color-subtitle);
   font-weight: normal;
   margin-top: 0;
 `
