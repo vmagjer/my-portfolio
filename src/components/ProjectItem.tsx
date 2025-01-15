@@ -29,7 +29,7 @@ export const ProjectItem = ({
           {children}
         </Text>
         {link && (
-          <ExternalLink external link={link}>
+          <ExternalLink external link={link} onDark>
             {linkText}
           </ExternalLink>
         )}
@@ -45,7 +45,7 @@ const Root = styled.div<{ $reverse?: boolean }>`
   border-radius: 6px;
   overflow: hidden;
 
-  background-color: #fff;
+  background-color: var(--neutral-300);
   /* border: 1px solid var(--neutral-900); */
 `
 const Body = styled.div`
@@ -56,6 +56,7 @@ const Body = styled.div`
   justify-content: space-between;
 
   padding: 14px;
+
 `
 
 const ImageContainer = styled.div<{ $reverse?: boolean }>`
@@ -72,10 +73,12 @@ const Text = styled.div`
   h3 {
     margin-top: 0;
     color: var(--color-title);
+    color: var(--color-dark-title);
   }
 
   p {
     color: var(--color-body);
+    color: var(--color-dark-body);
 
     &:first-of-type {
       margin-top: 0.4rem;

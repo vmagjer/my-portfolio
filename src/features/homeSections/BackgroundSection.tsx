@@ -55,7 +55,7 @@ const timelineItems: {
         </p>
         <p>
           You can check out some of my creations on{' '}
-          <Hyperlink external link="https://codepen.io/Vlatko-Magjer">
+          <Hyperlink external link="https://codepen.io/Vlatko-Magjer" onDark>
             my CodePen
           </Hyperlink>
           :
@@ -84,7 +84,7 @@ const timelineItems: {
       <>
         <p>
           at{' '}
-          <Hyperlink external link="https://www.fer.unizg.hr/en">
+          <Hyperlink external link="https://www.fer.unizg.hr/en" onDark>
             University of Zagreb, Faculty of Electrical Engineering and
             Computing (FER).
           </Hyperlink>
@@ -140,14 +140,14 @@ const timelineItems: {
         </p>
         <p>
           We built it with{' '}
-          <Hyperlink external link="https://ionicframework.com">
+          <Hyperlink external link="https://ionicframework.com" onDark>
             Ionic
           </Hyperlink>{' '}
           and Vue.js and written in Typescript. We user tested and finally
           published{' '}
           <Hyperlink
             external
-            link="https://play.google.com/store/apps/details?id=verdi.go.development&hl=en"
+            link="https://play.google.com/store/apps/details?id=verdi.go.development&hl=en" onDark
           >
             the app on Google Play
           </Hyperlink>
@@ -176,7 +176,7 @@ const timelineItems: {
           While restyling, we replaced a large monolithic CSS file with Tailwind
           for better maintainability. Later we maintained and added new features
           to{' '}
-          <Hyperlink external link="https://tailwindcss.com">
+          <Hyperlink external link="https://tailwindcss.com" onDark>
             the app in production
           </Hyperlink>
           .
@@ -203,12 +203,12 @@ const timelineItems: {
           The CMS was built in{' '}
           <Hyperlink
             external
-            link="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor"
+            link="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor" onDark
           >
             Blazor
           </Hyperlink>{' '}
           with{' '}
-          <Hyperlink external link="https://sass-lang.com/">
+          <Hyperlink external link="https://sass-lang.com/" onDark>
             Sass
           </Hyperlink>{' '}
           aiding in styling.
@@ -229,7 +229,7 @@ const timelineItems: {
       <>
         <p>
           at{' '}
-          <Hyperlink external link="https://www.fer.unizg.hr/en">
+          <Hyperlink external link="https://www.fer.unizg.hr/en" onDark>
             University of Zagreb, Faculty of Electrical Engineering and
             Computing (FER).
           </Hyperlink>
@@ -300,7 +300,7 @@ const timelineItems: {
         </p>
         <p>
           We built{' '}
-          <Hyperlink external link="https://www.moj-bankar.hr/">
+          <Hyperlink external link="https://www.moj-bankar.hr/" onDark>
             the financing tool
           </Hyperlink>{' '}
           with React.js on which I coached a colleague during development.
@@ -317,7 +317,7 @@ const timelineItems: {
       <>
         <p>
           Built a{' '}
-          <Hyperlink external link="https://www.blok-a3.hr/">
+          <Hyperlink external link="https://www.blok-a3.hr/" onDark>
             web portfolio
           </Hyperlink>{' '}
           featuring a gallery and map-based library of architecture projects,
@@ -348,19 +348,19 @@ export default BackgroundSection
 const Root = styled(Container)`
   z-index: 1;
   padding: 32px 16px 48px;
-  background-color: var(--neutral2-900);
+  background-color: var(--neutral-200);
 `
 
 const SectionTitle = styled.h2`
   text-align: center;
-  color: var(--color-title);
+  color: var(--color-dark-title);
 
   margin: 0;
 `
 
 const Subtitle = styled.p`
   text-align: center;
-  color: var(--color-subtitle);
+  color: var(--color-dark-subtitle);
 
   margin: 0;
   margin-bottom: 16px;

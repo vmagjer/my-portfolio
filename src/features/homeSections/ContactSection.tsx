@@ -22,7 +22,7 @@ function ContactSection({ ...rest }: ContactSectionProps) {
           <ul>
             {data.contactInfo.map((ci) => (
               <li key={ci.name}>
-                <ContactItem link={ci.link}>
+                <ContactItem link={ci.link} onDark>
                   {ci.icon}
                   {ci.text}
                 </ContactItem>
@@ -39,7 +39,7 @@ export default ContactSection
 
 const Root = styled(Container)`
   background-color: #cacad2;
-  background-color: var(--neutral-900);
+  background-color: var(--neutral-100);
   color: white;
 
   padding: 0 16px;
@@ -76,7 +76,7 @@ const ContactItem = styled(Hyperlink)`
   svg {
     width: 2rem;
     height: 2rem;
-    fill: var(--neutral-400);
+    fill: var(--neutral-900);
 
     margin-right: 12px;
   }
@@ -110,8 +110,8 @@ const Bubble = styled.div`
   left: 0; */
   position: relative;
 
-  background: var(--neutral-700);
-  color: var(--neutral-100);
+  background: var(--primary-200);
+  color: var(--neutral-900);
   border-radius: 10000px;
 
   padding: 8px 16px;

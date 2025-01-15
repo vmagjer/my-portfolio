@@ -67,7 +67,7 @@ const Line = styled.div<{ $reverse?: boolean }>`
 
   width: 4px;
   height: calc(100% + ${extraLineLength}px);
-  background: #676a72;
+  background: var(--neutral-500);
 
   @media (min-width: 1100px) {
     ${({ $reverse }) =>
@@ -93,7 +93,7 @@ const Marker = styled.div<{ $color: string; $reverse?: boolean }>`
 
     width: 50px;
     height: 50px;
-    border: 6px solid  var(--neutral2-900);
+    border: 6px solid var(--neutral-200);
     border-radius: 50%;
 
     background-color: ${(props) => props.$color ?? '#000'};
@@ -116,7 +116,9 @@ const Marker = styled.div<{ $color: string; $reverse?: boolean }>`
     height: 16px;
     clip-path: polygon(0 50%, 100% 0%, 100% 100%);
 
-    background: white;
+    background: var(--neutral-400);
+    /* background-color:  var(--black); */
+  background-color:  hsl(from var(--neutral-100) h s 6);
 
     @media (min-width: 1100px) {
       ${({ $reverse }) =>
@@ -130,10 +132,11 @@ const Content = styled.div<{ $reverse?: boolean }>`
   padding: 14px 14px;
   border-radius: 0.25rem;
   position: relative;
-  
-  background-color: white;
-  color: var(--color-body);
-  
+
+  background-color:  hsl(from var(--neutral-100) h s 6);
+  /* background-color:  var(--black); */
+  color: var(--color-dark-body);
+
   > p {
     &:first-of-type {
       margin-top: 0.4rem;
@@ -141,7 +144,7 @@ const Content = styled.div<{ $reverse?: boolean }>`
   }
   h3 {
     margin-top: 0.25rem;
-    color: var(--color-title);
+    color: var(--color-dark-title);
   }
 
   ul {
@@ -160,5 +163,5 @@ const Content = styled.div<{ $reverse?: boolean }>`
 `
 
 const DateStamp = styled.div`
-  color: var(--color-subtitle);
+  color: var(--color-dark-subtitle);
 `

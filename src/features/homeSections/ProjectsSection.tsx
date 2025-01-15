@@ -98,11 +98,12 @@ export default ProjectsSection
 const Root = styled(Container)`
   z-index: 1;
   padding: 32px 16px 48px;
-  background-color: var(--neutral-900);
+  background-color: var(--neutral-100);
 `
 
 const SectionTitle = styled.h2`
   color: var(--color-title);
+  color: var(--color-dark-title);
   @media (min-width: 600px) {
     text-align: center;
   }
@@ -111,6 +112,7 @@ const Subtitle = styled.p`
   margin: 0;
   margin-bottom: 40px;
   color: var(--color-subtitle);
+  color: var(--color-dark-subtitle);
   @media (min-width: 600px) {
     text-align: center;
   }
