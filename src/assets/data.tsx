@@ -1,4 +1,4 @@
-import DiscordIcon from './socials/discord'
+import CodePenIcon from './socials/codepen'
 import EnvelopeIcon from './socials/envelope'
 import GithubIcon from './socials/github'
 import LinkedInIcon from './socials/linkedin'
@@ -23,10 +23,10 @@ const contactInfo: {
     icon: <LinkedInIcon />,
   },
   {
-    name: 'discord',
-    link: 'https://www.discordapp.com/users/473558727350419458',
-    text: 'discordapp.com/users/vmagjer',
-    icon: <DiscordIcon />,
+    name: 'codePen',
+    link: 'https://codepen.io/Vlatko-Magjer',
+    text: 'codepen.io/Vlatko-Magjer',
+    icon: <CodePenIcon />,
   },
   {
     name: 'github',
