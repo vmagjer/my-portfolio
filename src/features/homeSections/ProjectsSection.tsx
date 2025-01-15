@@ -18,7 +18,7 @@ function ProjectsSection({ ...rest }: ProjectsSectionProps) {
       </Subtitle>
       <ProjectsList>
         <ProjectItem
-          title="E-commerce platform for produce"
+          title="E-commerce platform for local farmers"
           image={webShopShowcase}
           reverse={false}
           link="https://www.verdi-farm.com/"
@@ -98,7 +98,7 @@ export default ProjectsSection
 const Root = styled(Container)`
   z-index: 1;
   padding: 32px 16px 48px;
-  background-color: var(--neutral-100);
+  background-color: var(--alt-section-surface);
 `
 
 const SectionTitle = styled.h2`

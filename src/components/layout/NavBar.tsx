@@ -19,58 +19,66 @@ export default function NavBar({ items }: NavBarProps) {
   return (
     <Root>
       <LeftContainer>Vlatko Magjer</LeftContainer>
+      <RightContainer>
+        <ThemeSwitch />
+      </RightContainer>
       <CenterContainer>
         <NavList>
           {items.map((item) => (
             <NavItem
               key={`nav-item-${item.id}`}
-              $active={activeSection === item.id}
               onClick={() => scrollToSection(item.id)}
+              data-active={activeSection === item.id}
             >
               <span>{item.title}</span>
             </NavItem>
           ))}
         </NavList>
       </CenterContainer>
-      <RightContainer>
-        {/* <LanguageSelect name="language" id="">
-          <option value="HR">HR</option>
-          <option value="EN">EN</option>
-        </LanguageSelect> */}
-        <ThemeSwitch />
-      </RightContainer>
     </Root>
   )
 }
 
 const Root = styled.div`
-  position: fixed;
-  top: 0;
+  position: sticky;
+  top: -40px;
   left: 0;
   right: 0;
   z-index: 1000;
+  padding: 8px 16px;
 
-  background: var(--primary-100);
-  color: #fff;
+  background: var(--shell-surface);
+  color: var(--shell-text);
 
   /* box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1); */
-
-  padding: 8px 16px;
   display: flex;
-  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  
+  @media (min-width: 1100px) {
+    top: 0px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 `
 
 const CenterContainer = styled.div`
   flex-basis: 800px;
   max-width: 800px;
-  /* @media (min-width: 1100px) {
 
-  } */
+  
+  @media (min-width: 1100px) {
+    order: 2;
+  }
 `
 
 const NavList = styled.div`
+  height: 100%;
+  
   display: flex;
+  align-items: center;
   gap: 8px;
+  
 
   @media (min-width: 1100px) {
     display: inline-grid;
@@ -78,27 +86,40 @@ const NavList = styled.div`
   }
 `
 
-const NavItem = styled.button<{ $active: boolean }>`
-padding: 8px 12px;
+const NavItem = styled.button`
+  padding: 8px 12px;
 
-border: none;
-border-radius: 4px;
+  border: none;
+  border-radius: 4px;
 
-${({ $active }) =>
-    $active
-      ? 'color: #fff; background: var(--primary-300);'
-      : 'color: #fff; background: transparent;'};
+  font-size: 0.75rem;
+  cursor: pointer;
 
-font-size: 0.75rem;
-cursor: pointer;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
 
-transition: all 0.2s ease-in-out;
+  color: var(--color-button-default-text);
+  background: var(--color-button-default-bg);
 
-&:hover {
-  ${({ $active }) =>
-      $active ? '' : 'color: #fff; background: var(--primary-200);'};
+  &:hover, &:focus {
+    color: var(--color-button-hover-text);
+    background: var(--color-button-hover-bg);
   }
-  
+
+  &:active {
+    color: var(--color-button-active-text);
+    background: var(--color-button-active-bg);
+  }
+
+  &[data-active='true'] {
+    color: var(--color-button-active-text);
+    background: var(--color-button-active-bg);
+    
+    &:hover {
+      color: var(--color-button-active-text);
+      background: var(--color-button-active-bg);
+    }
+  }
+
   @media (min-width: 1100px) {
     padding: 8px 16px;
   }
@@ -107,9 +128,10 @@ const LeftContainer = styled.div`
   flex: 1;
   display: flex;
   align-items: center;
-
-  @media (max-width: 1100px) {
-    display: none;
+  height: 32px;
+  
+  @media (min-width: 1100px) {
+    order: 1;
   }
 `
 const RightContainer = styled.div`
@@ -117,4 +139,9 @@ const RightContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: end;
+  height: 32px;
+  
+  @media (min-width: 1100px) {
+    order: 3;
+  }
 `

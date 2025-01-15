@@ -93,7 +93,7 @@ const Marker = styled.div<{ $color: string; $reverse?: boolean }>`
 
     width: 50px;
     height: 50px;
-    border: 6px solid var(--neutral-200);
+    border: 6px solid var(--section-surface);
     border-radius: 50%;
 
     background-color: ${(props) => props.$color ?? '#000'};
@@ -116,9 +116,7 @@ const Marker = styled.div<{ $color: string; $reverse?: boolean }>`
     height: 16px;
     clip-path: polygon(0 50%, 100% 0%, 100% 100%);
 
-    background: var(--neutral-400);
-    /* background-color:  var(--black); */
-  background-color:  hsl(from var(--neutral-100) h s 6);
+    background: var(--card-surface);
 
     @media (min-width: 1100px) {
       ${({ $reverse }) =>
@@ -133,8 +131,7 @@ const Content = styled.div<{ $reverse?: boolean }>`
   border-radius: 0.25rem;
   position: relative;
 
-  background-color:  hsl(from var(--neutral-100) h s 6);
-  /* background-color:  var(--black); */
+  background-color: var(--card-surface);
   color: var(--color-body);
 
   > p {

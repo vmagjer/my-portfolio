@@ -12,7 +12,7 @@ type SectionID = 'about' | 'projects' | 'background' | 'contact'
 const sections: Record<SectionID, SectionType> = {
   // hello: { id: 'hello', title: 'Vlatko' }, // catch attention
   about: { id: 'about', title: 'About' }, // convey approachability, passion, personality
-  projects: { id: 'projects', title: 'Top Projects' }, // impress with experience
+  projects: { id: 'projects', title: 'Projects' }, // impress with experience
   background: { id: 'background', title: 'Background' }, // prove experience, knowledge
   contact: { id: 'contact', title: 'Contact' }, // simplify work of user
 }
@@ -28,7 +28,7 @@ export default function HomePage() {
         <Title>About me</Title>
         <Subtitle>Hi, I&apos;m Vlatko Magjer from Croatia!</Subtitle>
         <p>
-          I love <b>programming</b>, exploring new ideas, and feeding my{' '}
+          I love <b>solving problems</b> through software, exploring new ideas, and feeding my{' '}
           <b>curiosity</b> — whether through video games, fantasy novels, or{' '}
           <b>learning</b> something new.
         </p>
@@ -61,7 +61,7 @@ const Root = styled.div`
 
 const AboutSection = styled(Container)`
   z-index: 1;
-  background-color: var(--neutral-100);
+  background-color: var(--section-surface);
   color: var(--color-body);
   padding: 32px 16px;
 `
@@ -73,7 +73,7 @@ const GapContainer = styled(Container)`
   align-items: center;
 `
 
-const SuperTitle = styled.p`
+const SuperTitle = styled.h2`
   margin: 0;
   text-align: center;
   font-size: 2.5rem;

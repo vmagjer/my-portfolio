@@ -55,24 +55,36 @@
 
 
 :root {
-  --color-dark-bg: var(--primary-100);
+  --color-dark-bg: var(--primary-900);
 
   /* UI tokens */
   --color-title: var(--neutral-100);
   --color-subtitle: rgba(from var(--color-title) r g b / 60%);
   --color-body: rgba(from var(--color-title) r g b / 87%);
-  --color-link: var(--primary-400);
 
-  --color-button-default-bg: var(--neutral-500);
-  --color-button-default-text: #000;
-  --color-button-active-bg: #000;
-  --color-button-active-text: #000;
+  --color-link: var(--primary-500);
+  --color-link-hover: var(--primary-200);
+
+  --color-button-default-bg: transparent;
+  --color-button-default-text: var(--white);
+
+  --color-button-hover-bg: var(--primary-200);
+  --color-button-hover-text: var(--white);
+
+  --color-button-active-bg: var(--primary-300);
+  --color-button-active-text: var(--white);
 
   --shell-surface: var(--primary-100);
-  --effect-surface: var(--primary-100);
-  --section-surface: var(--neutral-100);
-  --alt-section-surface: var(--neutral-200);
-  --card-surface: var(--neutral-400);
+  --shell-text: var(--white);
+
+  --effect-surface: #676673;
+
+  --section-surface: var(--neutral-900);
+  --alt-section-surface: var(--neutral-800);
+  --footer-surface: var(--primary-100);
+
+  --card-surface: var(--neutral-800);
+  --card-surface: var(--white);
 }
 
 [data-theme="dark"] {
@@ -80,19 +92,28 @@
 
   /* UI tokens */
   --color-title: var(--white);
-  --color-subtitle: rgba(from var(--color-dark-title) r g b / 60%);
-  --color-body: rgba(from var(--color-dark-title) r g b / 80%);
+  --color-subtitle: rgba(from var(--color-title) r g b / 60%);
+  --color-body: rgba(from var(--color-title) r g b / 80%);
   --color-link: var(--primary-600);
 
-  --color-button-default-bg: var(--neutral-500);
-  --color-button-default-text: #000;
-  --color-button-active-bg: #000;
-  --color-button-active-text: #000;
+  --color-button-default-bg: transparent;
+  --color-button-default-text: var(--white);
+
+  --color-button-hover-bg: var(--primary-200);
+  --color-button-hover-text: var(--white);
+
+  --color-button-active-bg: var(--primary-300);
+  --color-button-active-text: var(--white);
+
 
   --shell-surface: var(--primary-100);
+  --shell-text: var(--white);
+
   --effect-surface: var(--primary-100);
+
   --section-surface: var(--neutral-100);
   --alt-section-surface: var(--neutral-200);
-  --card-surface: var(--neutral-400);
+  --footer-surface: hsl(from var(--primary-100) h s calc(0.5 * l));
 
+  --card-surface: var(--neutral-300);
 }

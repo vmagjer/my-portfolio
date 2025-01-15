@@ -45,7 +45,7 @@ const Root = styled.div<{ $reverse?: boolean }>`
   border-radius: 6px;
   overflow: hidden;
 
-  background-color: var(--neutral-300);
+  background-color: var(--card-surface);
   /* border: 1px solid var(--neutral-900); */
 `
 const Body = styled.div`

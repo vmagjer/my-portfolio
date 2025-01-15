@@ -77,5 +77,5 @@ const CanvasElement = styled.canvas`
   height: 100lvh;
   z-index: -100;
 
-  background-color: var(--color-bg);
+  background-color: var(--effect-surface);
 `

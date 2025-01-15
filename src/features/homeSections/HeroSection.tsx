@@ -50,12 +50,17 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
           <AvatarImage src={profileImage} size="large" />
           <Title>Vlatko Magjer</Title>
           <SubTitle>
-            Data Scientist, Frontend Developer, and Software Engineer
+            Frontend Developer, Software Engineer and Explorer
           </SubTitle>
 
           <SocialList>
             {data.contactInfo.map((ci) => (
-              <SocialItem key={'hero-social-' + ci.name} href={ci.link}>
+              <SocialItem
+                key={'hero-social-' + ci.name}
+                href={ci.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 {ci.icon}
               </SocialItem>
             ))}
@@ -67,7 +72,7 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
 }
 
 const Root = styled.div`
-  height: 90vh;
+  height: 85vh;
   position: relative;
 
   display: flex;
@@ -96,7 +101,7 @@ const SubTitle = styled.p`
   line-height: 1.5rem;
   margin-top: 0.5rem;
 
-  color: var(--color-subtitle);
+  color: var(--color-body);
 `
 const SocialList = styled.div`
   display: flex;
@@ -108,7 +113,7 @@ const SocialItem = styled.a`
   width: 40px;
   height: 40px;
 
-  background-color: var(--color-button-default-bg);
+  background: var(--color-link-hover);
   border-radius: 50%;
   padding: 6px;
 

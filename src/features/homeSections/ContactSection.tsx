@@ -38,8 +38,7 @@ function ContactSection({ ...rest }: ContactSectionProps) {
 export default ContactSection
 
 const Root = styled(Container)`
-  background-color: #cacad2;
-  background-color: var(--neutral-100);
+  background-color: var(--section-surface);
   color: white;
 
   padding: 0 16px;
@@ -76,7 +75,7 @@ const ContactItem = styled(Hyperlink)`
   svg {
     width: 2rem;
     height: 2rem;
-    fill: var(--neutral-900);
+    fill: var(--color-body);
 
     margin-right: 12px;
   }
@@ -105,20 +104,13 @@ const AvatarWithBuble = styled.div`
   }
 `
 const Bubble = styled.div`
-  /* position: absolute;
-  top: -20px;
-  left: 0; */
   position: relative;
 
-  background: var(--primary-200);
-  color: var(--neutral-900);
+  background: var(--alt-section-surface);
+  color: var(--color-body);
   border-radius: 10000px;
 
   padding: 8px 16px;
-
-  /* display: flex;
-  justify-content: center;
-  align-items: center; */
 
   p {
     margin: 0;
@@ -141,6 +133,5 @@ const Bubble = styled.div`
     );
     mask-size: contain;
     background-color: inherit;
-    /* background-color: green; */
   }
 `

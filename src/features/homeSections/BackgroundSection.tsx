@@ -183,7 +183,7 @@ const timelineItems: {
         </p>
         <p>
           I gained experience tackling challenges in older codebases, evaluating
-          the value of refactoring and working around the existing constraints.
+          refactoring versus working around the existing constraints.
         </p>
       </>
     ),
@@ -196,7 +196,7 @@ const timelineItems: {
     content: (
       <>
         <p>
-          Contributed common frontend components for a CMS hub serving A1&apos;s
+          Contributed to the frontend for a CMS hub serving A1&apos;s
           Smart City Solutions.
         </p>
         <p>
@@ -348,7 +348,7 @@ export default BackgroundSection
 const Root = styled(Container)`
   z-index: 1;
   padding: 32px 16px 48px;
-  background-color: var(--neutral-200);
+  background-color: var(--section-surface);
 `
 
 const SectionTitle = styled.h2`

@@ -45,8 +45,8 @@ export default function Footer() {
   )
 }
 const Root = styled(Container)`
-  background-color: #030306;
-  color: rgba(255, 255, 255, 0.5);
+  background-color: var(--footer-surface);
+  color: var(--shell-text);
   padding: 0 16px;
 `
 
