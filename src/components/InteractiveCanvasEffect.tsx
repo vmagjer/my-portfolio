@@ -17,7 +17,6 @@ const InteractiveCanvasEffect = ({
 
   useLayoutEffect(() => {
     if (!canvasRef.current) return
-    console.log('effect recalculated')
 
     const interactiveBg = new InteractiveBackground(canvasRef.current, scale)
 
@@ -25,10 +24,8 @@ const InteractiveCanvasEffect = ({
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            console.log('animation start')
             interactiveBg.start()
           } else {
-            console.log('animation stop')
             interactiveBg.stop()
           }
         })
@@ -44,27 +41,6 @@ const InteractiveCanvasEffect = ({
     }
   }, [canvasRef, scale])
 
-  // useEffect(() => {
-  //   function handleScroll() {
-  //     paralaxEffectOnHeroBackground()
-  //   }
-
-  //   function paralaxEffectOnHeroBackground() {
-  //     if (!canvasRef.current) return
-
-  //     const scrollY = window.scrollY
-  //     canvasRef.current.style.transform = `translateY(${
-  //       scrollY * -0.4
-  //       // scrollY * -0
-  //     }px)`
-  //   }
-
-  //   window.addEventListener('scroll', handleScroll)
-  //   return () => {
-  //     window.removeEventListener('scroll', handleScroll)
-  //   }
-  // }, [])
-
   return <CanvasElement ref={canvasRef} {...rest}></CanvasElement>
 }
 export default InteractiveCanvasEffect
@@ -76,6 +52,5 @@ const CanvasElement = styled.canvas`
   width: 100%;
   height: 100lvh;
   z-index: -100;
-
   background-color: var(--effect-surface);
 `

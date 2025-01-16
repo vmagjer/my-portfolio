@@ -21,7 +21,6 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
 
     const showScrollIndicatorOnTimeout = setTimeout(() => {
       if (!hasScrolled) return
-
       setShowScrollIndicator(true)
     }, 3000)
 
@@ -40,11 +39,7 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
   return (
     <Root {...rest}>
       <InteractiveCanvasEffect />
-      <SwipeUpIndicator
-        style={{
-          opacity: showScrollIndicator ? '1' : '0',
-        }}
-      />
+      <SwipeUpIndicator show={showScrollIndicator} />
       <Container>
         <Content>
           <AvatarImage src={profileImage} size="large" />
@@ -52,7 +47,6 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
           <SubTitle>
             Frontend Developer, Software Engineer and Explorer
           </SubTitle>
-
           <SocialList>
             {data.contactInfo.map((ci) => (
               <SocialItem
@@ -74,7 +68,6 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
 const Root = styled.div`
   height: 85vh;
   position: relative;
-
   display: flex;
   align-items: center;
 `
@@ -84,25 +77,23 @@ const Content = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-
   text-align: center;
 `
 
 const Title = styled.h1`
   margin-top: 0.5rem;
-
   font-size: 2.5rem;
   line-height: 3rem;
-
   color: var(--color-title);
 `
+
 const SubTitle = styled.p`
   font-size: 1rem;
   line-height: 1.5rem;
   margin-top: 0.5rem;
-
   color: var(--color-body);
 `
+
 const SocialList = styled.div`
   display: flex;
   gap: 16px;
@@ -112,11 +103,9 @@ const SocialList = styled.div`
 const SocialItem = styled.a`
   width: 40px;
   height: 40px;
-
   background: var(--color-link-hover);
   border-radius: 50%;
   padding: 6px;
-
   transition: background-color 200ms ease-in-out, transform 200ms ease;
 
   svg {
@@ -132,17 +121,16 @@ const SocialItem = styled.a`
   }
 `
 
-const SwipeUpIndicator = styled(SwipeUp)`
+const SwipeUpIndicator = styled(SwipeUp)<{ show: boolean }>`
   width: 80px;
   height: 80px;
-
   fill: #221f23;
   stroke: #fff;
   stroke-width: 8;
-  opacity: 0.7;
+  opacity: ${({ show }) => (show ? 0.7 : 0)};
   position: absolute;
   bottom: 1rem;
   left: 50%;
   transform: translateX(-50%);
-  transition: 'all 1s';
+  transition: opacity 1s;
 `
