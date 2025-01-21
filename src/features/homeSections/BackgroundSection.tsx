@@ -29,14 +29,12 @@ const timelineItems: {
     content: (
       <>
         <p>
-          Tried my hand at Wordpress for the first time by building a website
-          for a handyman business. It was a straightforward project with contact
-          info and form, and a design that aligned well with the brand.
+          Tried my hand at Wordpress for the first time by building a promo website
+          for a handyman business.
         </p>
         <p>
-          In the process, I explored the Wordpress tooling and ecosystem,
-          gaining insight into how web-building platforms make it easier to
-          create and manage content online.
+          I explored the Wordpress tooling and ecosystem,
+          gaining insight into how web-building platforms are used.
         </p>
       </>
     ),
@@ -49,7 +47,7 @@ const timelineItems: {
     content: (
       <>
         <p>
-          Out of curiosity and a love for experimenting, I&apos;ve built a few
+          For fun and sport, I&apos;ve built a few
           small projects that explore fun and interesting web features. These
           have been a great way to learn and try out new ideas.
         </p>
@@ -65,11 +63,9 @@ const timelineItems: {
             Digital Rain (<i>The Matrix</i>)
           </li>
           <li>
-            3D Card (<i>Harry Potter</i>)
+            3D Card
           </li>
-          <li>Interactive Broken Glass Pane</li>
-          <li>Scroll-bound Animation</li>
-          <li>Parallax Effect</li>
+          <li>Interactive Broken Glass</li>
         </ul>
       </>
     ),
