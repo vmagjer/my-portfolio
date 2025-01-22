@@ -23,7 +23,7 @@ const useActiveSection = (sectionIds: string[]) => {
       setActiveSection(newActiveSection)
     }
 
-    const throttledUpdateActiveSection = throttle(updateActiveSection, 100)
+    const throttledUpdateActiveSection = throttle(updateActiveSection, 16)
 
     window.addEventListener('scroll', throttledUpdateActiveSection)
 
@@ -39,7 +39,8 @@ export default useActiveSection
 
 // assumes the ids are ordered by appearance on the page
 function getTopVisibleElement(ids: string[]): string | null {
-  const offset = 40 + 32 + 16
+  // const offset = 40 + 32 + 16
+  const offset = window.innerHeight / 2
   const targetPosition = window.scrollY + offset
 
   for (const id of ids) {
