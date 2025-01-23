@@ -11,6 +11,9 @@ type TimelineItemProps = {
   noPadding?: boolean
   className?: string
   reverse?: boolean
+
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  [key: string]: any
 }
 
 const TimelineItem = ({
@@ -23,9 +26,10 @@ const TimelineItem = ({
   noPadding,
   className,
   reverse,
+  ...rest
 }: TimelineItemProps) => {
   return (
-    <Root className={className} noPadding={noPadding} $reverse={reverse}>
+    <Root {...rest} className={className} noPadding={noPadding} $reverse={reverse} >
       <Line $reverse={reverse}>
         <MarkerContainer>
           <Marker $reverse={reverse} $color={color}>
@@ -61,7 +65,7 @@ const Root = styled.div<{
 
   @media (min-width: 1100px) {
     ${({ $reverse }) => ($reverse ? 'padding: 0 32px 16px 0;' : '')}
-    padding-bottom: 16px;
+    padding-bottom: 72px;
   }
 `
 
@@ -90,7 +94,7 @@ const MarkerContainer = styled.div`
 `
 
 const Marker = styled.div<{ $color: string; $reverse?: boolean }>`
-  position: sticky;
+  /* position: sticky; */
   top: 56px;
   transform: translateY(-6px);
 

@@ -20,6 +20,10 @@ type TimelineProps = {
 function drawFerns(element: HTMLElement) {
   console.log('Drawing ferns')
   const canvases = element.querySelectorAll('canvas')
+  if (canvases.length < 1) {
+    console.log('no canvases to draw on')
+    return
+  }
 
   const barnsleyFern = [
     [0, 0, 0, 0.16, 0, 0, 0.01], // stem
@@ -88,52 +92,28 @@ export default function Timeline({ items }: TimelineProps) {
 const drawItems = (items: TimelineItemInfo[]) => {
   const result = []
   let itemIndex = 0
-  let index = 0
-  while (index < items.length * 2) {
-    const item1 = items[itemIndex++]
+  let isArrowOnTheRight = true
+  while (itemIndex < items.length) {
+    const item = items[itemIndex++]
     result.push(
       <TimelineItem
-        key={item1.title}
-        title={item1.title}
-        image={item1.image}
-        color={item1.color}
-        date={item1.date}
-        skills={item1.skills}
-        reverse={true}
+        key={item.title}
+        title={item.title}
+        image={item.image}
+        color={item.color}
+        date={item.date}
+        skills={item.skills}
+        reverse={isArrowOnTheRight}
+        style={{ gridRow: 'span 2' }}
       >
-        {item1.content}
+        {item.content}
       </TimelineItem>
     )
-    index++
-    // index++
-    // index++
-    result.push(
-      <CanvasContainer key={'timeline-deco-' + index++}>
-        <canvas />
-      </CanvasContainer>
-    )
-    if (itemIndex < items.length) {
-      result.push(
-        <CanvasContainer key={'timeline-deco-' + index++} $reverse>
-          <canvas />
-        </CanvasContainer>
-      )
-      const item2 = items[itemIndex++]
-      result.push(
-        <TimelineItem
-          key={item2.title}
-          title={item2.title}
-          image={item2.image}
-          color={item2.color}
-          date={item2.date}
-          skills={item2.skills}
-          reverse={false}
-        >
-          {item2.content}
-        </TimelineItem>
-      )
+    isArrowOnTheRight = !isArrowOnTheRight
+
+    if (itemIndex === 1) {
+      result.push(<Blank></Blank>)
     }
-    index++
   }
   return result
 }
@@ -156,20 +136,28 @@ const List = styled.div<{ isLeft?: boolean }>`
   }
 `
 
-const CanvasContainer = styled.div<{ $reverse?: boolean }>`
-  width: 100%;
-  height: 100%;
-  display: none;
-  align-items: center;
-
-  canvas {
-    width: 100%;
-    height: 200px;
-
-    ${({ $reverse }) => ($reverse ? 'transform: scaleX(-1);' : '')}
-  }
-
-  @media (min-width: 1100px) {
-    display: flex;
+const Blank = styled.div`
+  grid-row: span 1;
+  height: 120px;
+  @media (max-width: 1100px) {
+    display: none;
   }
 `
+
+// const CanvasContainer = styled.div<{ $reverse?: boolean }>`
+//   width: 100%;
+//   height: 100%;
+//   display: none;
+//   align-items: center;
+
+//   canvas {
+//     width: 100%;
+//     height: 200px;
+
+//     ${({ $reverse }) => ($reverse ? 'transform: scaleX(-1);' : '')}
+//   }
+
+//   @media (min-width: 1100px) {
+//     display: flex;
+//   }
+// `

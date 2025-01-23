@@ -14,7 +14,7 @@ type HeroSectionProps = {
 }
 
 export default function HeroSection({ ...rest }: HeroSectionProps) {
-  const [showScrollIndicator, setShowScrollIndicator] = useState(false)
+  const [showScrollIndicator, setShowScrollIndicator] = useState<boolean>(false)
 
   useEffect(() => {
     let hasScrolled = false
@@ -39,7 +39,7 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
   return (
     <Root {...rest}>
       <InteractiveCanvasEffect />
-      <SwipeUpIndicator show={showScrollIndicator} />
+      <SwipeUpIndicator $show={showScrollIndicator} />
       <Container>
         <Content>
           <AvatarImage src={profileImage} size="large" />
@@ -121,13 +121,13 @@ const SocialItem = styled.a`
   }
 `
 
-const SwipeUpIndicator = styled(SwipeUp)<{ show: boolean }>`
+const SwipeUpIndicator = styled(SwipeUp)<{ $show: boolean }>`
   width: 80px;
   height: 80px;
   fill: #221f23;
   stroke: #fff;
   stroke-width: 8;
-  opacity: ${({ show }) => (show ? 0.7 : 0)};
+  opacity: ${({ $show}) => ($show ? 0.7 : 0)};
   position: absolute;
   bottom: 1rem;
   left: 50%;
