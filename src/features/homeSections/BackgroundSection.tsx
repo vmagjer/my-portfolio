@@ -1,4 +1,5 @@
 import Container from '../../components/layout/Container'
+import CourseList from '../../components/CourseList'
 import Hyperlink from '../../components/Hyperlink'
 import Timeline from '../../components/Timeline'
 import exploringLogo from '../../assets/tech-icons/javascript.png'
@@ -88,41 +89,58 @@ const timelineItems: {
             Computing (FER).
           </Hyperlink>
         </p>
-        <p>Majored software engineering and information systems.</p>
 
-        <details>
-          <summary>
-            <b>Coursework</b> focused on data science and development of
-            information systems.
-          </summary>
-          <ul>
-            <li>Machine Learning</li>
-            <li>Business Intelligence</li>
-            <li>Social Networks</li>
-            <li>Analysis of Massive Datasets</li>
-            <li>Heuristic Optimization Methods</li>
-            <li>Operations Research</li>
-            <li>Linear Algebra</li>
-            <li>Advanced Algorithms and Data Structures</li>
-          </ul>
-          <ul>
-            <li>Object-Oriented Design</li>
-            <li>Information Systems Development</li>
-            <li>Formal Methods in System Design</li>
-            <li>Protection and Security of Information Systems</li>
-          </ul>
-          <ul>
-            <li>Technology Entrepreneurship</li>
-            <li>Organizational Psychology</li>
-            <li>Virtual Environments</li>
-            <li>Quantum Computers</li>
-          </ul>
-        </details>
-
-        <p>
-          <b>Thesis: </b>Interactive aplication in marker-less mobile augmented
-          reality
-        </p>
+        <CourseList
+          items={[
+            {
+              title: 'Software Development',
+              color: '#209215',
+              courses: [
+                'Object-Oriented Design',
+                'Advanced Algorithms and Data Structures',
+                'Information Systems Development',
+              ],
+            },
+            {
+              title: 'System Security',
+              color: '#2d2dbd',
+              courses: [
+                'Formal Methods in System Design',
+                'Protection and Security of Information Systems',
+              ],
+            },
+            {
+              title: 'Data Science',
+              color: '#0d92a1',
+              courses: [
+                'Machine Learning',
+                'Business Intelligence',
+                'Analysis of Massive Datasets',
+                'Social Networks',
+                'Linear Algebra',
+                'Heuristic Optimization Methods',
+                'Operations Research',
+              ],
+            },
+            {
+              title: 'Management',
+              color: '#a11ac7',
+              courses: [
+                'Technology Entrepreneurship',
+                'Organizational Psychology',
+              ],
+            },
+            {
+              title: 'Niche Subjects',
+              color: '#af530d',
+              courses: [
+                'Virtual Environments',
+                'Human-Computer Interaction',
+                'Quantum Computers',
+              ],
+            },
+          ]}
+        ></CourseList>
       </>
     ),
     skills: [],
@@ -237,55 +255,71 @@ const timelineItems: {
             Computing (FER).
           </Hyperlink>
         </p>
-        <p>Majored software engineering and information systems.</p>
-        <details>
-          <summary>
-            <b>Coursework</b> revolved around software engineering and
-            mathematics with electives in management in engineering.
-          </summary>
-          <ul>
-            <li>Programming and Software Logic</li>
-            <li>Algorithms and Data Structures</li>
-            <li>Databases</li>
-          </ul>
-          <ul>
-            <li>Software Design</li>
-            <li>Design Patterns in Software Design</li>
-            <li>Object-Oriented Programming</li>
-            <li>Programming Paradigms and Languages</li>
-            <li>Development of Software Applications</li>
-          </ul>
-          <ul>
-            <li>Communication Networks</li>
-            <li>Operating Systems</li>
-            <li>Computer Architecture</li>
-          </ul>
-          <ul>
-            <li>Information Theory</li>
-            <li>Signals and Systems</li>
-            <li>Probability and Statistics</li>
-            <li>Mathematics</li>
-          </ul>
 
-          <ul>
-            <li>Interactive Computer Graphics</li>
-            <li>Programming Language Translation</li>
-            <li>Digital Logic</li>
-            <li>AutoCAD</li>
-          </ul>
-
-          <ul>
-            <li>Management in Engineering</li>
-            <li>Economics and Managerial Decision-Making</li>
-            <li>Commercial Law</li>
-            <li>Quality Management</li>
-            <li>Skills of Communication</li>
-          </ul>
-        </details>
-        <p>
-          <b>Thesis:</b> Application of dynamic web pages and 2D graphics in
-          cognitive testing
-        </p>
+        <CourseList
+          items={[
+            {
+              title: 'Programming',
+              color: '#209215',
+              courses: [
+                'Digital Logic',
+                'Programming and Software Logic',
+                'Algorithms and Data Structures',
+                'Databases',
+              ],
+            },
+            {
+              title: 'Software Development',
+              color: '#2d2dbd',
+              courses: [
+                'Software Design',
+                'Design Patterns in Software Design',
+                'Object-Oriented Programming',
+                'Programming Paradigms and Languages',
+                'Development of Software Applications',
+              ],
+            },
+            {
+              title: 'Architecture',
+              color: '#3f534f',
+              courses: [
+                'Communication Networks',
+                'Operating Systems',
+                'Computer Architecture',
+              ],
+            },
+            {
+              title: 'Data Science',
+              color: '#0d92a1',
+              courses: [
+                'Information Theory',
+                'Signals and Systems',
+                'Probability and Statistics',
+                'Mathematics',
+              ],
+            },
+            {
+              title: 'Management',
+              color: '#a11ac7',
+              courses: [
+                'Management in Engineering',
+                'Economics and Managerial Decision-Making',
+                'Commercial Law',
+                'Quality Management',
+                'Skills of Communication',
+              ],
+            },
+            {
+              title: 'Niche Engineering Subjects',
+              color: '#af530d',
+              courses: [
+                'Interactive Computer Graphics',
+                'Programming Language Translation',
+                'AutoCAD',
+              ],
+            },
+          ]}
+        />
       </>
     ),
     skills: [],
