@@ -85,9 +85,17 @@ const timelineItems: {
         <p>
           at{' '}
           <Hyperlink external link="https://www.fer.unizg.hr/en" onDark>
-            University of Zagreb, Faculty of Electrical Engineering and
-            Computing (FER).
+            University of Zagreb, FER
           </Hyperlink>
+          .
+        </p>
+        <p>
+          Majored software engineering and information systems, with electives
+          in cybersecurity and management.
+        </p>
+        <p>
+          For my thesis I developed an AR mobile app in Unity as I was
+          interested in the technology at the time.
         </p>
 
         <CourseList
@@ -251,9 +259,17 @@ const timelineItems: {
         <p>
           at{' '}
           <Hyperlink external link="https://www.fer.unizg.hr/en" onDark>
-            University of Zagreb, Faculty of Electrical Engineering and
-            Computing (FER).
+            University of Zagreb, FER
           </Hyperlink>
+          .
+        </p>
+        <p>
+          Covered basics of computing and software engineering, while exploring
+          a wider range of engineering-related courses.
+        </p>
+        <p>
+          My thesis involved developing a web app for testing cognitive
+          characteristic of subjects and evaluating the results.
         </p>
 
         <CourseList
