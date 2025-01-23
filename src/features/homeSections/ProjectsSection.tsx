@@ -44,10 +44,6 @@ function ProjectsSection({ ...rest }: ProjectsSectionProps) {
             Built a mobile app to facilitate delivery of parcels via gig
             workers.
           </p>
-          {/* <p>
-            The app allows the drivers to accept offers they could complete
-            concurrently with their other gigs.
-          </p> */}
           <p>
             The app allows the drivers to accept several gigs at once for more
             optimal route planning.
@@ -70,24 +66,6 @@ function ProjectsSection({ ...rest }: ProjectsSectionProps) {
             choices.
           </p>
         </ProjectItem>
-        {/* <ProjectItem
-          title="Exploring frontend technologies"
-          image={exploringShowcase}
-          reverse={true}
-        >
-          <p>
-            This is me testing the capabilities of CSS and JS as well as my own
-            capabilities.
-          </p>
-          <p>I developed visually interesting componets like:</p>
-          <ul>
-            <li>the Matrix digital shower</li>
-            <li>a graph visualization tool</li>
-            <li>scroll-bound animation</li>
-            <li>a 3D card component</li>
-            <li>full screen menu resembling a broken glass pane</li>
-          </ul>
-        </ProjectItem> */}
       </ProjectsList>
     </Root>
   )
