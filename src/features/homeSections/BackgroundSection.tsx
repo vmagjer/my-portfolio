@@ -151,7 +151,7 @@ const timelineItems: {
         ></CourseList>
       </>
     ),
-    skills: [],
+    skills: ['C', 'C#', 'Java', 'Python', 'PostgreSQL', 'MongoDB'],
   },
   {
     title: 'Crowdsourced delivery app',
@@ -338,7 +338,7 @@ const timelineItems: {
         />
       </>
     ),
-    skills: [],
+    skills: ['C', 'Java', 'C++', 'PostgreSQL', 'MatLab'],
   },
   {
     title: 'Financial Comparison Tool',
