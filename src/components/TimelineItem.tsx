@@ -174,7 +174,7 @@ const SkillList = styled.ul`
   flex-wrap: wrap;
   padding: 0 !important;
   gap: 8px;
-  margin-top: 0.5rem;
+  margin-top: 1.25rem;
 `
 const SkillItem = styled.li`
   list-style: none;
