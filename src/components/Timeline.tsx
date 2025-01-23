@@ -10,6 +10,7 @@ export type TimelineItemInfo = {
   color: string
   date: string
   content: React.ReactNode
+  skills: string[]
 }
 type TimelineProps = {
   // children: React.ReactNode
@@ -97,6 +98,7 @@ const drawItems = (items: TimelineItemInfo[]) => {
         image={item1.image}
         color={item1.color}
         date={item1.date}
+        skills={item1.skills}
         reverse={true}
       >
         {item1.content}
@@ -124,6 +126,7 @@ const drawItems = (items: TimelineItemInfo[]) => {
           image={item2.image}
           color={item2.color}
           date={item2.date}
+          skills={item2.skills}
           reverse={false}
         >
           {item2.content}

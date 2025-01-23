@@ -20,6 +20,7 @@ const timelineItems: {
   color: string
   date: string
   content: React.ReactNode
+  skills: string[]
 }[] = [
   {
     title: 'Wordpress promo site for handyman service',
@@ -38,6 +39,7 @@ const timelineItems: {
         </p>
       </>
     ),
+    skills: ['Wordpress', 'CSS', 'UI/UX Design'],
   },
   {
     title: 'Explored frontend technologies',
@@ -69,6 +71,7 @@ const timelineItems: {
         </ul>
       </>
     ),
+    skills: ['HTML', 'CSS', 'JS', 'TS'],
   },
 
   {
@@ -122,6 +125,7 @@ const timelineItems: {
         </p>
       </>
     ),
+    skills: [],
   },
   {
     title: 'Crowdsourced delivery app',
@@ -156,6 +160,7 @@ const timelineItems: {
         </p>
       </>
     ),
+    skills: ['Vue.js', 'Ionic', 'JS/TS', 'Tailwind', 'Jira'],
   },
   {
     title: 'E-commerce platform for fresh local produce',
@@ -183,6 +188,7 @@ const timelineItems: {
         </p>
       </>
     ),
+    skills: ['Vue.js', 'Tailwind', 'JS/TS', 'Jira'],
   },
   {
     title: "CMS for A1's Smart City Solutions",
@@ -215,6 +221,7 @@ const timelineItems: {
         </p>
       </>
     ),
+    skills: ['Blazor', 'C#', 'JS', 'Sass'],
   },
   {
     title: 'Graduated as Bachelor of Science in Computing',
@@ -281,6 +288,7 @@ const timelineItems: {
         </p>
       </>
     ),
+    skills: [],
   },
   {
     title: 'Financial Comparison Tool',
@@ -303,6 +311,7 @@ const timelineItems: {
         </p>
       </>
     ),
+    skills: ['React', 'TS', 'JS', 'Sass', 'HTML', 'CSS'],
   },
   {
     title: 'Web portfolio for an architecture company',
@@ -325,6 +334,7 @@ const timelineItems: {
         </p>
       </>
     ),
+    skills: ['React', 'Javascript', 'Bootstrap', 'CSS'],
   },
 ]
 

@@ -7,6 +7,7 @@ type TimelineItemProps = {
   color: string
   date: string
   children: ReactNode
+  skills: string[]
   noPadding?: boolean
   className?: string
   reverse?: boolean
@@ -18,6 +19,7 @@ const TimelineItem = ({
   color,
   date,
   children,
+  skills,
   noPadding,
   className,
   reverse,
@@ -36,6 +38,11 @@ const TimelineItem = ({
         <DateStamp className="date">{date}</DateStamp>
         <h3>{title}</h3>
         {children}
+        <SkillList>
+          {skills.map((skill) => (
+            <SkillItem key={skill}>{skill}</SkillItem>
+          ))}
+        </SkillList>
       </Content>
     </Root>
   )
@@ -157,6 +164,19 @@ const Content = styled.div<{ $reverse?: boolean }>`
       }
     }
   }
+`
+const SkillList = styled.ul`
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 !important;
+  gap: 8px;
+  margin-top: 0.5rem;
+`
+const SkillItem = styled.li`
+  list-style: none;
+  padding: 4px 16px;
+  border-radius: 1000px;
+  background-color: var(--card-chip-surface);
 `
 
 const DateStamp = styled.div`
