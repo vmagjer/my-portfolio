@@ -11,11 +11,7 @@ type ProjectsSectionProps = {
 }
 function ProjectsSection({ ...rest }: ProjectsSectionProps) {
   return (
-    <Root {...rest} maxWidth="1000px">
-      <SectionTitle>Top Projects</SectionTitle>
-      <Subtitle>
-        Work I&apos;m proud of and that presented interesting challenges.
-      </Subtitle>
+    <Root {...rest}>
       <ProjectsList>
         <ProjectItem
           title="E-commerce platform for local farmers"

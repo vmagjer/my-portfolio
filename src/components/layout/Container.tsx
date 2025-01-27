@@ -14,7 +14,7 @@ export default function Container({
   children,
   className,
   contentClassName,
-  maxWidth = '800px',
+  maxWidth = '1000px',
   ...rest
 }: SectionProps) {
   return (
