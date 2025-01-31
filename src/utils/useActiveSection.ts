@@ -16,7 +16,7 @@ const useActiveSection = (sectionIds: string[]) => {
       const newActiveSection = getTopVisibleElement(sectionIds)
 
       if (newActiveSection === null) {
-        console.error('No section found')
+        console.warn('No section found')
         return
       }
 
@@ -69,7 +69,7 @@ export function scrollToId(id: string) {
 
     window.scrollTo({ top: targetPosition, behavior: 'smooth' })
   } catch (error) {
-    console.error(`Couldn't scroll to Element with ID "${id}":\n${error}`)
+    console.warn(`Couldn't scroll to Element with ID "${id}":\n${error}`)
   }
 }
 
