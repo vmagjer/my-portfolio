@@ -1,5 +1,6 @@
+import { useRef, useState } from 'react'
+
 import styled from 'styled-components'
-import { useState } from 'react'
 
 type CourseGroup = {
   title: string
@@ -13,35 +14,35 @@ type CourseworkProps = {
 
 const CourseListGroup = ({
   group,
-  expanded,
 }: {
   group: CourseGroup
   expanded: boolean
 }) => (
-  <>
-    <Chip $color={group.color} $size="medium">
-      {group.title}
-    </Chip>
-
-    {group.courses.map((c) => (
-      <Chip
-        $color={`hsl(from ${group.color} h calc(0.2 * s) calc(0.7 * l))`}
-        $size="small"
-        $hidden={!expanded}
-        key={`${group.title}-${c}`}
-      >
-        {c}
-      </Chip>
-    ))}
-  </>
+  <li>
+    <b>{group.title}</b>
+    <ul>
+      {group.courses.map((c) => (
+        <li key={`${group.title}-${c}`}>{c}</li>
+      ))}
+    </ul>
+  </li>
 )
 
 function CourseList({ items }: CourseworkProps) {
   const [isExpanded, setIsExpanded] = useState<boolean>(false)
-  const toggleIsExpanded = () => setIsExpanded((prev) => !prev)
+  const toggleIsExpanded = useRef(() => setIsExpanded((prev) => !prev))
+
   return (
     <Root>
-      <Content>
+      <ExpandButton onClick={toggleIsExpanded.current}>
+        <span className="label">
+          {isExpanded ? 'Hide courses' : 'View courses'}
+        </span>
+        <span className="material-symbols-outlined">
+          {isExpanded ? 'expand_less' : 'expand_more'}
+        </span>
+      </ExpandButton>
+      <Content $isExpanded={isExpanded}>
         {items.map((group) => (
           <CourseListGroup
             group={group}
@@ -50,9 +51,6 @@ function CourseList({ items }: CourseworkProps) {
           />
         ))}
       </Content>
-      <ExpandButton onClick={toggleIsExpanded}>
-        {isExpanded ? 'Hide courses' : 'View courses'}
-      </ExpandButton>
     </Root>
   )
 }
@@ -60,47 +58,36 @@ function CourseList({ items }: CourseworkProps) {
 export default CourseList
 
 const Root = styled.div`
-  margin-top: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+  margin: 0;
+`
+function getExpandedHeight(isExpanded: boolean) {
+  return isExpanded ? '1000px' : '0'
+}
+const Content = styled.ul<{ $isExpanded: boolean }>`
+  margin: 0;
+  margin-top: 0.25rem;
+
+  transition: max-height 500ms ease;
+  overflow: hidden;
+
+  max-height: ${(props) => getExpandedHeight(props.$isExpanded)};
 `
 
-const Content = styled.ul`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  padding: 0 !important;
-`
-const Chip = styled.li<{
-  $color?: string
-  $size: 'small' | 'medium'
-  $hidden?: boolean
-}>`
-  list-style: none;
-  display: inline-block;
-  flex-shrink: 1;
-
-  padding: 4px 16px;
-  border-radius: 16px;
-
-  ${(props) =>
-    props.$size === 'small'
-      ? 'color: rgb(from currentcolor r g b / 0.75);'
-      : ''}
-  ${(props) => (props.$size === 'small' ? 'color: var(--color-subtitle);' : '')}
-  
-  
-  transition: all  0.5s ease;
-  ${(props) =>
-    props.$hidden ? 'opacity: 0; padding: 0; width: 0; height: 0; display: none;' : ''}
-
-  background-color: var(--card-chip-surface);
-  background-color: ${(props) => props.$color};
-`
 const ExpandButton = styled.button`
-  align-self: flex-end;
+  cursor: pointer;
   border: none;
   background: none;
   color: var(--color-link);
+
+  display: flex;
+  align-items: center;
+
+  margin-top: 0.5rem;
+  padding: 4px 0;
+
+  &:hover {
+    .label {
+      text-decoration: underline;
+    }
+  }
 `

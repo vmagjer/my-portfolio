@@ -1,13 +1,16 @@
 import Container from '../../components/layout/Container'
 import CourseList from '../../components/CourseList'
 import Hyperlink from '../../components/Hyperlink'
-import Timeline from '../../components/Timeline'
-import exploringLogo from '../../assets/tech-icons/javascript.png'
-import ferLogo from '../../assets/images/fer-logo.svg'
+import ProjectsList from '../../components/ProjectsList'
+import baccalareusImage from '../../assets/projects/education/promocija-magistara-2021.jpg'
+import blokA3Image from '../../assets/projects/blok-a3/blok-a3-landing.png'
+import digitalRainImage from '../../assets/projects/digital-rain/digital-rain.png'
+import masterImage from '../../assets/projects/education/promocija-magistara-2023.jpg'
 import mediatoriumLogo from '../../assets/projects/mediatorium/mediatorium-logo.svg'
+import mojBankarImage from '../../assets/projects/moj-bankar/Screenshot 2025-01-30 at 23-25-40 Najpovoljniji Krediti i Osiguranja Moj Bankar.png'
 import styled from 'styled-components'
-import verdiFarmLogo from '../../assets/projects/verdi/verdi-farm-logo.png'
-import verdiGoLogo from '../../assets/projects/verdi/verdi-go.png'
+import verdiFarmDesktop from '../../assets/projects/verdi/web-shop-showcase-1.png'
+import verdiGoImage from '../../assets/projects/verdi/verdi-go-karta.png'
 import wordpressLogo from '../../assets/tech-icons/icons8-wordpress.svg'
 
 type BackgroundSectionProps = {
@@ -15,88 +18,77 @@ type BackgroundSectionProps = {
   [x: string]: any
 }
 
-const timelineItems: {
+type BackgroundItem = {
   title: string
   image: string
   color: string
   date: string
   content: React.ReactNode
   skills: string[]
-}[] = [
+}
+const backgroundItems: BackgroundItem[] = [
   {
     title: 'Wordpress promo site for handyman service',
     image: wordpressLogo,
     color: '#3858e9',
     date: 'September 2024',
+
     content: (
       <>
-        <p>
-          Tried my hand at Wordpress for the first time by building a promo website
-          for a handyman business.
+        {/* <p>
+          As a <b>freelance</b> I built a promo website for a handyman business.
         </p>
         <p>
-          I explored the Wordpress tooling and ecosystem,
-          gaining insight into how web-building platforms are used.
-        </p>
+          I explored the Wordpress tooling and ecosystem, gaining insight into
+          what web-building platforms can solve.
+        </p> */}
+        <ul>
+          <li>First project with UI design responsibility</li>
+          <li>Gained insight into web-building tooling and ecosystem</li>
+        </ul>
       </>
     ),
     skills: ['Wordpress', 'CSS', 'UI/UX Design'],
   },
   {
-    title: 'Explored frontend technologies',
-    image: exploringLogo,
+    title: 'Testing unconventional UI interactions',
+    image: digitalRainImage,
     color: '#000000',
     date: 'January 2024',
     content: (
       <>
-        <p>
-          For fun and sport, I&apos;ve built a few
-          small projects that explore fun and interesting web features. These
-          have been a great way to learn and try out new ideas.
-        </p>
-        <p>
-          You can check out some of my creations on{' '}
-          <Hyperlink external link="https://codepen.io/Vlatko-Magjer" onDark>
-            my CodePen
-          </Hyperlink>
-          :
-        </p>
         <ul>
+          <li>Researched web features and tested their utility</li>
           <li>
-            Digital Rain (<i>The Matrix</i>)
+            Published some of the personal projects on{' '}
+            <Hyperlink external link="https://codepen.io/Vlatko-Magjer" onDark>
+              my CodePen
+            </Hyperlink>
           </li>
-          <li>
-            3D Card
-          </li>
-          <li>Interactive Broken Glass</li>
         </ul>
       </>
     ),
-    skills: ['HTML', 'CSS', 'JS', 'TS'],
+    skills: ['JS', 'TS', 'HTML', 'CSS'],
   },
 
   {
-    title: 'Graduated as Master of Science in Computing',
-    image: ferLogo,
+    title: 'Master of Science in Computing',
+    image: masterImage,
     color: '#000',
     date: 'September 2023',
     content: (
       <>
-        <p>
-          at{' '}
-          <Hyperlink external link="https://www.fer.unizg.hr/en" onDark>
-            University of Zagreb, FER
-          </Hyperlink>
-          .
-        </p>
-        <p>
-          Majored software engineering and information systems, with electives
-          in cybersecurity and management.
-        </p>
-        <p>
-          For my thesis I developed an AR mobile app in Unity as I was
-          interested in the technology at the time.
-        </p>
+        <ul>
+          <li>
+            Graduated at{' '}
+            <Hyperlink external link="https://www.fer.unizg.hr/en">
+              University of Zagreb, FER
+            </Hyperlink>
+          </li>
+          <li>Majored data science and software engineering</li>
+          <li>Took electives in information security and management</li>
+          <li>Developed an AR mobile app in Unity for my thesis</li>
+        </ul>
 
         <CourseList
           items={[
@@ -105,16 +97,8 @@ const timelineItems: {
               color: '#209215',
               courses: [
                 'Object-Oriented Design',
-                'Advanced Algorithms and Data Structures',
                 'Information Systems Development',
-              ],
-            },
-            {
-              title: 'System Security',
-              color: '#2d2dbd',
-              courses: [
-                'Formal Methods in System Design',
-                'Protection and Security of Information Systems',
+                'Advanced Algorithms and Data Structures',
               ],
             },
             {
@@ -128,6 +112,14 @@ const timelineItems: {
                 'Linear Algebra',
                 'Heuristic Optimization Methods',
                 'Operations Research',
+              ],
+            },
+            {
+              title: 'Information Security',
+              color: '#2d2dbd',
+              courses: [
+                'Protection and Security of Information Systems',
+                'Formal Methods in System Design',
               ],
             },
             {
@@ -154,50 +146,52 @@ const timelineItems: {
     skills: ['C', 'C#', 'Java', 'Python', 'PostgreSQL', 'MongoDB'],
   },
   {
-    title: 'Crowdsourced delivery app',
-    image: verdiGoLogo,
+    title: 'Mobile app for courier gig workers',
+    image: verdiGoImage,
     color: '#0e4539',
     date: 'February 2023',
     content: (
       <>
-        <p>
-          Worked in a team of four to build a mobile app that enables delivery
-          of parcels via gig workers.
-        </p>
-        <p>
-          We built it with{' '}
-          <Hyperlink external link="https://ionicframework.com" onDark>
-            Ionic
-          </Hyperlink>{' '}
-          and Vue.js and written in Typescript. We user tested and finally
-          published{' '}
-          <Hyperlink
-            external
-            link="https://play.google.com/store/apps/details?id=verdi.go.development&hl=en" onDark
-          >
-            the app on Google Play
-          </Hyperlink>
-          .
-        </p>
-        <p>
-          This experience was valuable to me because I was the sole frontend
-          developer and so carried the responsibility for organization,
-          communication and decision-making.
-        </p>
+        <ul>
+          <li>
+            Developed the frontend for an app enabling
+            drivers to select gigs and track weekly revenue.
+          </li>
+          <li>
+            Reduced costs of third party service by using heuristics to
+            calcualte routes locally
+          </li>
+          <li>
+            Managed{' '}
+            <Hyperlink
+              external
+              link="https://play.google.com/store/apps/details?id=verdi.go.development&hl=en"
+              onDark
+            >
+              {' '}
+              app releases on Google Play
+            </Hyperlink>
+            , including testing and final deployment
+          </li>
+          <li>
+            Gained experience in decision-making, communication and organization
+            relating to front-end development
+          </li>
+        </ul>
       </>
     ),
-    skills: ['Vue.js', 'Ionic', 'JS/TS', 'Tailwind', 'Jira'],
+    skills: ['Vue.js', 'Ionic', 'Typescript', 'Tailwind', 'Jira'],
   },
   {
     title: 'E-commerce platform for fresh local produce',
-    image: verdiFarmLogo,
+    image: verdiFarmDesktop,
     color: '#fff',
     date: 'October 2022',
     content: (
       <>
         <p>
-          Implemented a redesign of a Vue.js web app connecting consumers with
-          local farmers.
+          Implemented a redesign of a web app connecting consumers with local
+          farmers.
         </p>
         <p>
           While restyling, we replaced a large monolithic CSS file with Tailwind
@@ -224,14 +218,15 @@ const timelineItems: {
     content: (
       <>
         <p>
-          Contributed to the frontend for a CMS hub serving A1&apos;s
-          Smart City Solutions.
+          Contributed to the frontend for a CMS hub serving A1&apos;s Smart City
+          Solutions.
         </p>
         <p>
           The CMS was built in{' '}
           <Hyperlink
             external
-            link="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor" onDark
+            link="https://dotnet.microsoft.com/en-us/apps/aspnet/web-apps/blazor"
+            onDark
           >
             Blazor
           </Hyperlink>{' '}
@@ -251,7 +246,7 @@ const timelineItems: {
   },
   {
     title: 'Graduated as Bachelor of Science in Computing',
-    image: ferLogo,
+    image: baccalareusImage,
     color: '#000',
     date: 'September 2020',
     content: (
@@ -266,10 +261,6 @@ const timelineItems: {
         <p>
           Covered basics of computing and software engineering, while exploring
           a wider range of engineering-related courses.
-        </p>
-        <p>
-          My thesis involved developing a web app for testing cognitive
-          characteristic of subjects and evaluating the results.
         </p>
 
         <CourseList
@@ -342,7 +333,7 @@ const timelineItems: {
   },
   {
     title: 'Financial Comparison Tool',
-    image: mediatoriumLogo,
+    image: mojBankarImage,
     color: '#000',
     date: 'May 2020',
     content: (
@@ -365,7 +356,7 @@ const timelineItems: {
   },
   {
     title: 'Web portfolio for an architecture company',
-    image: mediatoriumLogo,
+    image: blokA3Image,
     color: '#000',
     date: 'March 2020',
     content: (
@@ -391,9 +382,10 @@ const timelineItems: {
 function BackgroundSection({ ...rest }: BackgroundSectionProps) {
   return (
     <Root {...rest}>
-      <SectionTitle>Background</SectionTitle>
-      <Subtitle>My proffessional and personal growth.</Subtitle>
-      <Timeline items={timelineItems} />
+      <SectionTitle>My work</SectionTitle>
+      <Subtitle>Proffessional and personal growth</Subtitle>
+
+      <ProjectsList items={backgroundItems} />
     </Root>
   )
 }
@@ -419,5 +411,5 @@ const Subtitle = styled.p`
   color: var(--color-subtitle);
 
   margin: 0;
-  margin-bottom: 16px;
+  margin-bottom: 40px;
 `

@@ -13,7 +13,7 @@ const sections: Record<SectionID, SectionType> = {
   // hello: { id: 'hello', title: 'Vlatko' }, // catch attention
   about: { id: 'about', title: 'About' }, // convey approachability, passion, personality
   projects: { id: 'projects', title: 'Projects' }, // impress with experience
-  background: { id: 'background', title: 'Background' }, // prove experience, knowledge
+  background: { id: 'background', title: 'My Work' }, // prove experience, knowledge
   contact: { id: 'contact', title: 'Contact' }, // simplify work of user
 }
 
