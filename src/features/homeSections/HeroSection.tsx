@@ -1,12 +1,70 @@
+import { bloomIn, fadeIn, flyIn, tada, zoomIn } from '../../assets/animations'
+import styled, { keyframes } from 'styled-components'
 import { useEffect, useState } from 'react'
 
-import AvatarImage from '../../components/AvatarImage'
 import Container from '../../components/layout/Container'
-import InteractiveCanvasEffect from '../../components/InteractiveCanvasEffect'
 import SwipeUp from '../../assets/SwipeUp'
 import data from '../../assets/data'
-import profileImage from '../../assets/images/profile-picture-happy.jpg'
-import styled from 'styled-components'
+
+const playIntroAnimations = () => {
+  const greeting = document.querySelector('.greeting')
+
+  const greetParts = greeting?.querySelectorAll('span') || []
+  let delay = 500
+  greetParts.forEach((part) => {
+    part.animate(flyIn, {
+      duration: 250,
+      delay: delay,
+      fill: 'both',
+      easing: 'ease-out',
+    })
+    delay += 250
+  })
+
+
+  const title = document.querySelector('.title')
+  title?.animate(zoomIn, {
+    duration: 250,
+    delay: delay,
+    fill: 'both',
+    easing: 'ease',
+  })
+
+  title?.animate(tada, {
+    duration: 1250,
+    delay: delay,
+    fill: 'both',
+    easing: 'ease',
+    composite: 'add',
+  })
+
+
+  const heroTexts = document.querySelectorAll('.text')
+  for (let i = 0; i < heroTexts.length; i++) {
+    const text = heroTexts[i]
+
+    text.animate(fadeIn, {
+      duration: 1250,
+      delay: delay,
+      fill: 'both',
+      easing: 'ease-out',
+    })
+    // delay +=  250
+  }
+  delay += 1250
+
+  const buttons = document.querySelectorAll('.social-button')
+  const delays = [0, 125/2, 375/2, 250/2]
+  buttons.forEach((btn, i) => {
+    // btn.classList.add('bloom-in-animation')
+    btn.animate(bloomIn, {
+      duration: 250,
+      delay: delay + delays[i],
+      fill: 'both',
+      easing: 'ease-out',
+    })
+  })
+}
 
 type HeroSectionProps = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -14,7 +72,13 @@ type HeroSectionProps = {
 }
 
 export default function HeroSection({ ...rest }: HeroSectionProps) {
-  const [showScrollIndicator, setShowScrollIndicator] = useState<boolean>(false)
+  // play the intro animations on component mount
+  useEffect(() => {
+    playIntroAnimations()
+  }, [])
+
+  // show/hide scroll indicator
+  const [showScrollIndicator, setShowScrollIndicator] = useState(false)
 
   useEffect(() => {
     let hasScrolled = false
@@ -38,15 +102,23 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
 
   return (
     <Root {...rest}>
-      <InteractiveCanvasEffect />
       <SwipeUpIndicator $show={showScrollIndicator} />
       <Container>
         <Content>
-          <AvatarImage src={profileImage} size="large" />
-          <Title>Vlatko Magjer</Title>
-          <SubTitle>
-            Frontend Developer, Software Engineer and Explorer
-          </SubTitle>
+          <PreTitle className="greeting">
+            <span>Hi </span> <span>there,</span> <span>I&apos;m</span>
+          </PreTitle>
+          <Title className="title">Vlatko Magjer</Title>
+
+          <Text className="text">
+            a software developer based near Zagreb, RH. I hold a Masters degree
+            in Computer Science and have a worked on a wide range of frontend
+            projects you can browse below.
+          </Text>
+          <Text className="text">
+            I&apos;m interested in building robust information systems and
+            delightful user experiences.
+          </Text>
           <SocialList>
             {data.contactInfo.map((ci) => (
               <SocialItem
@@ -55,12 +127,15 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {ci.icon}
+                <div className="social-button bloom-in-animation">
+                  {ci.icon}
+                </div>
               </SocialItem>
             ))}
           </SocialList>
         </Content>
       </Container>
+      {/* <button onClick={playIntroAnimations}> Replay intro</button> */}
     </Root>
   )
 }
@@ -68,56 +143,136 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
 const Root = styled.div`
   height: 85vh;
   position: relative;
-  display: flex;
-  align-items: center;
-`
-
-const Content = styled.div`
+  
   padding: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  text-align: center;
+  justify-content: center;
+
+  background: var(--section-surface);
+  background: radial-gradient(
+    circle at 40% 50%,
+    var(--primary-100) 00%,
+    transparent 70%
+  );
 `
 
+const Content = styled.div`
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+`
+
+const PreTitle = styled.p`
+  margin-bottom: 0.25rem;
+
+  color: var(--color-subtitle);
+  font-size: 0.75rem;
+  line-height: 0.75rem;
+  text-transform: uppercase;
+`
 const Title = styled.h1`
-  margin-top: 0.5rem;
-  font-size: 2.5rem;
-  line-height: 3rem;
-  color: var(--color-title);
-`
+  margin-top: 0rem;
 
-const SubTitle = styled.p`
-  font-size: 1rem;
-  line-height: 1.5rem;
-  margin-top: 0.5rem;
+  font-size: 2.5rem;
+  line-height: 2.5rem;
+  color: var(--color-title);
+
+  display: inline-block;
+`
+const Text = styled.p`
   color: var(--color-body);
+  max-width: 80ch;
 `
 
 const SocialList = styled.div`
   display: flex;
+  /* justify-content: center; */
   gap: 16px;
   margin-top: 2rem;
 `
 
-const SocialItem = styled.a`
-  width: 40px;
-  height: 40px;
-  background: var(--color-link-hover);
-  border-radius: 50%;
-  padding: 6px;
-  transition: background-color 200ms ease-in-out, transform 200ms ease;
+const bounceHeight = 6
+const bouncyAnimation = keyframes`
+  0% {
+    top: 10%;
+    scale: 1 0.9;    
+    rotate: 0deg;
+  }
+  /* jump up */
+  12.5% {
+    top: -${bounceHeight * 0.7}px;
+    scale: 1 1;    
+  }
+  /* tilt to one side */
+  25% {
+    top: -${bounceHeight}px;
+    rotate: 10deg;
+  }
+  /* drop */
+  37.5% {
+    top: -${bounceHeight * 0.7}px;
+    scale: 1 1;   
+  }
+  50% {
+    top: 10%;
+    scale: 1 0.9;    
+    rotate: 0deg;
+  }
+  /* jump up */
+  62.5% {
+    top: -${bounceHeight * 0.7}px;
+    scale: 1 1;      
+  }
+  /* tilt to the other side */
+  75% {
+    top: -${bounceHeight}px;
+    rotate: -10deg;
+  }
+  /* drop */
+  87.5% {
+    top: -${bounceHeight * 0.7}px;
+    scale: 1 1;    
+  }
+  100% {
+    top: 10%;
+    scale: 1 0.9;    
+    rotate: 0deg;
+  }
+`
 
-  svg {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    fill: white;
+const SocialItem = styled.a`
+  .social-button {
+    width: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+
+    background: var(--primary-500);
+    box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+
+    padding: 6px;
+
+    transition: background-color 200ms ease-in-out;
+
+    position: relative;
+
+    svg {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      fill: white;
+    }
   }
 
-  &:hover {
-    background-color: var(--color-link);
-    transform: scale(1.1);
+  &:hover .social-button {
+    background: var(--primary-600);
+    animation: ${bouncyAnimation} 1s infinite;
+    animation-composition: replace;
+    box-shadow: 0 0 8px 1px rgba(0, 0, 0, 0.5);
   }
 `
 
@@ -127,7 +282,7 @@ const SwipeUpIndicator = styled(SwipeUp)<{ $show: boolean }>`
   fill: #221f23;
   stroke: #fff;
   stroke-width: 8;
-  opacity: ${({ $show}) => ($show ? 0.7 : 0)};
+  opacity: ${({ $show: show }) => (show ? 0.7 : 0)};
   position: absolute;
   bottom: 1rem;
   left: 50%;

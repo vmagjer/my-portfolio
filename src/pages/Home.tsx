@@ -24,21 +24,6 @@ export default function HomePage() {
 
       <HeroSection id={sections.about.id} />
 
-      <AboutSection>
-        <Title>About me</Title>
-        <Subtitle>Hi, I&apos;m Vlatko Magjer from Croatia!</Subtitle>
-        <p>
-          I love <b>solving problems</b> through software, exploring new ideas, and feeding my{' '}
-          <b>curiosity</b> — whether through video games, fantasy novels, or{' '}
-          <b>learning</b> something new.
-        </p>
-        <p>Feel free to reach out or look at my past work below!</p>
-      </AboutSection>
-
-      <GapContainer>
-        {/* <SuperTitle>Portfolio</SuperTitle> */}
-      </GapContainer>
-
       <ProjectsSection id={sections.projects.id} />
       <BackgroundSection id={sections.background.id} />
 
@@ -47,8 +32,6 @@ export default function HomePage() {
       </GapContainer>
 
       <ContactSection />
-
-      <GapContainer />
     </Root>
   )
 }
@@ -57,13 +40,8 @@ const Root = styled.div`
   min-height: 100vh;
   display: flex;
   flex-direction: column;
-`
 
-const AboutSection = styled(Container)`
-  z-index: 1;
-  background-color: var(--section-surface);
-  color: var(--color-body);
-  padding: 32px 16px;
+  background: var(--section-surface);
 `
 
 const GapContainer = styled(Container)`
@@ -78,16 +56,4 @@ const SuperTitle = styled.h2`
   text-align: center;
   font-size: 2.5rem;
   color: var(--color-title);
-  `
-
-const Title = styled.h2`
-  color: var(--color-title);
-  color: var(--color-title);
-`
-
-const Subtitle = styled.p`
-  color: var(--color-subtitle);
-  color: var(--color-subtitle);
-  font-weight: normal;
-  margin-top: 0;
 `

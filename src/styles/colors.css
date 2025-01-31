@@ -87,13 +87,13 @@
   --color-link: var(--primary-600);
 
   --color-button-default-bg: transparent;
-  --color-button-default-text: var(--white);
+  --color-button-default-text: var(--color-body);
 
-  --color-button-hover-bg: var(--primary-200);
-  --color-button-hover-text: var(--white);
+  --color-button-hover-bg: var(--primary-300);
+  --color-button-hover-text: var(--color-title);
 
-  --color-button-active-bg: var(--primary-300);
-  --color-button-active-text: var(--white);
+  --color-button-active-bg: var(--primary-400);
+  --color-button-active-text: var(--color-title);
 
 
   --shell-surface: var(--primary-100);
