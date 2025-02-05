@@ -27,11 +27,7 @@ export default function HomePage() {
       <ProjectsSection id={sections.projects.id} />
       <BackgroundSection id={sections.background.id} />
 
-      <GapContainer id={sections.contact.id}>
-        <SuperTitle>Contact</SuperTitle>
-      </GapContainer>
-
-      <ContactSection />
+      <ContactSection id={sections.contact.id} />
     </Root>
   )
 }
