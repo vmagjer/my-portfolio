@@ -1,62 +1,16 @@
-import { bloomIn, fadeIn, flyIn, tada, zoomIn } from '../../assets/animations'
 import styled, { keyframes } from 'styled-components'
 import { useEffect, useState } from 'react'
 
 import Container from '../../components/layout/Container'
 import SwipeUp from '../../assets/SwipeUp'
+import { bloomIn } from '../../assets/animations'
 import data from '../../assets/data'
 
 const playIntroAnimations = () => {
-  const greeting = document.querySelector('.greeting')
-
-  const greetParts = greeting?.querySelectorAll('span') || []
-  let delay = 500
-  greetParts.forEach((part) => {
-    part.animate(flyIn, {
-      duration: 250,
-      delay: delay,
-      fill: 'both',
-      easing: 'ease-out',
-    })
-    delay += 250
-  })
-
-
-  const title = document.querySelector('.title')
-  title?.animate(zoomIn, {
-    duration: 250,
-    delay: delay,
-    fill: 'both',
-    easing: 'ease',
-  })
-
-  title?.animate(tada, {
-    duration: 1250,
-    delay: delay,
-    fill: 'both',
-    easing: 'ease',
-    composite: 'add',
-  })
-
-
-  const heroTexts = document.querySelectorAll('.text')
-  for (let i = 0; i < heroTexts.length; i++) {
-    const text = heroTexts[i]
-
-    text.animate(fadeIn, {
-      duration: 1250,
-      delay: delay,
-      fill: 'both',
-      easing: 'ease-out',
-    })
-    // delay +=  250
-  }
-  delay += 1250
-
+  const delay = 500
   const buttons = document.querySelectorAll('.social-button')
-  const delays = [0, 125/2, 375/2, 250/2]
+  const delays = [0, 125 / 2, 250 / 2, 375 / 2]
   buttons.forEach((btn, i) => {
-    // btn.classList.add('bloom-in-animation')
     btn.animate(bloomIn, {
       duration: 250,
       delay: delay + delays[i],
@@ -106,19 +60,23 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
       <Container>
         <Content>
           <PreTitle className="greeting">
-            <span>Hi </span> <span>there,</span> <span>I&apos;m</span>
+            <span>Hello, </span> <span>I&apos;m</span>
           </PreTitle>
           <Title className="title">Vlatko Magjer</Title>
 
           <Text className="text">
-            a software developer based near Zagreb, RH. I hold a Masters degree
+            a software developer interested in building robust information
+            systems and delightful user experiences.
+          </Text>
+          {/* <Text className="text">
+            a <b>software developer</b> based near Zagreb, RH. I hold a Masters degree
             in Computer Science and have a worked on a wide range of frontend
             projects you can browse below.
-          </Text>
-          <Text className="text">
+          </Text> */}
+          {/* <Text className="text">
             I&apos;m interested in building robust information systems and
             delightful user experiences.
-          </Text>
+          </Text> */}
           <SocialList>
             {data.contactInfo.map((ci) => (
               <SocialItem
@@ -141,9 +99,9 @@ export default function HeroSection({ ...rest }: HeroSectionProps) {
 }
 
 const Root = styled.div`
-  height: 85vh;
+  height: 80vh;
   position: relative;
-  
+
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -152,9 +110,9 @@ const Root = styled.div`
 
   background: var(--section-surface);
   background: radial-gradient(
-    circle at 40% 50%,
-    var(--primary-100) 00%,
-    transparent 70%
+    circle closest-side at 30% 50%,
+    var(--primary-100) 20%,
+    transparent 100%
   );
 `
 
@@ -251,7 +209,8 @@ const SocialItem = styled.a`
     height: 40px;
 
     background: var(--primary-500);
-    box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.12),
+      inset 0 1px 1px rgba(255, 255, 255, 0.12);
     border-radius: 50%;
 
     padding: 6px;
