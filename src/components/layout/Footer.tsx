@@ -14,17 +14,11 @@ export default function Footer() {
             <li>
               <Hyperlink link='#about' onDark>About</Hyperlink>
             </li>
-            {/* <li> */}
-            <li>Portfolio</li>
-              <ul>
-                <li>
-                  <Hyperlink link="#projects" onDark>Projects</Hyperlink>
-                </li>
-                <li>
-                  <Hyperlink link="#background" onDark>Background</Hyperlink>
-                </li>
-              </ul>
-            {/* </li> */}
+            <li>
+
+
+              
+            </li>
 
             <li>
               <Hyperlink link="#contact" onDark>Contact</Hyperlink>
@@ -32,7 +26,7 @@ export default function Footer() {
           </ul>
         </SiteMap>
         <LegalInfo>
-          <FooterItem>Made by Vlatko Magjer</FooterItem>
+          <FooterItem>© 2025 Vlatko Magjer</FooterItem>
           <FooterItem>
             Icons by &nbsp;
             <Hyperlink link="https://icons8.com" external onDark>
@@ -55,19 +49,19 @@ const Wrapper = styled.footer`
   padding-bottom: 8px;
 `
 const SiteMap = styled.div`
-margin-bottom: 40px;
-
-ul {
-  padding: 0;
+  margin-bottom: 40px;
 
   ul {
-    padding-left: 1rem;
-  }
-}
+    padding: 0;
 
-li {
-  list-style: none;
-}
+    ul {
+      padding-left: 1rem;
+    }
+  }
+
+  li {
+    list-style: none;
+  }
 `
 
 const LegalInfo = styled.div`
