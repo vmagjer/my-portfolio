@@ -52,7 +52,7 @@
   --color-subtitle: rgba(from var(--color-title) r g b / 60%);
   --color-body: rgba(from var(--color-title) r g b / 87%);
 
-  --color-link: var(--primary-500);
+  --color-link: #4964ff;
   --color-link-hover: var(--primary-200);
 
   --color-button-default-bg: transparent;
@@ -84,7 +84,7 @@
   --color-title: var(--white);
   --color-subtitle: rgba(from var(--color-title) r g b / 60%);
   --color-body: rgba(from var(--color-title) r g b / 80%);
-  --color-link: var(--primary-600);
+  --color-link: #798cf6;
 
   --color-button-default-bg: transparent;
   --color-button-default-text: var(--color-body);

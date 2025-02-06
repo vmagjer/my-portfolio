@@ -16,10 +16,8 @@ function ContactSection({ ...rest }: ContactSectionProps) {
         <ul>
           {data.contactInfo.map((ci) => (
             <li key={ci.name}>
-              <ContactItem link={ci.link} onDark>
-                {ci.icon}
-                {ci.text}
-              </ContactItem>
+              {ci.icon}
+              <Hyperlink link={ci.link} onDark text={ci.text} />
             </li>
           ))}
         </ul>
@@ -53,26 +51,23 @@ const Subtitle = styled.p`
 `
 
 const Wrapper = styled.section`
-
   ul {
     list-style: none;
     padding: 0;
 
     li {
       margin-bottom: 12px;
+
+      display: flex;
+      align-items: center;
+
+      svg {
+        width: 2rem;
+        height: 2rem;
+        fill: var(--color-body);
+
+        margin-right: 12px;
+      }
     }
-  }
-`
-
-const ContactItem = styled(Hyperlink)`
-  display: flex;
-  align-items: center;
-
-  svg {
-    width: 2rem;
-    height: 2rem;
-    fill: var(--color-body);
-
-    margin-right: 12px;
   }
 `

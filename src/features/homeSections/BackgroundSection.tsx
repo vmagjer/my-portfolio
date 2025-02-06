@@ -60,10 +60,13 @@ const backgroundItems: BackgroundItem[] = [
         <ul>
           <li>Researched web features and tested their utility</li>
           <li>
-            Published some of the personal projects on{' '}
-            <Hyperlink external link="https://codepen.io/Vlatko-Magjer" onDark>
-              my CodePen
-            </Hyperlink>
+            Published some on{' '}
+            <Hyperlink
+              external
+              link="https://codepen.io/Vlatko-Magjer"
+              onDark
+              text="my CodePen"
+            ></Hyperlink>
           </li>
         </ul>
       </>
@@ -81,8 +84,11 @@ const backgroundItems: BackgroundItem[] = [
         <ul>
           <li>
             Graduated at{' '}
-            <Hyperlink external link="https://www.fer.unizg.hr/en">
-              University of Zagreb, FER
+            <Hyperlink
+              external
+              link="https://www.fer.unizg.hr/en"
+              text="University of Zagreb, FER"
+            >
             </Hyperlink>
           </li>
           <li>Majored data science and software engineering</li>
@@ -167,9 +173,8 @@ const backgroundItems: BackgroundItem[] = [
               external
               link="https://play.google.com/store/apps/details?id=verdi.go.development&hl=en"
               onDark
+              text='app releases on Google Play'
             >
-              {' '}
-              app releases on Google Play
             </Hyperlink>
             , including testing and final deployment
           </li>
@@ -253,8 +258,8 @@ const backgroundItems: BackgroundItem[] = [
       <>
         <p>
           at{' '}
-          <Hyperlink external link="https://www.fer.unizg.hr/en" onDark>
-            University of Zagreb, FER
+            Graduated at{' '}
+            <Hyperlink external link="https://www.fer.unizg.hr/en" onDark text='University of Zagreb, FER'>
           </Hyperlink>
           .
         </p>
@@ -338,15 +343,7 @@ const backgroundItems: BackgroundItem[] = [
     date: 'May 2020',
     content: (
       <>
-        <p>
-          Worked on a web app offering a financial glossary, expert consultation
-          forms, and service comparison tables to guide users toward smarter
-          financial choices.
-        </p>
-        <p>
-          We built{' '}
-          <Hyperlink external link="https://www.moj-bankar.hr/" onDark>
-            the financing tool
+            <Hyperlink external link="https://www.moj-bankar.hr/" onDark text='a web app'>
           </Hyperlink>{' '}
           with React.js on which I coached a colleague during development.
         </p>
@@ -361,10 +358,7 @@ const backgroundItems: BackgroundItem[] = [
     date: 'March 2020',
     content: (
       <>
-        <p>
-          Built a{' '}
-          <Hyperlink external link="https://www.blok-a3.hr/" onDark>
-            web portfolio
+            <Hyperlink external link="https://www.blok-a3.hr/" onDark text='This project'>
           </Hyperlink>{' '}
           featuring a gallery and map-based library of architecture projects,
           along with an image editor integrated into the contact form.

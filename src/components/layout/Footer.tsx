@@ -8,20 +8,19 @@ export default function Footer() {
       <Wrapper>
         <SiteMap>
           <ul>
-            {/* <li>
-              <Hyperlink link="" onDark>Start</Hyperlink>
-            </li> */}
             <li>
-              <Hyperlink link='#about' onDark>About</Hyperlink>
+              <Hyperlink link="#about" onDark text="About"></Hyperlink>
             </li>
             <li>
-
-
-              
+              <Hyperlink
+                link="#background"
+                onDark
+                text="Background"
+              ></Hyperlink>
             </li>
 
             <li>
-              <Hyperlink link="#contact" onDark>Contact</Hyperlink>
+              <Hyperlink link="#contact" onDark text="Contact"></Hyperlink>
             </li>
           </ul>
         </SiteMap>
@@ -29,8 +28,8 @@ export default function Footer() {
           <FooterItem>© 2025 Vlatko Magjer</FooterItem>
           <FooterItem>
             Icons by &nbsp;
-            <Hyperlink link="https://icons8.com" external onDark>
-              Icons8
+            <Hyperlink link="https://icons8.com" external onDark text='Icons8'>
+              
             </Hyperlink>
           </FooterItem>
         </LegalInfo>
