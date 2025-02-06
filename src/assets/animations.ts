@@ -1,5 +1,5 @@
 
-export const flyIn: Keyframe[] | PropertyIndexedKeyframes = [
+export const flyInRight: Keyframe[] | PropertyIndexedKeyframes = [
   {
     position: 'relative',
     opacity: '0%',
@@ -8,6 +8,17 @@ export const flyIn: Keyframe[] | PropertyIndexedKeyframes = [
   {
     opacity: '100%',
     left: '0px',
+  },
+]
+export const flyInBottom: Keyframe[] | PropertyIndexedKeyframes = [
+  {
+    position: 'relative',
+    opacity: '0%',
+    top: '100px',
+  },
+  {
+    opacity: '100%',
+    top: '0',
   },
 ]
 
