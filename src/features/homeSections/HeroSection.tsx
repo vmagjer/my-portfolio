@@ -110,10 +110,18 @@ const Root = styled.div`
 
   background: var(--section-surface);
   background: radial-gradient(
-    circle closest-side at 30% 50%,
+    circle farthest-side at 30% 50%,
     var(--primary-100) 20%,
     transparent 100%
   );
+
+  @media (min-width: 1000px) {
+    background: radial-gradient(
+      circle closest-side at 30% 50%,
+      var(--primary-100) 20%,
+      transparent 100%
+    );
+  }
 `
 
 const Content = styled.div`
