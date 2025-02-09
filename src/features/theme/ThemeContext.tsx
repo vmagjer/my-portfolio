@@ -15,8 +15,8 @@ export const ThemeContext = React.createContext<ThemeContextType>({
 })
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
-  const [theme, setTheme] = React.useState<ThemeType>(prefersDarkMode ? 'dark' : 'light')
+  // const prefersDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches
+  const [theme, setTheme] = React.useState<ThemeType>('dark')
 
   function toggleTheme() {
     setTheme((prevTheme) => (prevTheme === 'light' ? 'dark' : 'light'))

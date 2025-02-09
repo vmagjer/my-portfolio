@@ -45,6 +45,38 @@
 
 
 :root {
+  --color-dark-bg: var(--primary-100);
+
+  /* UI tokens */
+  --color-title: var(--white);
+  --color-subtitle: rgba(from var(--color-title) r g b / 60%);
+  --color-body: rgba(from var(--color-title) r g b / 80%);
+  --color-link: #798cf6;
+
+  --color-button-default-bg: transparent;
+  --color-button-default-text: var(--color-body);
+
+  --color-button-hover-bg: var(--primary-300);
+  --color-button-hover-text: var(--color-title);
+
+  --color-button-active-bg: var(--primary-400);
+  --color-button-active-text: var(--color-title);
+
+
+  --shell-surface: var(--primary-100);
+  --shell-text: var(--white);
+
+  --effect-surface: var(--primary-100);
+
+  --section-surface: var(--neutral-100);
+  --alt-section-surface: var(--neutral-200);
+  --footer-surface: hsl(from var(--primary-100) h s calc(0.5 * l));
+
+  --card-surface: var(--neutral-300);
+  --card-chip-surface: var(--neutral-200);
+}
+
+[data-theme="light"] {
   --color-dark-bg: var(--primary-900);
 
   /* UI tokens */
@@ -75,36 +107,4 @@
 
   --card-surface: var(--white);
   --card-chip-surface: var(--neutral-900);
-}
-
-[data-theme="dark"] {
-  --color-dark-bg: var(--primary-100);
-
-  /* UI tokens */
-  --color-title: var(--white);
-  --color-subtitle: rgba(from var(--color-title) r g b / 60%);
-  --color-body: rgba(from var(--color-title) r g b / 80%);
-  --color-link: #798cf6;
-
-  --color-button-default-bg: transparent;
-  --color-button-default-text: var(--color-body);
-
-  --color-button-hover-bg: var(--primary-300);
-  --color-button-hover-text: var(--color-title);
-
-  --color-button-active-bg: var(--primary-400);
-  --color-button-active-text: var(--color-title);
-
-
-  --shell-surface: var(--primary-100);
-  --shell-text: var(--white);
-
-  --effect-surface: var(--primary-100);
-
-  --section-surface: var(--neutral-100);
-  --alt-section-surface: var(--neutral-200);
-  --footer-surface: hsl(from var(--primary-100) h s calc(0.5 * l));
-
-  --card-surface: var(--neutral-300);
-  --card-chip-surface: var(--neutral-200);
 }
